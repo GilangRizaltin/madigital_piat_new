@@ -20,6 +20,7 @@
   /* Dipanggil sekali di awal tiap section */
   function init(o){
     o = o || {};
+    if(/[?&]ringan=1/.test(location.search)) document.documentElement.classList.add('ringan');
     if(o.warna) document.documentElement.style.setProperty('--accent', o.warna);
     if(standalone){
       document.documentElement.classList.add('standalone');

@@ -1,53 +1,212 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-<meta charset="UTF-8">
-<title>Kosakata</title>
-<link rel="stylesheet" href="../aset/bagian.css">
-<style>
-#grid{display:grid;grid-template-columns:repeat(var(--cols,3),1fr);grid-template-rows:repeat(2,1fr);gap:26px;perspective:1600px;--ar:100px;--lat:32px;--idn:36px}
-.card{
-  position:relative;border-radius:34px;padding:56px 20px 20px;overflow:hidden;
-  background:linear-gradient(160deg,rgba(255,255,255,.12),rgba(255,255,255,.035));
-  border:1.5px solid rgba(255,255,255,.14);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
-  box-shadow:0 20px 50px -20px rgba(0,0,0,.6);
-  transition:transform .6s cubic-bezier(.2,.8,.2,1),box-shadow .6s,opacity .6s,border-color .6s;
-  animation:cardIn .95s cubic-bezier(.2,.9,.25,1) backwards;animation-delay:calc(var(--i)*.09s + .3s);
-}
-.card::before{content:'';position:absolute;left:0;right:0;top:0;height:7px;background:linear-gradient(90deg,transparent,var(--c),transparent)}
-.card::after{content:'';position:absolute;right:-90px;top:-90px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,var(--c),transparent 66%);opacity:.14;transition:opacity .6s}
-.card>*{position:relative;z-index:1}
-@keyframes cardIn{from{opacity:0;transform:translateY(70px) rotateX(24deg) scale(.88)}to{opacity:1;transform:none}}
-#grid.out .card{animation:cardOut .6s cubic-bezier(.5,0,.8,.3) forwards;animation-delay:calc(var(--i)*.04s)}
-@keyframes cardOut{to{opacity:0;transform:translateX(-80px) scale(.92)}}
-.ico{position:absolute;left:18px;top:16px;width:54px;height:54px;border-radius:17px;background:rgba(255,255,255,.1);display:grid;place-items:center;font-size:30px;line-height:1;font-family:'Amiri','Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif}
-.num{position:absolute;right:22px;top:18px;font-size:24px;font-weight:800;color:rgba(255,255,255,.35);font-variant-numeric:tabular-nums}
-.ar{width:100%;text-align:center;font-family:'Amiri','Noto Naskh Arabic','Traditional Arabic',serif;font-size:var(--ar);line-height:1.6;font-weight:700;color:#fff;text-shadow:0 4px 30px rgba(0,0,0,.35);transition:color .5s}
-.ar span{display:inline-block;white-space:nowrap}
-.lat{font-size:var(--lat);font-weight:700;color:var(--c);letter-spacing:.01em;text-align:center}
-.idn{font-size:var(--idn);font-weight:500;color:#e2e8f0;text-align:center;line-height:1.25}
-#grid.focus .card:not(.spot){opacity:.5;transform:scale(.97)}
-.card.spot{transform:scale(1.045);border-color:var(--c);box-shadow:0 0 0 2px var(--c),0 30px 90px -20px var(--c);z-index:2}
-.card.spot::after{opacity:.35}
-.card.spot .ar{color:#fde68a}
-.card.spot .ico{background:var(--c);box-shadow:0 0 30px var(--c)}
-.card .shine{position:absolute!important;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.18),transparent);transform:skewX(-20deg);opacity:0;z-index:0!important}
-.card.spot .shine{animation:shine 1.4s ease-out}
-@keyframes shine{0%{left:-60%;opacity:1}100%{left:130%;opacity:1}}
-</style>
-</head>
-<body>
-<section class="title" id="title">
-  <div><div class="kicker" id="kicker"></div><h1 id="tTitle"></h1><p id="tSub"></p></div>
-  <div class="t-ar" id="tAr" lang="ar" dir="rtl"></div>
-</section>
-<div class="progress"><i id="bar"></i></div>
-<main class="area" id="grid"></main>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Kosakata</title>
+    <link rel="stylesheet" href="../aset/bagian.css" />
+    <style>
+      #grid {
+        display: grid;
+        grid-template-columns: repeat(var(--cols, 3), 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 26px;
+        perspective: 1600px;
+        --ar: 100px;
+        --lat: 32px;
+        --idn: 36px;
+      }
+      .card {
+        position: relative;
+        border-radius: 34px;
+        padding: 56px 20px 20px;
+        overflow: hidden;
+        background: linear-gradient(
+          160deg,
+          rgba(255, 255, 255, 0.12),
+          rgba(255, 255, 255, 0.035)
+        );
+        border: 1.5px solid rgba(255, 255, 255, 0.14);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.6);
+        transition:
+          transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+          box-shadow 0.6s,
+          opacity 0.6s,
+          border-color 0.6s;
+        animation: cardIn 0.95s cubic-bezier(0.2, 0.9, 0.25, 1) backwards;
+        animation-delay: calc(var(--i) * 0.09s + 0.3s);
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 7px;
+        background: linear-gradient(90deg, transparent, var(--c), transparent);
+      }
+      .card::after {
+        content: "";
+        position: absolute;
+        right: -90px;
+        top: -90px;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--c), transparent 66%);
+        opacity: 0.14;
+        transition: opacity 0.6s;
+      }
+      .card > * {
+        position: relative;
+        z-index: 1;
+      }
+      @keyframes cardIn {
+        from {
+          opacity: 0;
+          transform: translateY(70px) rotateX(24deg) scale(0.88);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      #grid.out .card {
+        animation: cardOut 0.6s cubic-bezier(0.5, 0, 0.8, 0.3) forwards;
+        animation-delay: calc(var(--i) * 0.04s);
+      }
+      @keyframes cardOut {
+        to {
+          opacity: 0;
+          transform: translateX(-80px) scale(0.92);
+        }
+      }
+      .ico {
+        position: absolute;
+        left: 18px;
+        top: 16px;
+        width: 54px;
+        height: 54px;
+        border-radius: 17px;
+        background: rgba(255, 255, 255, 0.1);
+        display: grid;
+        place-items: center;
+        font-size: 30px;
+        line-height: 1;
+        font-family:
+          "Amiri", "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji",
+          sans-serif;
+      }
+      .num {
+        position: absolute;
+        right: 22px;
+        top: 18px;
+        font-size: 24px;
+        font-weight: 800;
+        color: rgba(255, 255, 255, 0.35);
+        font-variant-numeric: tabular-nums;
+      }
+      .ar {
+        width: 100%;
+        text-align: center;
+        font-family: "Amiri", "Noto Naskh Arabic", "Traditional Arabic", serif;
+        font-size: var(--ar);
+        line-height: 1.6;
+        font-weight: 700;
+        color: #fff;
+        text-shadow: 0 4px 30px rgba(0, 0, 0, 0.35);
+        transition: color 0.5s;
+      }
+      .ar span {
+        display: inline-block;
+        white-space: nowrap;
+      }
+      .lat {
+        font-size: var(--lat);
+        font-weight: 700;
+        color: var(--c);
+        letter-spacing: 0.01em;
+        text-align: center;
+      }
+      .idn {
+        font-size: var(--idn);
+        font-weight: 500;
+        color: #e2e8f0;
+        text-align: center;
+        line-height: 1.25;
+      }
+      #grid.focus .card:not(.spot) {
+        opacity: 0.5;
+        transform: scale(0.97);
+      }
+      .card.spot {
+        transform: scale(1.045);
+        border-color: var(--c);
+        box-shadow:
+          0 0 0 2px var(--c),
+          0 30px 90px -20px var(--c);
+        z-index: 2;
+      }
+      .card.spot::after {
+        opacity: 0.35;
+      }
+      .card.spot .ar {
+        color: #fde68a;
+      }
+      .card.spot .ico {
+        background: var(--c);
+        box-shadow: 0 0 30px var(--c);
+      }
+      .card .shine {
+        position: absolute !important;
+        top: 0;
+        left: -60%;
+        width: 40%;
+        height: 100%;
+        background: linear-gradient(
+          100deg,
+          transparent,
+          rgba(255, 255, 255, 0.18),
+          transparent
+        );
+        transform: skewX(-20deg);
+        opacity: 0;
+        z-index: 0 !important;
+      }
+      .card.spot .shine {
+        animation: shine 1.4s ease-out;
+      }
+      @keyframes shine {
+        0% {
+          left: -60%;
+          opacity: 1;
+        }
+        100% {
+          left: 130%;
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="title" id="title">
+      <div>
+        <div class="kicker" id="kicker"></div>
+        <h1 id="tTitle"></h1>
+        <p id="tSub"></p>
+      </div>
+      <div class="t-ar" id="tAr" lang="ar" dir="rtl"></div>
+    </section>
+    <div class="progress"><i id="bar"></i></div>
+    <main class="area" id="grid"></main>
 
-<script src="../aset/bagian.js"></script>
-<script>
-/* =====================================================================
+    <script src="../aset/bagian.js"></script>
+    <script>
+      /* =====================================================================
    KOSAKATA BAHASA ARAB SEHARI-HARI
    Cara update: ubah / tambah / hapus blok tema di TEMA di bawah ini.
    Tiap tema:
@@ -59,95 +218,148 @@
               3 kolom -> 6 kata, 4 kolom -> 8 kata, 5 kolom -> 10 kata
    Tiap kata: [ 'teks Arab', 'cara baca latin', 'arti Indonesia', 'ikon/emoji', 'warna kartu (boleh dikosongkan)' ]
    ===================================================================== */
-const WAKTU_PER_TEMA = 14;   // detik tampil untuk tiap tema
+      const WAKTU_PER_TEMA = 14; // detik tampil untuk tiap tema
 
-const TEMA = [
-  { judul:'Salam & Sapaan', arab:'التَّحِيَّاتُ', sub:'Ucapan yang paling sering dipakai', warna:'#2dd4bf', kolom:4, kata:[
-    ['السَّلَامُ عَلَيْكُمْ',"as-salamu 'alaikum",'Semoga keselamatan untukmu','🤝'],
-    ['مَرْحَبًا','marhaban','Halo / Selamat datang','👋'],
-    ['صَبَاحُ الْخَيْرِ','shabahul khair','Selamat pagi','🌅'],
-    ['مَسَاءُ الْخَيْرِ','masa-ul khair','Selamat sore / malam','🌇'],
-    ['كَيْفَ حَالُكَ؟','kaifa haluk?','Apa kabarmu?','💬'],
-    ['شُكْرًا','syukran','Terima kasih','🙏'],
-    ['عَفْوًا',"'afwan",'Sama-sama / Maaf','😊'],
-    ['مَعَ السَّلَامَةِ',"ma'as salamah",'Sampai jumpa','✌️']
-  ]},
-  { judul:'Keluarga', arab:'الْأُسْرَةُ', sub:'Anggota keluarga di rumah', warna:'#fb7185', kolom:3, kata:[
-    ['أَبٌ','ab','Ayah','👨'],
-    ['أُمٌّ','umm','Ibu','👩'],
-    ['أَخٌ','akh','Saudara laki-laki','👦'],
-    ['أُخْتٌ','ukht','Saudara perempuan','👧'],
-    ['جَدٌّ','jadd','Kakek','👴'],
-    ['جَدَّةٌ','jaddah','Nenek','👵']
-  ]},
-  { judul:'Warna', arab:'الْأَلْوَانُ', sub:'Dunia penuh warna', warna:'#a78bfa', kolom:3, kata:[
-    ['أَحْمَرُ','ahmar','Merah','🔴','#ef4444'],
-    ['أَزْرَقُ','azraq','Biru','🔵','#3b82f6'],
-    ['أَخْضَرُ','akhdhar','Hijau','🟢','#22c55e'],
-    ['أَصْفَرُ','ashfar','Kuning','🟡','#facc15'],
-    ['أَبْيَضُ','abyadh','Putih','⚪','#e2e8f0'],
-    ['أَسْوَدُ','aswad','Hitam','⚫','#94a3b8']
-  ]}
-];
+      const TEMA = [
+        {
+          judul: "Salam & Sapaan",
+          arab: "التَّحِيَّاتُ",
+          sub: "Ucapan yang paling sering dipakai",
+          warna: "#2dd4bf",
+          kolom: 4,
+          kata: [
+            [
+              "السَّلَامُ عَلَيْكُمْ",
+              "as-salamu 'alaikum",
+              "Semoga keselamatan untukmu",
+              "🤝",
+            ],
+            ["مَرْحَبًا", "marhaban", "Halo / Selamat datang", "👋"],
+            ["صَبَاحُ الْخَيْرِ", "shabahul khair", "Selamat pagi", "🌅"],
+            [
+              "مَسَاءُ الْخَيْرِ",
+              "masa-ul khair",
+              "Selamat sore / malam",
+              "🌇",
+            ],
+            ["كَيْفَ حَالُكَ؟", "kaifa haluk?", "Apa kabarmu?", "💬"],
+            ["شُكْرًا", "syukran", "Terima kasih", "🙏"],
+            ["عَفْوًا", "'afwan", "Sama-sama / Maaf", "😊"],
+            ["مَعَ السَّلَامَةِ", "ma'as salamah", "Sampai jumpa", "✌️"],
+          ],
+        },
+        {
+          judul: "Keluarga",
+          arab: "الْأُسْرَةُ",
+          sub: "Anggota keluarga di rumah",
+          warna: "#fb7185",
+          kolom: 3,
+          kata: [
+            ["أَبٌ", "ab", "Ayah", "👨"],
+            ["أُمٌّ", "umm", "Ibu", "👩"],
+            ["أَخٌ", "akh", "Saudara laki-laki", "👦"],
+            ["أُخْتٌ", "ukht", "Saudara perempuan", "👧"],
+            ["جَدٌّ", "jadd", "Kakek", "👴"],
+            ["جَدَّةٌ", "jaddah", "Nenek", "👵"],
+          ],
+        },
+        {
+          judul: "Warna",
+          arab: "الْأَلْوَانُ",
+          sub: "Dunia penuh warna",
+          warna: "#a78bfa",
+          kolom: 3,
+          kata: [
+            ["أَحْمَرُ", "ahmar", "Merah", "🔴", "#ef4444"],
+            ["أَزْرَقُ", "azraq", "Biru", "🔵", "#3b82f6"],
+            ["أَخْضَرُ", "akhdhar", "Hijau", "🟢", "#22c55e"],
+            ["أَصْفَرُ", "ashfar", "Kuning", "🟡", "#facc15"],
+            ["أَبْيَضُ", "abyadh", "Putih", "⚪", "#e2e8f0"],
+            ["أَسْوَدُ", "aswad", "Hitam", "⚫", "#94a3b8"],
+          ],
+        },
+      ];
 
-/* ---------------- kode tampilan (tidak perlu diubah) ---------------- */
-const { $, esc, pad, wait } = Mading;
-Mading.init({ warna:'#38bdf8', judul:'Kosakata' });
-const UKURAN = { 3:{ar:100,lat:32,idn:36}, 4:{ar:86,lat:28,idn:31}, 5:{ar:76,lat:26,idn:30} };
+      /* ---------------- kode tampilan (tidak perlu diubah) ---------------- */
+      const { $, esc, pad, wait } = Mading;
+      Mading.init({ warna: "#38bdf8", judul: "Kosakata" });
+      const UKURAN = {
+        3: { ar: 100, lat: 32, idn: 36 },
+        4: { ar: 86, lat: 28, idn: 31 },
+        5: { ar: 76, lat: 26, idn: 30 },
+      };
 
-function muat(){
-  document.querySelectorAll('.ar').forEach(el=>{
-    el.style.fontSize = '';
-    const inner = el.firstElementChild;
-    let fs = parseFloat(getComputedStyle(el).fontSize);
-    const max = el.clientWidth - 8;
-    while(inner.offsetWidth > max && fs > 34){ fs -= 3; el.style.fontSize = fs+'px'; }
-  });
-}
+      function muat() {
+        document.querySelectorAll(".ar").forEach((el) => {
+          el.style.fontSize = "";
+          const inner = el.firstElementChild;
+          let fs = parseFloat(getComputedStyle(el).fontSize);
+          const max = el.clientWidth - 8;
+          while (inner.offsetWidth > max && fs > 34) {
+            fs -= 3;
+            el.style.fontSize = fs + "px";
+          }
+        });
+      }
 
-Mading.mulai(async () => {
-  const grid = $('grid');
-  Mading.bar(TEMA.length * WAKTU_PER_TEMA * 1000);
+      Mading.mulai(async () => {
+        const grid = $("grid");
+        Mading.bar(TEMA.length * WAKTU_PER_TEMA * 1000);
 
-  for(let t=0;t<TEMA.length;t++){
-    const c = TEMA[t], sz = UKURAN[c.kolom] || UKURAN[3];
-    document.documentElement.style.setProperty('--accent', c.warna);
-    Mading.judul({ kicker:'Tema '+pad(t+1)+' / '+pad(TEMA.length), judul:c.judul, sub:c.sub, arab:c.arab });
+        for (let t = 0; t < TEMA.length; t++) {
+          const c = TEMA[t],
+            sz = UKURAN[c.kolom] || UKURAN[3];
+          document.documentElement.style.setProperty("--accent", c.warna);
+          Mading.judul({
+            kicker: "Tema " + pad(t + 1) + " / " + pad(TEMA.length),
+            judul: c.judul,
+            sub: c.sub,
+            arab: c.arab,
+          });
 
-    grid.className = 'area';
-    grid.style.setProperty('--cols', c.kolom);
-    grid.style.setProperty('--ar',  sz.ar+'px');
-    grid.style.setProperty('--lat', sz.lat+'px');
-    grid.style.setProperty('--idn', sz.idn+'px');
-    grid.innerHTML = c.kata.map((w,k)=>`
-      <article class="card" style="--i:${k};--c:${w[4]||c.warna}">
+          grid.className = "area";
+          grid.style.setProperty("--cols", c.kolom);
+          grid.style.setProperty("--ar", sz.ar + "px");
+          grid.style.setProperty("--lat", sz.lat + "px");
+          grid.style.setProperty("--idn", sz.idn + "px");
+          grid.innerHTML = c.kata
+            .map(
+              (w, k) => `
+      <article class="card" style="--i:${k};--c:${w[4] || c.warna}">
         <div class="shine"></div>
         <div class="ico">${esc(w[3])}</div>
-        <div class="num">${pad(k+1)}</div>
+        <div class="num">${pad(k + 1)}</div>
         <div class="ar" lang="ar" dir="rtl"><span>${esc(w[0])}</span></div>
         <div class="lat">${esc(w[1])}</div>
         <div class="idn">${esc(w[2])}</div>
-      </article>`).join('');
-    muat();
+      </article>`,
+            )
+            .join("");
+          muat();
 
-    /* Sorot tiap kata bergantian */
-    const cards = [...grid.children], n = cards.length;
-    const total = WAKTU_PER_TEMA*1000, awal = 2300, akhir = 700;
-    const langkah = (total - awal - akhir) / n;
-    await wait(awal);
-    grid.classList.add('focus');
-    for(let k=0;k<n;k++){
-      cards.forEach(x=>x.classList.remove('spot'));
-      void cards[k].offsetWidth; cards[k].classList.add('spot');
-      await wait(langkah);
-    }
-    cards.forEach(x=>x.classList.remove('spot'));
-    grid.classList.remove('focus');
-    grid.classList.add('out'); $('title').classList.add('out');
-    await wait(akhir);
-  }
-  Mading.selesai();
-});
-</script>
-</body>
+          /* Sorot tiap kata bergantian */
+          const cards = [...grid.children],
+            n = cards.length;
+          const total = WAKTU_PER_TEMA * 1000,
+            awal = 2300,
+            akhir = 700;
+          const langkah = (total - awal - akhir) / n;
+          await wait(awal);
+          grid.classList.add("focus");
+          for (let k = 0; k < n; k++) {
+            cards.forEach((x) => x.classList.remove("spot"));
+            void cards[k].offsetWidth;
+            cards[k].classList.add("spot");
+            await wait(langkah);
+          }
+          cards.forEach((x) => x.classList.remove("spot"));
+          grid.classList.remove("focus");
+          grid.classList.add("out");
+          $("title").classList.add("out");
+          await wait(akhir);
+        }
+        Mading.selesai();
+      });
+    </script>
+  </body>
 </html>

@@ -8,12 +8,18 @@
    ===================================================================== */
 window.PENGATURAN = {
 
+  /* ---------- PERFORMA ----------
+     true  = MODE RINGAN: efek berat (blur, huruf melayang, bayangan, cahaya)
+             dimatikan. Disarankan untuk smart TV agar animasi tetap mulus.
+     false = tampilan penuh (cocok untuk laptop / PC). */
+  MODE_RINGAN : true,
+
   /* ---------- LOGO (kiri atas) ---------- */
-  NAMA_PROYEK : 'Majalah Digital PIAT 12',
+  NAMA_PROYEK : 'Majalah Dinding PIAT 12',
   SKALA : 0.88,    // 1 = pas layar. Kecilkan (0.85, 0.8, ...) sampai semua tepi terlihat
   SUB_NAMA    : 'Pesantren Islam Al Irsyad Tengaran 12',
   LOGO_TEKS   : '١٢',        // tulisan di kotak logo bila belum ada gambar
-  LOGO_GAMBAR : 'https://psb.pesantrenalirsyadriau.org/logoalirsyad.png',          // isi mis. 'aset/logo.png' untuk memakai logo asli
+  LOGO_GAMBAR : '',          // isi mis. 'aset/logo.png' untuk memakai logo asli
 
   /* ---------- RUNNING TEXT (kiri bawah) ---------- */
   KECEPATAN_RUNNING_TEXT : 120,   // piksel per detik (naikkan = lebih cepat)
@@ -42,5 +48,5 @@ window.PENGATURAN = {
 
   /* Halaman utama dimuat ulang otomatis setiap sekian menit (di sela pergantian
      section), agar perubahan file ikut terbaca tanpa menyentuh TV. */
-  MUAT_ULANG_MENIT : 30
+  MUAT_ULANG_MENIT : 60      // 0 = tidak pernah. Di TV, muat ulang berkala membersihkan memori browser
 };

@@ -173,6 +173,46 @@
         z-index: 6;
       }
 
+      /* ===== MODE RINGAN (untuk smart TV): matikan efek berat ===== */
+      .ringan .blob {
+        filter: none;
+        animation: none;
+        transition: none;
+        width: 1000px;
+        height: 1000px;
+        opacity: 0.3;
+        background: radial-gradient(circle, var(--accent), transparent 65%);
+      }
+      .ringan .b2 {
+        background: radial-gradient(circle, #6366f1, transparent 65%);
+        opacity: 0.26;
+      }
+      .ringan .b3 {
+        display: none;
+      }
+      .ringan .pattern,
+      .ringan .orn {
+        animation: none;
+      }
+      .ringan .floaters {
+        display: none;
+      }
+      .ringan .logo-mark {
+        box-shadow: none;
+      }
+      .ringan .logo-mark::after {
+        display: none;
+      }
+      .ringan .tk-label {
+        box-shadow: none;
+      }
+      .ringan .tk-label i {
+        animation: none;
+      }
+      .ringan .tk-track {
+        will-change: auto;
+      }
+
       /* ===== ISI SECTION (iframe) ===== */
       #frame {
         position: absolute;
@@ -519,6 +559,8 @@
         maksT = null,
         swapT = null;
 
+      if (S.MODE_RINGAN) document.documentElement.classList.add("ringan");
+
       /* Skala layar */
       function resize() {
         const w = document.documentElement.clientWidth || innerWidth;
@@ -581,7 +623,12 @@
           frame.classList.remove("out");
           maksT = setTimeout(() => goto(cur + 1), (b.maks || 180) * 1000); // pengaman bila section macet
         };
-        frame.src = "bagian/" + b.file + "?t=" + Date.now(); // ?t= agar isi terbaru selalu terbaca
+        frame.src =
+          "bagian/" +
+          b.file +
+          "?t=" +
+          Date.now() +
+          (S.MODE_RINGAN ? "&ringan=1" : ""); // ?t= agar isi terbaru selalu terbaca
       }
 
       function goto(i) {

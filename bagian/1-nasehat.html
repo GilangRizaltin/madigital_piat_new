@@ -1,48 +1,176 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-<meta charset="UTF-8">
-<title>Nasehat & Dalil</title>
-<link rel="stylesheet" href="../aset/bagian.css">
-<style>
-.area{display:grid;grid-template-columns:1.85fr 1fr;gap:26px}
-.area.out>*{animation:keluar .6s cubic-bezier(.5,0,.8,.3) forwards}
-.area>*{animation:masuk 1s cubic-bezier(.2,.9,.25,1) backwards}
-.area>*:nth-child(2){animation-delay:.18s}
+  <head>
+    <meta charset="UTF-8" />
+    <title>Nasehat & Dalil</title>
+    <link rel="stylesheet" href="../aset/bagian.css" />
+    <style>
+      .area {
+        display: grid;
+        grid-template-columns: 1.85fr 1fr;
+        gap: 26px;
+      }
+      .area.out > * {
+        animation: keluar 0.6s cubic-bezier(0.5, 0, 0.8, 0.3) forwards;
+      }
+      .area > * {
+        animation: masuk 1s cubic-bezier(0.2, 0.9, 0.25, 1) backwards;
+      }
+      .area > *:nth-child(2) {
+        animation-delay: 0.18s;
+      }
 
-/* kartu dalil */
-.dalil{padding:34px 48px 30px;display:flex;flex-direction:column;--c:#34d399}
-.dalil.hadits{--c:#fbbf24}
-.baris-atas{display:flex;align-items:center;justify-content:space-between;gap:20px}
-.jenis{display:inline-flex;align-items:center;gap:14px;padding:10px 26px 10px 18px;border-radius:40px;background:rgba(255,255,255,.1);font-size:24px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--c)}
-.jenis b{font-size:30px;font-weight:400;letter-spacing:0}
-.nomor{font-size:24px;font-weight:800;color:rgba(255,255,255,.4);font-variant-numeric:tabular-nums}
-.arab-kotak{flex:1;display:flex;align-items:center;justify-content:center;min-height:0;overflow:hidden;padding:6px 0}
-.arab{width:100%;text-align:center;font-family:'Amiri','Noto Naskh Arabic','Traditional Arabic',serif;font-size:80px;line-height:1.85;font-weight:700;color:#fff;text-shadow:0 4px 30px rgba(0,0,0,.35)}
-.terjemah{font-size:33px;line-height:1.45;font-weight:500;text-align:center;color:#e2e8f0;margin-bottom:18px}
-.sumber{align-self:center;display:inline-flex;align-items:center;gap:12px;padding:10px 30px;border-radius:40px;background:rgba(251,191,36,.14);border:1.5px solid rgba(251,191,36,.45);color:#fde68a;font-size:27px;font-weight:700}
+      /* kartu dalil */
+      .dalil {
+        padding: 34px 48px 30px;
+        display: flex;
+        flex-direction: column;
+        --c: #34d399;
+      }
+      .dalil.hadits {
+        --c: #fbbf24;
+      }
+      .baris-atas {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      .jenis {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        padding: 10px 26px 10px 18px;
+        border-radius: 40px;
+        background: rgba(255, 255, 255, 0.1);
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--c);
+      }
+      .jenis b {
+        font-size: 30px;
+        font-weight: 400;
+        letter-spacing: 0;
+      }
+      .nomor {
+        font-size: 24px;
+        font-weight: 800;
+        color: rgba(255, 255, 255, 0.4);
+        font-variant-numeric: tabular-nums;
+      }
+      .arab-kotak {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 0;
+        overflow: hidden;
+        padding: 6px 0;
+      }
+      .arab {
+        width: 100%;
+        text-align: center;
+        font-family: "Amiri", "Noto Naskh Arabic", "Traditional Arabic", serif;
+        font-size: 80px;
+        line-height: 1.85;
+        font-weight: 700;
+        color: #fff;
+        text-shadow: 0 4px 30px rgba(0, 0, 0, 0.35);
+      }
+      .terjemah {
+        font-size: 33px;
+        line-height: 1.45;
+        font-weight: 500;
+        text-align: center;
+        color: #e2e8f0;
+        margin-bottom: 18px;
+      }
+      .sumber {
+        align-self: center;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 30px;
+        border-radius: 40px;
+        background: rgba(251, 191, 36, 0.14);
+        border: 1.5px solid rgba(251, 191, 36, 0.45);
+        color: #fde68a;
+        font-size: 27px;
+        font-weight: 700;
+      }
 
-/* kartu nasehat */
-.nasehat{padding:40px 42px;display:flex;flex-direction:column;justify-content:center;gap:22px;
-  background:linear-gradient(160deg,rgba(52,211,153,.25),rgba(255,255,255,.05) 60%);--c:#34d399}
-.ikon-besar{width:104px;height:104px;border-radius:32px;background:var(--c);display:grid;place-items:center;font-size:58px;box-shadow:0 0 50px -6px var(--c);animation:goyang 4s ease-in-out infinite}
-@keyframes goyang{0%,100%{transform:rotate(-6deg) translateY(0)}50%{transform:rotate(6deg) translateY(-8px)}}
-.label{font-size:22px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--c)}
-.isi-nasehat{font-size:44px;line-height:1.32;font-weight:800;letter-spacing:-.5px;overflow:hidden}
-.penutup{font-size:23px;color:var(--mut);font-weight:600}
-</style>
-</head>
-<body>
-<section class="title" id="title">
-  <div><div class="kicker" id="kicker"></div><h1 id="tTitle"></h1><p id="tSub"></p></div>
-  <div class="t-ar" id="tAr" lang="ar" dir="rtl"></div>
-</section>
-<div class="progress"><i id="bar"></i></div>
-<main class="area" id="area"></main>
+      /* kartu nasehat */
+      .nasehat {
+        padding: 40px 42px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 22px;
+        background: linear-gradient(
+          160deg,
+          rgba(52, 211, 153, 0.25),
+          rgba(255, 255, 255, 0.05) 60%
+        );
+        --c: #34d399;
+      }
+      .ikon-besar {
+        width: 104px;
+        height: 104px;
+        border-radius: 32px;
+        background: var(--c);
+        display: grid;
+        place-items: center;
+        font-size: 58px;
+        box-shadow: 0 0 50px -6px var(--c);
+        animation: goyang 4s ease-in-out infinite;
+      }
+      @keyframes goyang {
+        0%,
+        100% {
+          transform: rotate(-6deg) translateY(0);
+        }
+        50% {
+          transform: rotate(6deg) translateY(-8px);
+        }
+      }
+      .label {
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--c);
+      }
+      .isi-nasehat {
+        font-size: 44px;
+        line-height: 1.32;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        overflow: hidden;
+      }
+      .penutup {
+        font-size: 23px;
+        color: var(--mut);
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="title" id="title">
+      <div>
+        <div class="kicker" id="kicker"></div>
+        <h1 id="tTitle"></h1>
+        <p id="tSub"></p>
+      </div>
+      <div class="t-ar" id="tAr" lang="ar" dir="rtl"></div>
+    </section>
+    <div class="progress"><i id="bar"></i></div>
+    <main class="area" id="area"></main>
 
-<script src="../aset/bagian.js"></script>
-<script>
-/* =====================================================================
+    <script src="../aset/bagian.js"></script>
+    <script>
+      /* =====================================================================
    NASEHAT SINGKAT + AYAT AL-QUR'AN / HADITS
    Cara update: ubah / tambah / hapus blok { ... } di DATA di bawah ini.
      jenis    : 'ayat' atau 'hadits'
@@ -52,57 +180,81 @@
      nasehat  : nasehat singkat (usahakan maks. ±120 karakter)
    Contoh di bawah hanyalah contoh — silakan ganti sesuai kebutuhan.
    ===================================================================== */
-const WAKTU_PER_ITEM = 16;   // detik tampil untuk tiap item
+      const WAKTU_PER_ITEM = 16; // detik tampil untuk tiap item
 
-const DATA = [
-  { jenis:'ayat',
-    sumber:'QS. Al-Insyirah: 5–6',
-    arab:'فَإِنَّ مَعَ الْعُسْرِ يُسْرًا، إِنَّ مَعَ الْعُسْرِ يُسْرًا',
-    terjemah:'Maka sesungguhnya bersama kesulitan ada kemudahan. Sesungguhnya bersama kesulitan ada kemudahan.',
-    nasehat:'Jangan mudah menyerah. Setiap kesulitan pasti Allah sertai dengan kemudahan.' },
+      const DATA = [
+        {
+          jenis: "ayat",
+          sumber: "QS. Al-Insyirah: 5–6",
+          arab: "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا، إِنَّ مَعَ الْعُسْرِ يُسْرًا",
+          terjemah:
+            "Maka sesungguhnya bersama kesulitan ada kemudahan. Sesungguhnya bersama kesulitan ada kemudahan.",
+          nasehat:
+            "Jangan mudah menyerah. Setiap kesulitan pasti Allah sertai dengan kemudahan.",
+        },
 
-  { jenis:'hadits',
-    sumber:'HR. Bukhari & Muslim',
-    arab:'إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى',
-    terjemah:'Sesungguhnya setiap amal tergantung pada niatnya, dan setiap orang akan mendapatkan sesuai apa yang ia niatkan.',
-    nasehat:'Luruskan niat sebelum belajar, beribadah, dan beraktivitas: semata-mata karena Allah.' },
+        {
+          jenis: "hadits",
+          sumber: "HR. Bukhari & Muslim",
+          arab: "إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى",
+          terjemah:
+            "Sesungguhnya setiap amal tergantung pada niatnya, dan setiap orang akan mendapatkan sesuai apa yang ia niatkan.",
+          nasehat:
+            "Luruskan niat sebelum belajar, beribadah, dan beraktivitas: semata-mata karena Allah.",
+        },
 
-  { jenis:'ayat',
-    sumber:'QS. Al-Mujadilah: 11 (potongan)',
-    arab:'يَرْفَعِ اللَّهُ الَّذِينَ آمَنُوا مِنْكُمْ وَالَّذِينَ أُوتُوا الْعِلْمَ دَرَجَاتٍ',
-    terjemah:'Allah akan mengangkat (derajat) orang-orang yang beriman di antaramu dan orang-orang yang diberi ilmu beberapa derajat.',
-    nasehat:'Rajin menuntut ilmu akan mengangkat derajat kita di sisi Allah.' },
+        {
+          jenis: "ayat",
+          sumber: "QS. Al-Mujadilah: 11 (potongan)",
+          arab: "يَرْفَعِ اللَّهُ الَّذِينَ آمَنُوا مِنْكُمْ وَالَّذِينَ أُوتُوا الْعِلْمَ دَرَجَاتٍ",
+          terjemah:
+            "Allah akan mengangkat (derajat) orang-orang yang beriman di antaramu dan orang-orang yang diberi ilmu beberapa derajat.",
+          nasehat:
+            "Rajin menuntut ilmu akan mengangkat derajat kita di sisi Allah.",
+        },
 
-  { jenis:'hadits',
-    sumber:'HR. Bukhari',
-    arab:'خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ',
-    terjemah:'Sebaik-baik kalian adalah orang yang belajar Al-Qur’an dan mengajarkannya.',
-    nasehat:'Sempatkan membaca Al-Qur’an setiap hari, lalu bagikan ilmunya kepada teman.' },
+        {
+          jenis: "hadits",
+          sumber: "HR. Bukhari",
+          arab: "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ",
+          terjemah:
+            "Sebaik-baik kalian adalah orang yang belajar Al-Qur’an dan mengajarkannya.",
+          nasehat:
+            "Sempatkan membaca Al-Qur’an setiap hari, lalu bagikan ilmunya kepada teman.",
+        },
 
-  { jenis:'hadits',
-    sumber:'HR. Muslim',
-    arab:'الطُّهُورُ شَطْرُ الْإِيمَانِ',
-    terjemah:'Kesucian (kebersihan) adalah separuh dari iman.',
-    nasehat:'Jaga kebersihan diri, kamar, dan lingkungan pesantren.' }
-];
+        {
+          jenis: "hadits",
+          sumber: "HR. Muslim",
+          arab: "الطُّهُورُ شَطْرُ الْإِيمَانِ",
+          terjemah: "Kesucian (kebersihan) adalah separuh dari iman.",
+          nasehat: "Jaga kebersihan diri, kamar, dan lingkungan pesantren.",
+        },
+      ];
 
-/* ---------------- kode tampilan (tidak perlu diubah) ---------------- */
-const { $, esc, pad, wait } = Mading;
-Mading.init({ warna:'#34d399', judul:'Nasehat & Dalil' });
+      /* ---------------- kode tampilan (tidak perlu diubah) ---------------- */
+      const { $, esc, pad, wait } = Mading;
+      Mading.init({ warna: "#34d399", judul: "Nasehat & Dalil" });
 
-Mading.mulai(async () => {
-  Mading.judul({ kicker:'Bagian 01', judul:'Nasehat & Dalil', sub:'Ayat Al-Qur’an dan Hadits pilihan hari ini', arab:'النَّصِيحَةُ' });
-  Mading.bar(DATA.length * WAKTU_PER_ITEM * 1000);
-  const area = $('area');
+      Mading.mulai(async () => {
+        Mading.judul({
+          kicker: "Bagian 01",
+          judul: "Nasehat & Dalil",
+          sub: "Ayat Al-Qur’an dan Hadits pilihan hari ini",
+          arab: "النَّصِيحَةُ",
+        });
+        Mading.bar(DATA.length * WAKTU_PER_ITEM * 1000);
+        const area = $("area");
 
-  for(let i=0;i<DATA.length;i++){
-    const d = DATA[i], ayat = d.jenis === 'ayat';
-    area.classList.remove('out');
-    area.innerHTML = `
-      <article class="kartu dalil ${ayat?'':'hadits'}">
+        for (let i = 0; i < DATA.length; i++) {
+          const d = DATA[i],
+            ayat = d.jenis === "ayat";
+          area.classList.remove("out");
+          area.innerHTML = `
+      <article class="kartu dalil ${ayat ? "" : "hadits"}">
         <div class="baris-atas">
-          <div class="jenis"><b>${ayat?'📖':'📜'}</b>${ayat?'Ayat Al-Qur’an':'Hadits Nabi ﷺ'}</div>
-          <div class="nomor">${pad(i+1)} / ${pad(DATA.length)}</div>
+          <div class="jenis"><b>${ayat ? "📖" : "📜"}</b>${ayat ? "Ayat Al-Qur’an" : "Hadits Nabi ﷺ"}</div>
+          <div class="nomor">${pad(i + 1)} / ${pad(DATA.length)}</div>
         </div>
         <div class="arab-kotak" id="kotak"><div class="arab" id="arab" lang="ar" dir="rtl">${esc(d.arab)}</div></div>
         <div class="terjemah">“${esc(d.terjemah)}”</div>
@@ -114,13 +266,13 @@ Mading.mulai(async () => {
         <div class="isi-nasehat" id="isi">${esc(d.nasehat)}</div>
         <div class="penutup">Mari renungkan dan amalkan hari ini.</div>
       </article>`;
-    Mading.muatTinggi($('arab'), $('kotak'), 40);
-    await wait(WAKTU_PER_ITEM*1000 - 700);
-    area.classList.add('out');
-    await wait(700);
-  }
-  Mading.selesai();
-});
-</script>
-</body>
+          Mading.muatTinggi($("arab"), $("kotak"), 40);
+          await wait(WAKTU_PER_ITEM * 1000 - 700);
+          area.classList.add("out");
+          await wait(700);
+        }
+        Mading.selesai();
+      });
+    </script>
+  </body>
 </html>
