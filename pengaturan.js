@@ -12,7 +12,7 @@ window.PENGATURAN = {
   NAMA_PROYEK : 'Majalah Dinding PIAT 12',
   SUB_NAMA    : 'Pesantren Islam Al Irsyad Tengaran 12',
   LOGO_TEKS   : '١٢',        // tulisan di kotak logo bila belum ada gambar
-  LOGO_GAMBAR : 'https://psb.pesantrenalirsyadriau.org/logoalirsyad.png',          // isi mis. 'aset/logo.png' untuk memakai logo asli
+  LOGO_GAMBAR : '',          // isi mis. 'aset/logo.png' untuk memakai logo asli
 
   /* ---------- RUNNING TEXT (kiri bawah) ---------- */
   KECEPATAN_RUNNING_TEXT : 120,   // piksel per detik (naikkan = lebih cepat)

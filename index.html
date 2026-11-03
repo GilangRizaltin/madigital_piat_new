@@ -612,7 +612,6 @@
         if (d.type === "siap") setWarna(d.warna);
         else if (d.type === "selesai") goto(cur + 1);
         else if (d.type === "tombol") tombol(d.key);
-        else if (d.type === "klik") toggleFS();
       });
 
       /* Running text (kiri bawah) */
@@ -645,14 +644,13 @@
       tick();
       setInterval(tick, 1000);
 
-      /* Kontrol: panah kiri/kanan = ganti section, Enter/klik = layar penuh */
+      /* Kontrol: panah kiri/kanan = ganti section, F atau Enter = layar penuh (klik mouse TIDAK memicu apa pun) */
       function tombol(k) {
         if (k === "ArrowRight") goto(cur + 1);
         else if (k === "ArrowLeft") goto(cur - 1);
-        else if (k === "Enter") toggleFS();
+        else if (k === "Enter" || k === "f" || k === "F") toggleFS();
       }
       addEventListener("keydown", (e) => tombol(e.key));
-      addEventListener("click", toggleFS);
       function toggleFS() {
         if (!document.fullscreenElement)
           document.documentElement.requestFullscreen &&

@@ -26,7 +26,6 @@
       skala(); addEventListener('resize', skala);
     }
     addEventListener('keydown', e => kirim({type:'tombol', key:e.key}));
-    addEventListener('click', () => kirim({type:'klik'}));
     kirim({type:'siap', warna:o.warna, judul:o.judul});
   }
 
