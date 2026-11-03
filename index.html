@@ -521,7 +521,9 @@
 
       /* Skala layar */
       function resize() {
-        const s = Math.min(innerWidth / 1920, innerHeight / 1080);
+        const w = document.documentElement.clientWidth || innerWidth;
+        const h = document.documentElement.clientHeight || innerHeight;
+        const s = Math.min(w / 1920, h / 1080) * (S.SKALA || 1);
         stage.style.transform = `translate(-50%,-50%) scale(${s})`;
       }
       addEventListener("resize", resize);
