@@ -10,7 +10,7 @@ window.PENGATURAN = {
 
   /* ---------- LOGO (kiri atas) ---------- */
   NAMA_PROYEK : 'Majalah Digital PIAT 12',
-  SKALA : 0.8,    // 1 = pas layar. Kecilkan (0.85, 0.8, ...) sampai semua tepi terlihat
+  SKALA : 0.88,    // 1 = pas layar. Kecilkan (0.85, 0.8, ...) sampai semua tepi terlihat
   SUB_NAMA    : 'Pesantren Islam Al Irsyad Tengaran 12',
   LOGO_TEKS   : '١٢',        // tulisan di kotak logo bila belum ada gambar
   LOGO_GAMBAR : 'https://psb.pesantrenalirsyadriau.org/logoalirsyad.png',          // isi mis. 'aset/logo.png' untuk memakai logo asli
