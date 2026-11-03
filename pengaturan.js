@@ -15,9 +15,9 @@ window.PENGATURAN = {
   MODE_RINGAN : true,
 
   /* ---------- LOGO (kiri atas) ---------- */
-  NAMA_PROYEK : 'Majalah Dinding PIAT 12',
+  NAMA_PROYEK : 'Majalah Digital PIAT 12 Riau',  // ditampilkan di tab browser
   SKALA : 0.92,    // 1 = pas layar. Kecilkan (0.85, 0.8, ...) sampai semua tepi terlihat
-  SUB_NAMA    : 'Pesantren Islam Al Irsyad Tengaran 12',
+  SUB_NAMA    : 'Pesantren Islam Al Irsyad Tengaran 12 Riau',  // tulisan di bawah logo
   LOGO_TEKS   : '١٢',        // tulisan di kotak logo bila belum ada gambar
   LOGO_GAMBAR : 'https://psb.pesantrenalirsyadriau.org/logoalirsyad.png',          // isi mis. 'aset/logo.png' untuk memakai logo asli
 
