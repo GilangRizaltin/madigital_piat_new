@@ -1,0 +1,55 @@
+MAJALAH DINDING PIAT 12  (Pesantren Islam Al Irsyad Tengaran 12)
+==================================================================
+
+CARA MENJALANKAN
+  1. Buka file  madingDigital.html  di Chrome / Edge (klik dua kali).
+  2. Klik layar atau tekan Enter untuk layar penuh. Selesai.
+  Panah kiri / kanan = pindah section secara manual.
+  Layar otomatis menyesuaikan TV 55 inci (Full HD maupun 4K).
+
+STRUKTUR FOLDER
+  madingDigital.html     -> halaman utama (logo, running text, jam, pemutar section). Jangan diubah.
+  pengaturan.js          -> nama/logo, running text, urutan section
+  bagian/
+    1-nasehat.html       -> Nasehat singkat + ayat Al-Qur'an / hadits
+    2-kosakata.html      -> Kosakata bahasa Arab
+    3-pengetahuan.html   -> Pengetahuan umum
+    4-kuis.html          -> Kuis campuran ilmu agama + ilmu umum
+    5-jadwal-sholat.html -> Jadwal sholat (dihitung otomatis)
+  aset/                  -> gaya & fungsi bersama (jangan diubah)
+
+UPDATE HARIAN (cukup ubah satu file section)
+  1. Buka file section yang ingin diganti dengan Notepad / VS Code.
+  2. Cari bagian  DATA  (atau  TEMA ) di dalam tag <script>. Petunjuk
+     pengisian ada di komentar tepat di atasnya.
+  3. Ganti teksnya, simpan (Ctrl+S). Jangan menghapus tanda  '  ,  [  ]  {  }
+  4. Tampilan di TV ikut berubah pada putaran berikutnya (paling lambat
+     MUAT_ULANG_MENIT di pengaturan.js, atau langsung dengan menekan F5).
+  Tips: file section juga bisa dibuka sendiri (klik dua kali) untuk uji coba
+  sebelum dipasang di TV.
+
+LAMA TAMPIL
+  Tiap section berhenti sendiri setelah seluruh isinya tampil, jadi menambah
+  data otomatis memperpanjang durasinya. Atur lama per item lewat konstanta
+  WAKTU_PER_... di bagian atas script tiap file.
+
+LOGO ASLI
+  Simpan gambar logo di folder aset (mis. aset/logo.png), lalu isi
+  LOGO_GAMBAR: 'aset/logo.png' di pengaturan.js.
+
+RUNNING TEXT (kiri bawah)
+  Ubah daftar RUNNING_TEXT di pengaturan.js. Tambahkan pengumuman pesantren
+  di sana. Simpan, lalu refresh (F5).
+
+MENAMBAH / MENGHAPUS SECTION
+  Atur daftar BAGIAN di pengaturan.js (hapus satu baris untuk menyembunyikan).
+
+JADWAL SHOLAT
+  Dihitung otomatis untuk Tengaran (metode Kemenag), tidak perlu diupdate.
+  Untuk memakai jadwal resmi tanggal tertentu, isi MANUAL di 5-jadwal-sholat.html.
+  Ubah koordinat / nama lokasi di LOKASI bila perlu.
+
+CATATAN
+  Font (Amiri & Plus Jakarta Sans) diambil dari Google Fonts, jadi TV perlu
+  terhubung internet. Bila offline, tampilan memakai font bawaan sistem dan
+  tetap berjalan, hanya bentuk hurufnya sedikit berbeda.

@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Jadwal Sholat</title>
+    <link rel="stylesheet" href="../aset/bagian.css" />
+    <style>
+      .area {
+        display: grid;
+        grid-template-columns: 620px 1fr;
+        gap: 26px;
+        --accent: #2dd4bf;
+      }
+      .area > * {
+        animation: masuk 1s cubic-bezier(0.2, 0.9, 0.25, 1) backwards;
+      }
+      .area.out > * {
+        animation: keluar 0.6s cubic-bezier(0.5, 0, 0.8, 0.3) forwards;
+      }
+
+      /* kartu hitung mundur */
+      .menuju {
+        padding: 34px 36px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        gap: 6px;
+        background: linear-gradient(
+          160deg,
+          rgba(45, 212, 191, 0.26),
+          rgba(255, 255, 255, 0.05) 62%
+        );
+      }
+      .menuju .lbl {
+        font-size: 23px;
+        font-weight: 800;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      .menuju .nama {
+        font-size: 84px;
+        font-weight: 800;
+        letter-spacing: -2px;
+        line-height: 1.1;
+        margin-top: 6px;
+      }
+      .menuju .nama-ar {
+        font-family: "Amiri", "Noto Naskh Arabic", serif;
+        font-size: 62px;
+        line-height: 1.4;
+        color: #fde68a;
+        font-weight: 700;
+      }
+      .menuju .hitung {
+        font-size: 104px;
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0.02em;
+        margin-top: 10px;
+        text-shadow: 0 0 50px var(--accent);
+      }
+      .menuju .hitung small {
+        display: block;
+        font-size: 22px;
+        letter-spacing: 0.3em;
+        color: var(--mut);
+        font-weight: 700;
+        margin-top: -4px;
+      }
+      .menuju .lokasi {
+        margin-top: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 26px;
+        border-radius: 40px;
+        background: rgba(255, 255, 255, 0.1);
+        font-size: 25px;
+        font-weight: 700;
+      }
+
+      /* kartu waktu */
+      .waktu {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: 1fr 1fr;
+        gap: 22px;
+      }
+      .w {
+        padding: 20px 12px 18px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        text-align: center;
+        transition:
+          opacity 0.6s,
+          transform 0.6s,
+          box-shadow 0.6s,
+          border-color 0.6s;
+        animation: masuk 0.9s cubic-bezier(0.2, 0.9, 0.25, 1) backwards;
+        animation-delay: calc(var(--i) * 0.1s + 0.35s);
+      }
+      .w-ikon {
+        font-size: 40px;
+        line-height: 1;
+        font-family:
+          "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+      }
+      .w-nama {
+        font-size: 36px;
+        font-weight: 800;
+        margin-top: 6px;
+      }
+      .w-ar {
+        font-family: "Amiri", "Noto Naskh Arabic", serif;
+        font-size: 36px;
+        line-height: 1.35;
+        color: var(--gold);
+        font-weight: 700;
+      }
+      .w-jam {
+        font-size: 92px;
+        font-weight: 800;
+        line-height: 1.08;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: -2px;
+        margin-top: 2px;
+      }
+      .w.lewat {
+        opacity: 0.45;
+      }
+      .w.lewat .w-jam {
+        color: #94a3b8;
+      }
+      .w.berikut {
+        transform: scale(1.04);
+        border-color: var(--accent);
+        box-shadow:
+          0 0 0 2px var(--accent),
+          0 30px 90px -20px var(--accent);
+        z-index: 2;
+        animation:
+          masuk 0.9s cubic-bezier(0.2, 0.9, 0.25, 1) backwards,
+          denyut 2.4s 1.6s ease-in-out infinite;
+      }
+      .w.berikut .w-jam {
+        color: #fff;
+        text-shadow: 0 0 30px var(--accent);
+      }
+      .w.berikut::after {
+        opacity: 0.35;
+      }
+      .w.terbit {
+        --c: #fbbf24;
+      }
+      @keyframes denyut {
+        50% {
+          box-shadow:
+            0 0 0 2px var(--accent),
+            0 30px 120px -10px var(--accent);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="title" id="title">
+      <div>
+        <div class="kicker" id="kicker"></div>
+        <h1 id="tTitle"></h1>
+        <p id="tSub"></p>
+      </div>
+      <div class="t-ar" id="tAr" lang="ar" dir="rtl"></div>
+    </section>
+    <div class="progress"><i id="bar"></i></div>
+    <main class="area" id="area">
+      <article class="kartu menuju">
+        <div class="lbl">Menuju waktu</div>
+        <div class="nama" id="mNama">—</div>
+        <div class="nama-ar" id="mAr" lang="ar" dir="rtl"></div>
+        <div class="hitung" id="mHitung">
+          00:00:00<small>JAM · MENIT · DETIK</small>
+        </div>
+        <div class="lokasi">📍 <span id="mLokasi"></span></div>
+      </article>
+      <div class="waktu" id="waktu"></div>
+    </main>
+
+    <script src="../aset/bagian.js"></script>
+    <script>
+      /* =====================================================================
+   JADWAL SHOLAT
+   Waktu dihitung OTOMATIS dari koordinat lokasi (tanpa internet), memakai
+   metode Kemenag RI (Subuh 20°, Isya 18°, ihtiyati +2 menit). Tidak perlu
+   di-update harian. Jadwal resmi bisa berbeda 1–2 menit.
+
+   Bila ingin memakai jadwal resmi/manual untuk tanggal tertentu, isi MANUAL
+   dengan format 'TAHUN-BULAN-TANGGAL' seperti contoh. Tanggal yang tidak
+   diisi tetap dihitung otomatis.
+   ===================================================================== */
+      const LOKASI = {
+        nama: "Lubuk Sakat, Kab Kampar",
+        lat: 0.3522223135170822,
+        lon: 101.43013344239084,
+        zona: 7,
+      }; // zona 7 = WIB
+      const DURASI = 20; // detik section ini tampil
+      const HIJRI_GESER = 0; // geser tanggal Hijriah: -1, 0, atau +1 hari
+
+      /* koreksi menit per waktu (bisa negatif), mis. subuh:+1 */
+      const KOREKSI = {
+        subuh: 0,
+        terbit: 0,
+        dzuhur: 0,
+        ashar: 0,
+        maghrib: 0,
+        isya: 0,
+      };
+
+      /* jadwal manual (opsional). Contoh:
+const MANUAL = {
+  '2026-11-03': { subuh:'04:02', terbit:'05:17', dzuhur:'11:24', ashar:'14:42', maghrib:'17:32', isya:'18:43' }
+};
+*/
+      const MANUAL = {};
+
+      /* ---------------- perhitungan waktu sholat (tidak perlu diubah) ---------------- */
+      const dtr = Math.PI / 180;
+      const sin = (d) => Math.sin(d * dtr),
+        cos = (d) => Math.cos(d * dtr),
+        tan = (d) => Math.tan(d * dtr);
+      const arcsin = (x) => Math.asin(x) / dtr,
+        arccos = (x) => Math.acos(x) / dtr,
+        arctan2 = (y, x) => Math.atan2(y, x) / dtr,
+        arccot = (x) => Math.atan(1 / x) / dtr;
+      const fix = (a, b) => {
+        a = a - b * Math.floor(a / b);
+        return a < 0 ? a + b : a;
+      };
+      const IHTIYATI = 2;
+
+      function julian(y, m, d) {
+        if (m <= 2) {
+          y -= 1;
+          m += 12;
+        }
+        const A = Math.floor(y / 100),
+          B = 2 - A + Math.floor(A / 4);
+        return (
+          Math.floor(365.25 * (y + 4716)) +
+          Math.floor(30.6001 * (m + 1)) +
+          d +
+          B -
+          1524.5
+        );
+      }
+      function hitung(tgl) {
+        const lat = LOKASI.lat,
+          lon = LOKASI.lon;
+        const jd =
+          julian(tgl.getFullYear(), tgl.getMonth() + 1, tgl.getDate()) -
+          lon / (15 * 24);
+        const posisi = (j) => {
+          const D = j - 2451545.0,
+            g = fix(357.529 + 0.98560028 * D, 360),
+            q = fix(280.459 + 0.98564736 * D, 360);
+          const L = fix(q + 1.915 * sin(g) + 0.02 * sin(2 * g), 360),
+            e = 23.439 - 0.00000036 * D;
+          const RA = arctan2(cos(e) * sin(L), cos(L)) / 15;
+          return { decl: arcsin(sin(e) * sin(L)), eqt: q / 15 - fix(RA, 24) };
+        };
+        const tengah = (t) => fix(12 - posisi(jd + t).eqt, 24);
+        const sudut = (a, t, ccw) => {
+          const decl = posisi(jd + t).decl,
+            noon = tengah(t);
+          const h =
+            (1 / 15) *
+            arccos((-sin(a) - sin(decl) * sin(lat)) / (cos(decl) * cos(lat)));
+          return noon + (ccw ? -h : h);
+        };
+        const asar = (f, t) => {
+          const decl = posisi(jd + t).decl;
+          return sudut(-arccot(f + tan(Math.abs(lat - decl))), t, false);
+        };
+        const geser = LOKASI.zona - lon / 15;
+        const jam = {
+          subuh: sudut(20, 5 / 24, true) + geser,
+          terbit: sudut(0.833, 6 / 24, true) + geser,
+          dzuhur: tengah(12 / 24) + geser,
+          ashar: asar(1, 13 / 24) + geser,
+          maghrib: sudut(0.833, 18 / 24, false) + geser,
+          isya: sudut(18, 18 / 24, false) + geser,
+        };
+        const menit = {};
+        for (const k in jam) {
+          const ih = k === "terbit" ? -IHTIYATI : IHTIYATI;
+          menit[k] = Math.round(jam[k] * 60 + ih + (KOREKSI[k] || 0));
+        }
+        return menit;
+      }
+      const kunci = (d) =>
+        d.getFullYear() +
+        "-" +
+        String(d.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(d.getDate()).padStart(2, "0");
+      function jadwal(tgl) {
+        const m = MANUAL[kunci(tgl)];
+        if (m) {
+          const out = {};
+          for (const k in m) {
+            const [h, mm] = m[k].split(":").map(Number);
+            out[k] = h * 60 + mm;
+          }
+          const auto = hitung(tgl);
+          for (const k in auto) if (!(k in out)) out[k] = auto[k];
+          return out;
+        }
+        return hitung(tgl);
+      }
+
+      /* ---------------- tampilan ---------------- */
+      const { $, pad, wait } = Mading;
+      Mading.init({ warna: "#2dd4bf", judul: "Jadwal Sholat" });
+
+      const WAKTU = [
+        {
+          k: "subuh",
+          nama: "Subuh",
+          ar: "الْفَجْرُ",
+          ikon: "🌄",
+          sholat: true,
+        },
+        {
+          k: "terbit",
+          nama: "Terbit",
+          ar: "الشُّرُوقُ",
+          ikon: "🌅",
+          sholat: false,
+        },
+        {
+          k: "dzuhur",
+          nama: "Dzuhur",
+          ar: "الظُّهْرُ",
+          ikon: "☀️",
+          sholat: true,
+        },
+        {
+          k: "ashar",
+          nama: "Ashar",
+          ar: "الْعَصْرُ",
+          ikon: "🌤️",
+          sholat: true,
+        },
+        {
+          k: "maghrib",
+          nama: "Maghrib",
+          ar: "الْمَغْرِبُ",
+          ikon: "🌇",
+          sholat: true,
+        },
+        { k: "isya", nama: "Isya", ar: "الْعِشَاءُ", ikon: "🌙", sholat: true },
+      ];
+      const fmt = (m) => pad(Math.floor(m / 60) % 24) + ":" + pad(m % 60);
+
+      function tanggalHijri(d) {
+        try {
+          const x = new Date(d.getTime() + HIJRI_GESER * 86400000);
+          const t = new Intl.DateTimeFormat("id-ID-u-ca-islamic-umalqura", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          }).format(x);
+          return t.replace(/\s*H$/, "") + " H"; // pastikan hanya ada satu "H"
+        } catch (e) {
+          return "";
+        }
+      }
+
+      function render() {
+        const now = new Date();
+        const hari = jadwal(now);
+        const dtk =
+          now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+
+        /* waktu sholat berikutnya (hanya 5 sholat, terbit tidak dihitung mundur) */
+        let berikut = WAKTU.find((w) => w.sholat && hari[w.k] * 60 > dtk);
+        let target;
+        if (berikut) {
+          target = hari[berikut.k] * 60;
+        } else {
+          berikut = WAKTU[0];
+          const besok = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate() + 1,
+          );
+          target = 86400 + jadwal(besok)[berikut.k] * 60;
+        }
+        const sisa = Math.max(0, target - dtk);
+        $("mNama").textContent = berikut.nama;
+        $("mAr").textContent = berikut.ar;
+        $("mHitung").firstChild.nodeValue =
+          pad(Math.floor(sisa / 3600)) +
+          ":" +
+          pad(Math.floor((sisa % 3600) / 60)) +
+          ":" +
+          pad(sisa % 60);
+
+        document.querySelectorAll(".w").forEach((el) => {
+          const k = el.dataset.k,
+            w = WAKTU.find((x) => x.k === k);
+          el.classList.toggle("berikut", w === berikut && target < 86400);
+          el.classList.toggle("lewat", hari[k] * 60 <= dtk);
+        });
+        /* setelah Isya: semua lewat, sorot Subuh besok */
+        if (target >= 86400)
+          document.querySelector('.w[data-k="subuh"]').classList.add("berikut");
+      }
+
+      Mading.mulai(async () => {
+        const now = new Date();
+        const hari = jadwal(now);
+        const tglM = now.toLocaleDateString("id-ID", {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+        const tglH = tanggalHijri(now);
+        Mading.judul({
+          kicker: "Bagian 05",
+          judul: "Jadwal Sholat",
+          sub: tglM + (tglH ? "  ·  " + tglH : ""),
+          arab: "مَوَاقِيتُ الصَّلَاةِ",
+        });
+        Mading.bar(DURASI * 1000);
+        $("mLokasi").textContent = LOKASI.nama;
+
+        $("waktu").innerHTML = WAKTU.map(
+          (w, i) => `
+    <article class="kartu w ${w.sholat ? "" : "terbit"}" data-k="${w.k}" style="--i:${i}">
+      <div class="w-ikon">${w.ikon}</div>
+      <div class="w-nama">${w.k === "dzuhur" && now.getDay() === 5 ? "Dzuhur (Jum’at)" : w.nama}</div>
+      <div class="w-ar" lang="ar" dir="rtl">${w.ar}</div>
+      <div class="w-jam">${fmt(hari[w.k])}</div>
+    </article>`,
+        ).join("");
+
+        render();
+        const iv = setInterval(render, 1000);
+        await wait(DURASI * 1000 - 700);
+        $("area").classList.add("out");
+        $("title").classList.add("out");
+        await wait(700);
+        clearInterval(iv);
+        Mading.selesai();
+      });
+    </script>
+  </body>
+</html>

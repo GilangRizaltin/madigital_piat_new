@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Pengetahuan Umum</title>
+<link rel="stylesheet" href="../aset/bagian.css">
+<style>
+.area{display:grid;grid-template-columns:1fr 1.3fr;grid-template-rows:1fr 104px;gap:22px 26px;--accent:#a78bfa}
+.area.out>*{animation:keluar .6s cubic-bezier(.5,0,.8,.3) forwards}
+.area>*{animation:masuk 1s cubic-bezier(.2,.9,.25,1) backwards}
+
+/* kartu pengertian */
+.info{padding:34px 40px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:20px;background:linear-gradient(160deg,rgba(167,139,250,.24),rgba(255,255,255,.05) 62%)}
+.ikon{font-size:128px;line-height:1;filter:drop-shadow(0 12px 30px rgba(0,0,0,.4));animation:melayang 4.5s ease-in-out infinite;font-family:'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif}
+@keyframes melayang{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-14px) rotate(3deg)}}
+.kategori{display:inline-block;padding:6px 20px;border-radius:30px;background:rgba(255,255,255,.12);font-size:21px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+.ringkas{font-size:35px;line-height:1.48;font-weight:500;color:#f1f5f9}
+
+/* daftar langkah */
+.langkah{padding:26px 30px;display:flex;flex-direction:column;gap:12px}
+.langkah-judul{font-size:23px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);padding-left:6px}
+.daftar{flex:1;display:flex;flex-direction:column;gap:12px;min-height:0}
+.lk{flex:1;min-height:0;display:flex;align-items:center;gap:22px;padding:6px 22px 6px 14px;border-radius:24px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.1);
+  animation:lkMasuk .8s cubic-bezier(.2,.9,.25,1) backwards;animation-delay:calc(var(--i)*.45s + 1s)}
+@keyframes lkMasuk{from{opacity:0;transform:translateX(70px)}to{opacity:1;transform:none}}
+.lk-no{flex:none;width:62px;height:62px;border-radius:20px;display:grid;place-items:center;background:var(--accent);color:#0b1020;font-size:32px;font-weight:800;box-shadow:0 0 28px -4px var(--accent)}
+.lk-judul{font-size:31px;font-weight:800;line-height:1.15}
+.lk-isi{font-size:24px;line-height:1.3;color:#cbd5e1;font-weight:500;margin-top:2px}
+
+/* tahukah kamu */
+.fakta{grid-column:1/-1;display:flex;align-items:center;gap:26px;padding:0 38px;background:linear-gradient(90deg,rgba(251,191,36,.2),rgba(255,255,255,.05));border-color:rgba(251,191,36,.4);
+  animation:masuk 1s 1.2s cubic-bezier(.2,.9,.25,1) backwards}
+.fakta-ikon{flex:none;width:68px;height:68px;border-radius:22px;background:var(--gold);display:grid;place-items:center;font-size:40px;box-shadow:0 0 36px -4px var(--gold);animation:blink 2.4s ease-in-out infinite}
+.fakta b{display:block;font-size:21px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.fakta span{font-size:29px;line-height:1.32;font-weight:600}
+</style>
+</head>
+<body>
+<section class="title" id="title">
+  <div><div class="kicker" id="kicker"></div><h1 id="tTitle"></h1><p id="tSub"></p></div>
+  <div class="t-ar" id="tAr" lang="ar" dir="rtl"></div>
+</section>
+<div class="progress"><i id="bar"></i></div>
+<main class="area" id="area"></main>
+
+<script src="../aset/bagian.js"></script>
+<script>
+/* =====================================================================
+   PENGETAHUAN UMUM  (apa itu komputer, bagaimana cara kerja mobil, dll.)
+   Cara update: ubah / tambah / hapus blok { ... } di DATA di bawah ini.
+     kategori   : mis. 'Teknologi', 'Otomotif', 'Alam', 'Kesehatan'
+     ikon       : satu emoji
+     judul      : pertanyaan / topik (tampil besar di judul)
+     ringkas    : penjelasan singkat (usahakan maks. ±180 karakter)
+     langkahJudul : judul daftar di kanan, mis. 'Cara kerjanya'
+     langkah    : 3–5 pasangan [ 'judul pendek', 'penjelasan (maks. ±75 karakter)' ]
+     fakta      : satu kalimat "Tahukah kamu?"
+   Contoh di bawah hanyalah contoh — silakan ganti sesuai kebutuhan.
+   ===================================================================== */
+const WAKTU_PER_TOPIK = 22;   // detik tampil untuk tiap topik
+
+const DATA = [
+  { kategori:'Teknologi', ikon:'💻',
+    judul:'Apa itu Komputer?',
+    ringkas:'Komputer adalah mesin elektronik yang menerima data, memprosesnya sesuai perintah (program), menyimpannya, lalu menghasilkan informasi yang berguna.',
+    langkahJudul:'Cara kerja komputer',
+    langkah:[
+      ['Input','Data dimasukkan lewat keyboard, mouse, mikrofon, atau kamera.'],
+      ['Proses','CPU (otak komputer) mengolah data sesuai perintah program.'],
+      ['Simpan','Disimpan sementara di RAM dan permanen di SSD / hard disk.'],
+      ['Output','Hasilnya ditampilkan lewat layar, speaker, atau printer.']
+    ],
+    fakta:'Komputer hanya memahami dua angka, yaitu 0 dan 1, yang disebut bilangan biner.' },
+
+  { kategori:'Otomotif', ikon:'🚗',
+    judul:'Bagaimana Cara Kerja Mobil?',
+    ringkas:'Mobil bensin digerakkan oleh mesin pembakaran dalam yang mengubah energi kimia bahan bakar menjadi gerak roda.',
+    langkahJudul:'Empat langkah mesin (4-tak)',
+    langkah:[
+      ['Hisap','Piston turun dan menghisap campuran udara dengan bensin.'],
+      ['Kompresi','Piston naik dan memampatkan campuran tersebut.'],
+      ['Usaha','Busi memercikkan api, campuran terbakar dan mendorong piston.'],
+      ['Buang','Piston naik lagi dan mendorong gas sisa pembakaran keluar.']
+    ],
+    fakta:'Gerak naik-turun piston diubah menjadi putaran oleh poros engkol, lalu diteruskan ke roda.' },
+
+  { kategori:'Alam', ikon:'🌧️',
+    judul:'Bagaimana Hujan Terjadi?',
+    ringkas:'Hujan adalah air yang jatuh dari awan ke bumi sebagai bagian dari siklus air yang terus berputar.',
+    langkahJudul:'Siklus air',
+    langkah:[
+      ['Penguapan','Panas matahari menguapkan air laut, sungai, dan danau.'],
+      ['Kondensasi','Uap air naik, mendingin, lalu membentuk titik air di awan.'],
+      ['Presipitasi','Titik air membesar lalu jatuh ke bumi sebagai hujan.'],
+      ['Pengumpulan','Air mengalir ke sungai dan laut, lalu siklus berulang.']
+    ],
+    fakta:'Air hujan hari ini adalah air yang sama yang telah berputar di bumi selama jutaan tahun.' }
+];
+
+/* ---------------- kode tampilan (tidak perlu diubah) ---------------- */
+const { $, esc, pad, wait } = Mading;
+Mading.init({ warna:'#a78bfa', judul:'Pengetahuan Umum' });
+
+Mading.mulai(async () => {
+  Mading.bar(DATA.length * WAKTU_PER_TOPIK * 1000);
+  const area = $('area');
+
+  for(let i=0;i<DATA.length;i++){
+    const d = DATA[i];
+    area.classList.remove('out'); $('title').classList.remove('out');
+    Mading.judul({ kicker:'Pengetahuan Umum · '+pad(i+1)+' / '+pad(DATA.length), judul:d.judul, sub:d.kategori, arab:'الْمَعْرِفَةُ' });
+    area.innerHTML = `
+      <article class="kartu info">
+        <div class="ikon">${esc(d.ikon)}</div>
+        <div class="kategori">${esc(d.kategori)}</div>
+        <div class="ringkas">${esc(d.ringkas)}</div>
+      </article>
+      <article class="kartu langkah">
+        <div class="langkah-judul">${esc(d.langkahJudul)}</div>
+        <div class="daftar">
+          ${d.langkah.map((l,k)=>`
+            <div class="lk" style="--i:${k}">
+              <div class="lk-no">${k+1}</div>
+              <div><div class="lk-judul">${esc(l[0])}</div><div class="lk-isi">${esc(l[1])}</div></div>
+            </div>`).join('')}
+        </div>
+      </article>
+      <article class="kartu fakta">
+        <div class="fakta-ikon">💡</div>
+        <div><b>Tahukah kamu?</b><span>${esc(d.fakta)}</span></div>
+      </article>`;
+    await wait(WAKTU_PER_TOPIK*1000 - 700);
+    area.classList.add('out'); $('title').classList.add('out');
+    await wait(700);
+  }
+  Mading.selesai();
+});
+</script>
+</body>
+</html>

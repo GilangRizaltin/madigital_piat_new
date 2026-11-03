@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Majalah Dinding PIAT 12</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{ --accent:#2dd4bf; --gold:#fbbf24; --ink:#f1f5f9; --mut:#94a3b8; }
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#040913;cursor:none}
+body{font-family:'Plus Jakarta Sans','Segoe UI',system-ui,sans-serif;color:var(--ink)}
+
+/* ===== PANGGUNG 1920x1080 (otomatis diskalakan ke ukuran layar) ===== */
+#stage{
+  position:absolute;left:50%;top:50%;width:1920px;height:1080px;
+  transform:translate(-50%,-50%) scale(1);transform-origin:center center;overflow:hidden;
+  background:radial-gradient(120% 120% at 20% 0%,#10224a 0%,#08122a 45%,#050b1b 100%);
+}
+
+/* ===== LATAR ===== */
+.pattern{
+  position:absolute;inset:-100px;opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='white' stroke-width='1.2'%3E%3Crect x='30' y='30' width='60' height='60'/%3E%3Crect x='30' y='30' width='60' height='60' transform='rotate(45 60 60)'/%3E%3Ccircle cx='60' cy='60' r='9'/%3E%3C/g%3E%3C/svg%3E");
+  animation:patternMove 60s linear infinite;
+}
+@keyframes patternMove{to{transform:translate(120px,120px)}}
+.blob{position:absolute;width:780px;height:780px;border-radius:50%;filter:blur(130px);opacity:.28;background-color:var(--accent);transition:background-color 1.8s ease}
+.b1{left:-220px;top:-260px;animation:drift1 24s ease-in-out infinite alternate}
+.b2{right:-260px;bottom:-320px;background:#6366f1;opacity:.25;animation:drift2 30s ease-in-out infinite alternate}
+.b3{left:44%;top:30%;width:520px;height:520px;background:#fbbf24;opacity:.07;animation:drift1 34s ease-in-out infinite alternate-reverse}
+@keyframes drift1{to{transform:translate(220px,160px) scale(1.2)}}
+@keyframes drift2{to{transform:translate(-240px,-140px) scale(1.15)}}
+.orn{position:absolute;right:-260px;top:90px;width:900px;height:900px;opacity:.07;animation:spin 140s linear infinite}
+.orn::before,.orn::after{content:'';position:absolute;inset:80px;border:3px solid #fff;border-radius:18px}
+.orn::after{transform:rotate(45deg)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.floaters{position:absolute;inset:0;pointer-events:none}
+.floaters span{position:absolute;bottom:-200px;font-family:'Amiri','Noto Naskh Arabic',serif;color:#fff;opacity:0;animation:floatUp linear infinite}
+@keyframes floatUp{0%{transform:translateY(0) rotate(0);opacity:0}10%{opacity:.07}90%{opacity:.07}100%{transform:translateY(-1400px) rotate(25deg);opacity:0}}
+.vignette{position:absolute;inset:0;background:radial-gradient(90% 90% at 50% 50%,transparent 55%,rgba(0,0,0,.45) 100%);pointer-events:none;z-index:6}
+
+/* ===== ISI SECTION (iframe) ===== */
+#frame{position:absolute;left:0;top:132px;width:1920px;height:804px;border:0;background:transparent;z-index:3;opacity:1;transition:opacity .6s ease}
+#frame.out{opacity:0}
+
+/* ===== HEADER (logo kiri atas) ===== */
+header{position:absolute;top:36px;left:64px;right:64px;height:88px;display:flex;align-items:center;justify-content:space-between;z-index:5}
+.logo{display:flex;align-items:center;gap:22px;animation:rise 1s cubic-bezier(.2,.9,.25,1) backwards}
+.logo-mark{
+  position:relative;width:88px;height:88px;border-radius:26px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--accent),#fbbf24);transition:background .8s;
+  font-family:'Amiri',serif;font-size:56px;line-height:1;color:#07101f;font-weight:700;
+  box-shadow:0 10px 50px -8px var(--accent);
+}
+.logo-mark span{display:block;transform:translateY(-3px)}
+.logo-mark img{width:100%;height:100%;object-fit:contain;border-radius:26px}
+.logo-mark::after{content:'';position:absolute;inset:-9px;border-radius:34px;border:2px solid var(--accent);opacity:.6;animation:ring 2.8s ease-out infinite}
+@keyframes ring{0%{transform:scale(.92);opacity:.7}100%{transform:scale(1.18);opacity:0}}
+.logo-text b{display:block;font-size:40px;font-weight:800;letter-spacing:-.5px;line-height:1.1}
+.logo-text small{display:block;margin-top:6px;font-size:20px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+.head-right{display:flex;align-items:center;gap:34px;animation:rise 1s .15s cubic-bezier(.2,.9,.25,1) backwards}
+.sec-label{font-size:28px;font-weight:700;color:var(--accent);letter-spacing:.04em;transition:color .8s,opacity .4s}
+.dots{display:flex;gap:10px;align-items:center}
+.dots i{display:block;width:14px;height:14px;border-radius:7px;background:rgba(255,255,255,.18);transition:all .6s cubic-bezier(.2,.9,.25,1)}
+.dots i.on{width:64px;background:var(--accent);box-shadow:0 0 24px var(--accent)}
+.counter{font-size:36px;font-weight:800;font-variant-numeric:tabular-nums;color:#fff;letter-spacing:.02em}
+.counter em{font-style:normal;color:var(--mut);font-weight:600}
+@keyframes rise{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+
+/* ===== FOOTER: RUNNING TEXT (kiri bawah) + JAM ===== */
+footer{position:absolute;left:64px;right:64px;bottom:36px;height:84px;display:flex;gap:24px;z-index:5;animation:rise 1s .3s cubic-bezier(.2,.9,.25,1) backwards}
+.ticker{flex:1;min-width:0;display:flex;align-items:center;height:84px;border-radius:42px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.13);overflow:hidden}
+.tk-label{flex:none;height:100%;display:flex;align-items:center;gap:14px;padding:0 38px 0 34px;font-size:26px;font-weight:800;letter-spacing:.14em;color:#07101f;background:linear-gradient(120deg,var(--accent),#fbbf24);transition:background .8s;position:relative;z-index:2;border-radius:42px 0 0 42px;box-shadow:12px 0 30px rgba(0,0,0,.35)}
+.tk-label i{width:14px;height:14px;border-radius:50%;background:#07101f;animation:blink 1.2s ease-in-out infinite}
+@keyframes blink{50%{opacity:.2;transform:scale(.7)}}
+.tk-view{flex:1;min-width:0;overflow:hidden;height:100%;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 40px,#000 calc(100% - 60px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 40px,#000 calc(100% - 60px),transparent 100%)}
+.tk-track{display:inline-flex;align-items:center;height:100%;white-space:nowrap;width:max-content;font-size:32px;font-weight:600;color:#f8fafc;animation:marquee 60s linear infinite;will-change:transform}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.tk-item{padding:0 8px}
+.sep{color:var(--gold);margin:0 34px;font-size:26px}
+.tk-item .a{font-family:'Amiri','Noto Naskh Arabic',serif;font-size:42px;color:var(--gold);font-weight:700;unicode-bidi:isolate;padding:0 6px}
+.clock{flex:none;width:370px;height:84px;border-radius:42px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.13);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15}
+.clock b{font-size:38px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.04em}
+.clock b em{font-style:normal;animation:blink 1s step-end infinite}
+.clock small{font-size:21px;color:var(--mut);font-weight:600}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="pattern"></div>
+  <div class="orn"></div>
+  <div class="floaters" id="floaters"></div>
+
+  <iframe id="frame" class="out" title="Isi section" scrolling="no" allowtransparency="true"></iframe>
+  <div class="vignette"></div>
+
+  <header>
+    <div class="logo">
+      <div class="logo-mark" id="logoMark"><span id="logoTeks"></span></div>
+      <div class="logo-text"><b id="logoName"></b><small id="logoSub"></small></div>
+    </div>
+    <div class="head-right">
+      <div class="sec-label" id="secLabel"></div>
+      <div class="dots" id="dots"></div>
+      <div class="counter" id="counter"></div>
+    </div>
+  </header>
+
+  <footer>
+    <div class="ticker">
+      <div class="tk-label"><i></i>INFO</div>
+      <div class="tk-view"><div class="tk-track" id="track"></div></div>
+    </div>
+    <div class="clock"><b id="time"></b><small id="date"></small></div>
+  </footer>
+</div>
+
+<script src="pengaturan.js"></script>
+<script>
+const S = window.PENGATURAN || {};
+const BAGIAN = S.BAGIAN || [];
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2,'0');
+const stage = $('stage'), frame = $('frame');
+const mulaiMs = Date.now();
+let cur = -1, maksT = null, swapT = null;
+
+/* Skala layar */
+function resize(){
+  const s = Math.min(innerWidth/1920, innerHeight/1080);
+  stage.style.transform = `translate(-50%,-50%) scale(${s})`;
+}
+addEventListener('resize', resize); resize();
+
+/* Logo */
+$('logoName').textContent = S.NAMA_PROYEK || '';
+$('logoSub').textContent  = S.SUB_NAMA || '';
+$('logoTeks').textContent = S.LOGO_TEKS || '';
+if(S.LOGO_GAMBAR){
+  const m = $('logoMark');
+  m.style.background = 'transparent'; m.style.boxShadow = 'none';
+  m.innerHTML = '<img alt="Logo" src="'+S.LOGO_GAMBAR+'">';
+}
+document.title = S.NAMA_PROYEK || document.title;
+
+/* Huruf Arab melayang di latar */
+(function(){
+  const letters = 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي'.split('');
+  const box = $('floaters');
+  for(let i=0;i<22;i++){
+    const s = document.createElement('span');
+    s.textContent = letters[Math.floor(Math.random()*letters.length)];
+    s.style.left = (Math.random()*100)+'%';
+    s.style.fontSize = (70+Math.random()*110)+'px';
+    s.style.animationDuration = (28+Math.random()*30)+'s';
+    s.style.animationDelay = (-Math.random()*50)+'s';
+    box.appendChild(s);
+  }
+})();
+
+/* Titik navigasi */
+const dots = $('dots');
+BAGIAN.forEach(()=>dots.appendChild(document.createElement('i')));
+
+function setWarna(w){ if(w) stage.style.setProperty('--accent', w); }
+
+/* Tampilkan section ke-i */
+function bukaBagian(i){
+  const n = BAGIAN.length; if(!n) return;
+  clearTimeout(maksT);
+  cur = (i + n) % n;
+  const b = BAGIAN[cur];
+  setWarna(b.warna);
+  $('secLabel').textContent = b.label || '';
+  [...dots.children].forEach((d,k)=>d.classList.toggle('on', k===cur));
+  $('counter').innerHTML = pad(cur+1)+' <em>/ '+pad(n)+'</em>';
+  frame.onload = () => {
+    frame.classList.remove('out');
+    maksT = setTimeout(()=>goto(cur+1), (b.maks||180)*1000);   // pengaman bila section macet
+  };
+  frame.src = 'bagian/' + b.file + '?t=' + Date.now();          // ?t= agar isi terbaru selalu terbaca
+}
+
+function goto(i){
+  clearTimeout(maksT); clearTimeout(swapT);
+  const n = BAGIAN.length;
+  /* Putaran penuh selesai -> muat ulang halaman bila sudah cukup lama */
+  if(cur >= 0 && i >= n && S.MUAT_ULANG_MENIT && (Date.now()-mulaiMs) > S.MUAT_ULANG_MENIT*60000){
+    frame.classList.add('out');
+    setTimeout(()=>location.reload(), 700);
+    return;
+  }
+  if(cur < 0){ bukaBagian(i); return; }
+  frame.classList.add('out');
+  swapT = setTimeout(()=>bukaBagian(i), 700);
+}
+
+/* Pesan dari section */
+addEventListener('message', e => {
+  const d = e.data;
+  if(!d || !d.mading || e.source !== frame.contentWindow) return;
+  if(d.type === 'siap') setWarna(d.warna);
+  else if(d.type === 'selesai') goto(cur+1);
+  else if(d.type === 'tombol') tombol(d.key);
+  else if(d.type === 'klik') toggleFS();
+});
+
+/* Running text (kiri bawah) */
+function buildTicker(){
+  const track = $('track');
+  const items = S.RUNNING_TEXT || [];
+  const one = items.map(t=>`<span class="tk-item">${t}</span>`).join('<span class="sep">✦</span>') + '<span class="sep">✦</span>';
+  track.innerHTML = one + one;
+  const half = track.scrollWidth / 2;
+  track.style.animationDuration = (half / (S.KECEPATAN_RUNNING_TEXT||120)) + 's';
+}
+buildTicker();
+
+/* Jam & tanggal */
+function tick(){
+  const d = new Date();
+  $('time').innerHTML = pad(d.getHours()) + '<em>:</em>' + pad(d.getMinutes());
+  $('date').textContent = d.toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+}
+tick(); setInterval(tick, 1000);
+
+/* Kontrol: panah kiri/kanan = ganti section, Enter/klik = layar penuh */
+function tombol(k){
+  if(k==='ArrowRight') goto(cur+1);
+  else if(k==='ArrowLeft') goto(cur-1);
+  else if(k==='Enter') toggleFS();
+}
+addEventListener('keydown', e=>tombol(e.key));
+addEventListener('click', toggleFS);
+function toggleFS(){
+  if(!document.fullscreenElement) document.documentElement.requestFullscreen && document.documentElement.requestFullscreen();
+  else document.exitFullscreen && document.exitFullscreen();
+}
+
+goto(0);
+if(document.fonts && document.fonts.ready){ document.fonts.ready.then(buildTicker); }
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+/* Gaya bersama untuk semua section (jangan diubah kecuali ingin mengubah tampilan semuanya) */
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root{ --accent:#2dd4bf; --gold:#fbbf24; --ink:#f1f5f9; --mut:#94a3b8; }
+*{box-sizing:border-box;margin:0;padding:0}
+html{width:1920px;height:804px;overflow:hidden;background:transparent}
+body{
+  width:1920px;height:804px;overflow:hidden;position:relative;background:transparent;cursor:none;
+  font-family:'Plus Jakarta Sans','Segoe UI',system-ui,sans-serif;color:var(--ink);transform-origin:0 0;
+}
+/* Saat file section dibuka sendiri (untuk uji coba) */
+html.standalone{width:100%;height:100%;background:radial-gradient(120% 120% at 20% 0%,#10224a 0%,#08122a 45%,#050b1b 100%)}
+
+.ar-font{font-family:'Amiri','Noto Naskh Arabic','Traditional Arabic',serif}
+
+/* ===== Judul section ===== */
+.title{position:absolute;left:64px;right:64px;top:0;height:134px;display:flex;align-items:flex-end;justify-content:space-between;transition:opacity .5s,transform .5s}
+.title.out{opacity:0;transform:translateY(-24px)}
+.kicker{font-size:21px;font-weight:700;letter-spacing:.34em;text-transform:uppercase;color:var(--accent);line-height:1.2}
+.title h1{font-size:62px;font-weight:800;letter-spacing:-1.5px;line-height:1.08;margin-top:2px;white-space:nowrap}
+.title p{font-size:26px;color:var(--mut);margin-top:4px;font-weight:500}
+.t-ar{font-family:'Amiri','Noto Naskh Arabic',serif;font-size:100px;line-height:1.35;font-weight:700;
+  background:linear-gradient(90deg,#fde68a,#fbbf24 60%,#f59e0b);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 6px 30px rgba(251,191,36,.25));padding-bottom:4px}
+.title.run .kicker{animation:rise .8s .05s cubic-bezier(.2,.9,.25,1) backwards}
+.title.run h1{animation:rise .8s .15s cubic-bezier(.2,.9,.25,1) backwards}
+.title.run p{animation:rise .8s .25s cubic-bezier(.2,.9,.25,1) backwards}
+.title.run .t-ar{animation:arIn 1s .2s cubic-bezier(.2,.9,.25,1) backwards}
+@keyframes rise{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+@keyframes arIn{from{opacity:0;transform:translateX(-60px) scale(.9)}to{opacity:1;transform:none}}
+
+.progress{position:absolute;left:64px;right:64px;top:136px;height:5px;border-radius:3px;background:rgba(255,255,255,.1);overflow:hidden}
+.progress i{display:block;height:100%;width:0;border-radius:3px;background:linear-gradient(90deg,var(--accent),#fff);box-shadow:0 0 18px var(--accent)}
+@keyframes fill{from{width:0}to{width:100%}}
+
+/* ===== Area isi (di bawah judul) ===== */
+.area{position:absolute;left:64px;right:64px;top:160px;height:636px}
+
+/* ===== Kartu kaca ===== */
+.kartu{
+  position:relative;border-radius:34px;overflow:hidden;
+  background:linear-gradient(160deg,rgba(255,255,255,.12),rgba(255,255,255,.035));
+  border:1.5px solid rgba(255,255,255,.14);box-shadow:0 20px 50px -20px rgba(0,0,0,.6);
+}
+.kartu::before{content:'';position:absolute;left:0;right:0;top:0;height:7px;background:linear-gradient(90deg,transparent,var(--c,var(--accent)),transparent)}
+.kartu::after{content:'';position:absolute;right:-90px;top:-90px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,var(--c,var(--accent)),transparent 66%);opacity:.14}
+.kartu>*{position:relative;z-index:1}
+@keyframes masuk{from{opacity:0;transform:translateY(70px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes keluar{to{opacity:0;transform:translateY(-30px) scale(.97)}}
+@keyframes blink{50%{opacity:.25;transform:scale(.75)}}
