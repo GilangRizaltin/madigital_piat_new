@@ -262,59 +262,105 @@
       const DATA = [
         {
           kategori: "agama",
-          soal: "Ada berapa rukun Islam?",
-          pilihan: ["3", "4", "5", "6"],
+          soal: "Apa itu sholat secara bahasa?",
+          pilihan: ["Menahan diri", "Bersuci", "Doa", "Berkunjung"],
           benar: 2,
           penjelasan:
-            "Rukun Islam ada lima: syahadat, sholat, zakat, puasa Ramadhan, dan haji.",
-        },
-
-        {
-          kategori: "umum",
-          soal: "Planet terbesar di tata surya adalah…",
-          pilihan: ["Mars", "Jupiter", "Saturnus", "Bumi"],
-          benar: 1,
-          penjelasan:
-            "Jupiter adalah planet terbesar; diameternya sekitar 11 kali diameter Bumi.",
+            "Sholat berarti doa. Secara istilah: ibadah berupa ucapan dan gerakan, diawali takbir dan diakhiri salam.",
         },
 
         {
           kategori: "agama",
-          soal: "Surah pertama dalam Al-Qur’an adalah…",
-          pilihan: ["Al-Baqarah", "Al-Fatihah", "An-Nas", "Al-Ikhlas"],
+          soal: "Apa itu puasa secara bahasa?",
+          pilihan: ["Doa", "Menahan diri", "Bersedekah", "Berserah diri"],
           benar: 1,
-          penjelasan:
-            "Surah Al-Fatihah adalah surah pertama dan selalu dibaca dalam setiap rakaat sholat.",
-        },
-
-        {
-          kategori: "umum",
-          soal: "Organ yang memompa darah ke seluruh tubuh adalah…",
-          pilihan: ["Paru-paru", "Hati", "Jantung", "Ginjal"],
-          benar: 2,
-          penjelasan:
-            "Jantung memompa darah agar oksigen dan nutrisi sampai ke seluruh tubuh.",
+          penjelasan: "Puasa (shaum) secara bahasa berarti menahan diri.",
         },
 
         {
           kategori: "agama",
-          soal: "Berapa jumlah rakaat sholat Maghrib?",
-          pilihan: ["2", "3", "4", "5"],
-          benar: 1,
+          soal: "Apa itu puasa secara istilah?",
+          pilihan: [
+            "Tidak berbicara selama sehari penuh",
+            "Tidak makan dan minum siang dan malam",
+            "Tidak makan dan minum sampai waktu Dzuhur",
+            "Menahan pembatal puasa dari fajar sampai maghrib",
+          ],
+          benar: 3,
           penjelasan:
-            "Maghrib 3 rakaat. Subuh 2 rakaat; Dzuhur, Ashar, dan Isya masing-masing 4 rakaat.",
+            "Puasa menurut istilah: menahan diri dari pembatalnya sejak fajar hingga matahari terbenam, dengan niat karena Allah.",
+        },
+
+        {
+          kategori: "agama",
+          soal: "Apa hukum berhaji?",
+          pilihan: [
+            "Wajib sekali seumur hidup bagi yang mampu",
+            "Sunnah bagi setiap muslim",
+            "Wajib setiap tahun bagi yang mampu",
+            "Mubah (boleh dilakukan atau ditinggalkan)",
+          ],
+          benar: 0,
+          penjelasan:
+            "Haji adalah rukun Islam kelima, wajib sekali seumur hidup bagi yang mampu (QS. Ali Imran: 97).",
         },
 
         {
           kategori: "umum",
-          soal: "Gas yang dibutuhkan manusia untuk bernapas adalah…",
-          pilihan: ["Karbon dioksida", "Oksigen", "Hidrogen", "Helium"],
+          soal: "Bulan apa yang memiliki 28 hari?",
+          pilihan: [
+            "Hanya bulan Februari",
+            "Semua bulan",
+            "Hanya bulan Januari",
+            "Tidak ada satu pun",
+          ],
           benar: 1,
           penjelasan:
-            "Tubuh menghirup oksigen dan membuang karbon dioksida saat bernapas.",
+            "Semua bulan memiliki 28 hari atau lebih. Yang “hanya” 28 hari adalah Februari pada tahun biasa (bukan kabisat).",
+        },
+
+        {
+          kategori: "umum",
+          soal: "Apa itu internet?",
+          pilihan: [
+            "Program untuk menulis dokumen",
+            "Alat untuk menyimpan data di komputer",
+            "Jaringan global penghubung komputer sedunia",
+            "Aplikasi khusus untuk mengirim pesan",
+          ],
+          benar: 2,
+          penjelasan:
+            "Internet (interconnection networking): jaringan global yang menghubungkan jutaan perangkat untuk bertukar data.",
+        },
+
+        {
+          kategori: "umum",
+          soal: "Apa itu website?",
+          pilihan: [
+            "Kabel yang menghubungkan seluruh dunia",
+            "Perangkat keras untuk menyimpan data",
+            "Program untuk mengetik dokumen",
+            "Kumpulan halaman web yang dibuka lewat browser",
+          ],
+          benar: 3,
+          penjelasan:
+            "Website adalah kumpulan halaman web beralamat URL yang dibuka lewat browser. Internet jaringannya, website isinya.",
+        },
+
+        {
+          kategori: "umum",
+          soal: "Apa itu komputer?",
+          pilihan: [
+            "Mesin elektronik yang mengolah data jadi informasi",
+            "Alat tulis untuk menggambar",
+            "Jaringan yang menghubungkan dunia",
+            "Kumpulan halaman web",
+          ],
+          benar: 0,
+          penjelasan:
+            "Komputer menerima data (input), memprosesnya, menyimpannya, lalu menghasilkan informasi (output).",
         },
       ];
-
       /* ---------------- kode tampilan (tidak perlu diubah) ---------------- */
       const { $, esc, pad, wait } = Mading;
       Mading.init({ warna: "#fb923c", judul: "Kuis" });

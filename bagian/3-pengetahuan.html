@@ -212,89 +212,79 @@
       const DATA = [
         {
           kategori: "Teknologi",
-          ikon: "💻",
-          judul: "Apa itu Komputer?",
+          ikon: "🌐",
+          judul: "Apa itu Internet?",
           ringkas:
-            "Komputer adalah mesin elektronik yang menerima data, memprosesnya sesuai perintah (program), menyimpannya, lalu menghasilkan informasi yang berguna.",
-          langkahJudul: "Cara kerja komputer",
+            "Internet adalah jaringan global yang menghubungkan jutaan komputer dan perangkat di seluruh dunia sehingga dapat saling bertukar data.",
+          langkahJudul: "Cara kerja internet",
           langkah: [
+            ["Permintaan", "Kamu mengetik alamat website atau menekan tautan."],
             [
-              "Input",
-              "Data dimasukkan lewat keyboard, mouse, mikrofon, atau kamera.",
+              "Penyedia internet",
+              "Permintaan diteruskan oleh ISP lewat kabel atau sinyal.",
             ],
             [
-              "Proses",
-              "CPU (otak komputer) mengolah data sesuai perintah program.",
+              "Mencari alamat",
+              "DNS mengubah nama website menjadi alamat angka (IP) server.",
             ],
             [
-              "Simpan",
-              "Disimpan sementara di RAM dan permanen di SSD / hard disk.",
-            ],
-            [
-              "Output",
-              "Hasilnya ditampilkan lewat layar, speaker, atau printer.",
+              "Jawaban",
+              "Server mengirim data berupa paket kecil yang disusun jadi halaman.",
             ],
           ],
           fakta:
-            "Komputer hanya memahami dua angka, yaitu 0 dan 1, yang disebut bilangan biner.",
+            "Sebagian besar data internet antarbenua melewati kabel serat optik di dasar laut.",
         },
 
         {
-          kategori: "Otomotif",
-          ikon: "🚗",
-          judul: "Bagaimana Cara Kerja Mobil?",
+          kategori: "Fotografi",
+          ikon: "📷",
+          judul: "Bagaimana Cara Kerja Kamera?",
           ringkas:
-            "Mobil bensin digerakkan oleh mesin pembakaran dalam yang mengubah energi kimia bahan bakar menjadi gerak roda.",
-          langkahJudul: "Empat langkah mesin (4-tak)",
+            "Kamera menangkap cahaya yang dipantulkan oleh benda, lalu mengubahnya menjadi gambar yang dapat disimpan.",
+          langkahJudul: "Cara kerja kamera digital",
           langkah: [
             [
-              "Hisap",
-              "Piston turun dan menghisap campuran udara dengan bensin.",
-            ],
-            ["Kompresi", "Piston naik dan memampatkan campuran tersebut."],
-            [
-              "Usaha",
-              "Busi memercikkan api, campuran terbakar dan mendorong piston.",
+              "Cahaya masuk",
+              "Cahaya yang dipantulkan benda masuk melalui lensa.",
             ],
             [
-              "Buang",
-              "Piston naik lagi dan mendorong gas sisa pembakaran keluar.",
+              "Difokuskan",
+              "Lensa mengumpulkan dan memfokuskan cahaya ke sensor.",
+            ],
+            ["Sensor", "Sensor gambar mengubah cahaya menjadi sinyal listrik."],
+            [
+              "Diolah dan disimpan",
+              "Prosesor mengubah sinyal menjadi gambar digital dan menyimpannya.",
             ],
           ],
           fakta:
-            "Gerak naik-turun piston diubah menjadi putaran oleh poros engkol, lalu diteruskan ke roda.",
+            "Kata kamera berasal dari “camera obscura”, bahasa Latin yang berarti “ruang gelap”.",
         },
 
         {
-          kategori: "Alam",
-          ikon: "🌧️",
-          judul: "Bagaimana Hujan Terjadi?",
+          kategori: "Teknologi",
+          ikon: "📶",
+          judul: "Bagaimana Cara Kerja WiFi?",
           ringkas:
-            "Hujan adalah air yang jatuh dari awan ke bumi sebagai bagian dari siklus air yang terus berputar.",
-          langkahJudul: "Siklus air",
+            "WiFi adalah teknologi yang menghubungkan perangkat ke jaringan tanpa kabel dengan memakai gelombang radio.",
+          langkahJudul: "Cara kerja WiFi",
           langkah: [
+            ["Modem", "Modem menerima internet dari penyedia lewat kabel."],
+            ["Router", "Router memancarkan data sebagai gelombang radio."],
             [
-              "Penguapan",
-              "Panas matahari menguapkan air laut, sungai, dan danau.",
+              "Perangkat",
+              "Antena di HP atau laptop menerima gelombang radio itu.",
             ],
             [
-              "Kondensasi",
-              "Uap air naik, mendingin, lalu membentuk titik air di awan.",
-            ],
-            [
-              "Presipitasi",
-              "Titik air membesar lalu jatuh ke bumi sebagai hujan.",
-            ],
-            [
-              "Pengumpulan",
-              "Air mengalir ke sungai dan laut, lalu siklus berulang.",
+              "Dua arah",
+              "Perangkat mengirim data balik ke router dengan cara serupa.",
             ],
           ],
           fakta:
-            "Air hujan hari ini adalah air yang sama yang telah berputar di bumi selama jutaan tahun.",
+            "WiFi bekerja pada gelombang radio, umumnya pada frekuensi 2,4 GHz dan 5 GHz.",
         },
       ];
-
       /* ---------------- kode tampilan (tidak perlu diubah) ---------------- */
       const { $, esc, pad, wait } = Mading;
       Mading.init({ warna: "#a78bfa", judul: "Pengetahuan Umum" });
