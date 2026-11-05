@@ -1,86 +1,323 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-<meta charset="UTF-8">
-<title>Video Pengetahuan</title>
-<link rel="stylesheet" href="../aset/bagian.css">
-<style>
-:root{--accent:#a3e635}
+  <head>
+    <meta charset="UTF-8" />
+    <title>Video Pengetahuan</title>
+    <link rel="stylesheet" href="../aset/bagian.css" />
+    <style>
+      :root {
+        --accent: #a3e635;
+      }
 
-/* ===== video (portrait, kiri) ===== */
-.vkotak{position:absolute;left:64px;top:8px;width:443px;height:788px;border-radius:34px;overflow:hidden;background:#000;
-  border:1.5px solid rgba(255,255,255,.2);box-shadow:0 24px 70px -20px rgba(0,0,0,.75),0 0 0 2px rgba(163,230,53,.25);
-  animation:masuk 1s cubic-bezier(.2,.9,.25,1) backwards}
-.vkotak video{display:block;width:100%;height:100%;object-fit:contain;background:#000}
-.vkotak .pesan{white-space:pre-line;position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;padding:40px;font-size:30px;font-weight:700;line-height:1.4;color:#fde68a;background:rgba(5,11,27,.92)}
-.vkotak.galat .pesan{display:flex}
-.vkotak .lencana{position:absolute;left:18px;top:18px;display:inline-flex;align-items:center;gap:10px;padding:7px 18px 7px 12px;border-radius:30px;background:rgba(5,11,27,.72);font-size:19px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
-.vkotak .kredit{position:absolute;left:16px;bottom:16px;max-width:calc(100% - 32px);padding:8px 18px;border-radius:30px;background:rgba(5,11,27,.78);font-size:19px;font-weight:700;color:#e2e8f0;letter-spacing:.01em;white-space:nowrap}
-.vkotak .kredit b{color:var(--accent);font-weight:800}
-.vkotak .suara{position:absolute;right:16px;top:16px;padding:7px 16px;border-radius:30px;background:rgba(5,11,27,.78);font-size:19px;font-weight:700;color:#fde68a;display:none}
-.vkotak .suara.tampil{display:block}
-.vkotak .lencana i{width:12px;height:12px;border-radius:50%;background:#ef4444;animation:blink 1.2s ease-in-out infinite}
+      /* ===== video (portrait, kiri) ===== */
+      .vkotak {
+        position: absolute;
+        left: 64px;
+        top: 8px;
+        width: 443px;
+        height: 788px;
+        border-radius: 34px;
+        overflow: hidden;
+        background: #000;
+        border: 1.5px solid rgba(255, 255, 255, 0.2);
+        box-shadow:
+          0 24px 70px -20px rgba(0, 0, 0, 0.75),
+          0 0 0 2px rgba(163, 230, 53, 0.25);
+        animation: masuk 1s cubic-bezier(0.2, 0.9, 0.25, 1) backwards;
+      }
+      .vkotak video {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: #000;
+      }
+      .vkotak .pesan {
+        white-space: pre-line;
+        position: absolute;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 40px;
+        font-size: 30px;
+        font-weight: 700;
+        line-height: 1.4;
+        color: #fde68a;
+        background: rgba(5, 11, 27, 0.92);
+      }
+      .vkotak.galat .pesan {
+        display: flex;
+      }
+      .vkotak .lencana {
+        position: absolute;
+        left: 18px;
+        top: 18px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 7px 18px 7px 12px;
+        border-radius: 30px;
+        background: rgba(5, 11, 27, 0.72);
+        font-size: 19px;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      .vkotak .kredit {
+        position: absolute;
+        left: 16px;
+        bottom: 16px;
+        max-width: calc(100% - 32px);
+        padding: 8px 18px;
+        border-radius: 30px;
+        background: rgba(5, 11, 27, 0.78);
+        font-size: 19px;
+        font-weight: 700;
+        color: #e2e8f0;
+        letter-spacing: 0.01em;
+        white-space: nowrap;
+      }
+      .vkotak .kredit b {
+        color: var(--accent);
+        font-weight: 800;
+      }
+      .vkotak .suara {
+        position: absolute;
+        right: 16px;
+        top: 16px;
+        padding: 7px 16px;
+        border-radius: 30px;
+        background: rgba(5, 11, 27, 0.78);
+        font-size: 19px;
+        font-weight: 700;
+        color: #fde68a;
+        display: none;
+      }
+      .vkotak .suara.tampil {
+        display: block;
+      }
+      .vkotak .lencana i {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #ef4444;
+        animation: blink 1.2s ease-in-out infinite;
+      }
 
-/* ===== kolom kanan: judul + kesimpulan ===== */
-.kanan{position:absolute;left:547px;right:64px;top:0;bottom:0}
-.kanan .title{left:0;right:0}
-.kanan .progress{left:0;right:0}
-.kanan .progress i{transition:width .35s linear}
-.kanan .area{left:0;right:0}
+      /* ===== kolom kanan: judul + kesimpulan ===== */
+      .kanan {
+        position: absolute;
+        left: 547px;
+        right: 64px;
+        top: 0;
+        bottom: 0;
+      }
+      .kanan .title {
+        left: 0;
+        right: 0;
+      }
+      .kanan .progress {
+        left: 0;
+        right: 0;
+      }
+      .kanan .progress i {
+        transition: width 0.35s linear;
+      }
+      .kanan .area {
+        left: 0;
+        right: 0;
+      }
 
-#grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(var(--baris,3),1fr) auto;gap:16px}
-.area.out>*{animation:keluar .6s cubic-bezier(.5,0,.8,.3) forwards}
+      #grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(var(--baris, 3), 1fr) auto;
+        gap: 16px;
+      }
+      .area.out > * {
+        animation: keluar 0.6s cubic-bezier(0.5, 0, 0.8, 0.3) forwards;
+      }
 
-.lg{padding:18px 24px 16px;display:flex;flex-direction:column;justify-content:center;gap:3px;--c:#a3e635;
-  transition:opacity .6s,transform .6s,box-shadow .6s,border-color .6s,background .6s;
-  animation:masuk .9s cubic-bezier(.2,.9,.25,1) backwards;animation-delay:calc(var(--i)*.12s + .4s)}
-.lg-chip{display:flex;align-items:center;gap:12px;font-size:19px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#fda4af}
-.lg-no{flex:none;width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.14);color:#fff;font-size:20px;letter-spacing:0;transition:all .5s}
-.lg-solusi{font-size:40px;font-weight:800;letter-spacing:-.8px;line-height:1.12;color:#fff;transition:color .5s}
-.lg-isi{font-size:23px;line-height:1.3;font-weight:500;color:#cbd5e1}
-.lg-cek{position:absolute;right:18px;top:16px;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--c);color:#0b1020;font-size:24px;font-weight:800;opacity:0;transform:scale(.4);transition:all .5s}
+      .lg {
+        padding: 18px 24px 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 3px;
+        --c: #a3e635;
+        transition:
+          opacity 0.6s,
+          transform 0.6s,
+          box-shadow 0.6s,
+          border-color 0.6s,
+          background 0.6s;
+        animation: masuk 0.9s cubic-bezier(0.2, 0.9, 0.25, 1) backwards;
+        animation-delay: calc(var(--i) * 0.12s + 0.4s);
+      }
+      .lg-chip {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 19px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #fda4af;
+      }
+      .lg-no {
+        flex: none;
+        width: 34px;
+        height: 34px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.14);
+        color: #fff;
+        font-size: 20px;
+        letter-spacing: 0;
+        transition: all 0.5s;
+      }
+      .lg-solusi {
+        font-size: 40px;
+        font-weight: 800;
+        letter-spacing: -0.8px;
+        line-height: 1.12;
+        color: #fff;
+        transition: color 0.5s;
+      }
+      .lg-isi {
+        font-size: 23px;
+        line-height: 1.3;
+        font-weight: 500;
+        color: #cbd5e1;
+      }
+      .lg-cek {
+        position: absolute;
+        right: 18px;
+        top: 16px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: var(--c);
+        color: #0b1020;
+        font-size: 24px;
+        font-weight: 800;
+        opacity: 0;
+        transform: scale(0.4);
+        transition: all 0.5s;
+      }
 
-.lg.selesai{opacity:.7}
-.lg.selesai .lg-cek{opacity:1;transform:none}
-.lg.belum{opacity:.45}
-.lg.aktif{transform:scale(1.025);border-color:var(--c);background:linear-gradient(160deg,rgba(163,230,53,.22),rgba(255,255,255,.05));box-shadow:0 0 0 2px var(--c),0 26px 80px -20px var(--c);z-index:2}
-.lg.aktif .lg-no{background:var(--c);color:#0b1020}
-.lg.aktif .lg-solusi{color:#ecfccb}
+      .lg.selesai {
+        opacity: 0.7;
+      }
+      .lg.selesai .lg-cek {
+        opacity: 1;
+        transform: none;
+      }
+      .lg.belum {
+        opacity: 0.45;
+      }
+      .lg.aktif {
+        transform: scale(1.025);
+        border-color: var(--c);
+        background: linear-gradient(
+          160deg,
+          rgba(163, 230, 53, 0.22),
+          rgba(255, 255, 255, 0.05)
+        );
+        box-shadow:
+          0 0 0 2px var(--c),
+          0 26px 80px -20px var(--c);
+        z-index: 2;
+      }
+      .lg.aktif .lg-no {
+        background: var(--c);
+        color: #0b1020;
+      }
+      .lg.aktif .lg-solusi {
+        color: #ecfccb;
+      }
 
-.penutup{grid-column:1/-1;display:flex;align-items:center;gap:20px;padding:0 28px;height:72px;border-radius:26px;background:rgba(251,191,36,.12);border:1.5px solid rgba(251,191,36,.4);
-  font-size:27px;font-weight:700;color:#fde68a;transition:all .6s;animation:masuk .9s 1.4s cubic-bezier(.2,.9,.25,1) backwards}
-.penutup b{font-size:36px;font-weight:400}
-.penutup.aktif{background:rgba(251,191,36,.28);border-color:var(--gold);box-shadow:0 0 0 2px var(--gold);color:#fff}
+      .penutup {
+        grid-column: 1/-1;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 0 28px;
+        height: 72px;
+        border-radius: 26px;
+        background: rgba(251, 191, 36, 0.12);
+        border: 1.5px solid rgba(251, 191, 36, 0.4);
+        font-size: 27px;
+        font-weight: 700;
+        color: #fde68a;
+        transition: all 0.6s;
+        animation: masuk 0.9s 1.4s cubic-bezier(0.2, 0.9, 0.25, 1) backwards;
+      }
+      .penutup b {
+        font-size: 36px;
+        font-weight: 400;
+      }
+      .penutup.aktif {
+        background: rgba(251, 191, 36, 0.28);
+        border-color: var(--gold);
+        box-shadow: 0 0 0 2px var(--gold);
+        color: #fff;
+      }
 
-/* ===== mode ringan ===== */
-.ringan .vkotak{box-shadow:none}
-.ringan .vkotak .lencana i{animation:none}
-.ringan .lg.aktif{box-shadow:0 0 0 3px var(--c)!important}
-.ringan .penutup.aktif{box-shadow:0 0 0 3px var(--gold)}
-</style>
-</head>
-<body>
+      /* ===== mode ringan ===== */
+      .ringan .vkotak {
+        box-shadow: none;
+      }
+      .ringan .vkotak .lencana i {
+        animation: none;
+      }
+      .ringan .lg.aktif {
+        box-shadow: 0 0 0 3px var(--c) !important;
+      }
+      .ringan .penutup.aktif {
+        box-shadow: 0 0 0 3px var(--gold);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="vkotak" id="vkotak">
+      <video
+        id="v"
+        muted
+        playsinline
+        preload="auto"
+        disablepictureinpicture
+      ></video>
+      <div class="lencana"><i></i>Video</div>
+      <div class="suara" id="suara">🔇 Tanpa suara</div>
+      <div class="kredit" id="kredit"></div>
+      <div class="pesan" id="pesan"></div>
+    </div>
 
-<div class="vkotak" id="vkotak">
-  <video id="v" muted playsinline preload="auto" disablepictureinpicture></video>
-  <div class="lencana"><i></i>Video</div>
-  <div class="suara" id="suara">🔇 Tanpa suara</div>
-  <div class="kredit" id="kredit"></div>
-  <div class="pesan" id="pesan"></div>
-</div>
+    <div class="kanan">
+      <section class="title" id="title">
+        <div>
+          <div class="kicker" id="kicker"></div>
+          <h1 id="tTitle"></h1>
+          <p id="tSub"></p>
+        </div>
+        <div class="t-ar" id="tAr" lang="ar" dir="rtl"></div>
+      </section>
+      <div class="progress"><i id="bar"></i></div>
+      <main class="area" id="area">
+        <div id="grid" style="height: 100%"></div>
+      </main>
+    </div>
 
-<div class="kanan">
-  <section class="title" id="title">
-    <div><div class="kicker" id="kicker"></div><h1 id="tTitle"></h1><p id="tSub"></p></div>
-    <div class="t-ar" id="tAr" lang="ar" dir="rtl"></div>
-  </section>
-  <div class="progress"><i id="bar"></i></div>
-  <main class="area" id="area"><div id="grid" style="height:100%"></div></main>
-</div>
-
-<script src="../aset/bagian.js"></script>
-<script>
-/* =====================================================================
+    <script src="../aset/bagian.js"></script>
+    <script>
+      /* =====================================================================
    VIDEO ILMU PENGETAHUAN + KESIMPULAN
    Cara ganti isi (tiap ada video baru):
      1. Simpan videonya di folder  "video"  (sejajar dengan folder "bagian"),
@@ -98,119 +335,201 @@
    Isi di bawah dibuat dari tampilan video (bukan dari suaranya), jadi
    mohon diperiksa ulang oleh guru sebelum tayang.
    ===================================================================== */
-const VIDEO  = '../video/bikin-gedung.mp4';
-const SUARA  = true;       // true = dengan suara; false = dibisukan. Bila browser memblokir suara otomatis, video tetap jalan
-                           // tanpa suara dan muncul tulisan "Tanpa suara" (lihat CARA-UPDATE / penjelasan izin suara)
-const VOLUME = 1;          // 0 sampai 1 (1 = penuh). Volume TV tetap diatur dari remote TV
-const SUMBER = '© Video: Instagram <b>@kalbota</b>';   // kredit pemilik video (tampil di atas video). Kosongkan '' bila tidak perlu
-const JUDUL  = 'Bikin Gedung dari Nol';
-const SUB    = 'Kesimpulan: 6 masalah, 6 solusi';
-const ARAB   = 'الْبِنَاءُ';          // tulisan Arab di kanan atas judul (boleh diganti)
+      const VIDEO = "../video/bikin-gedung.mp4";
+      const SUARA = true; // true = dengan suara; false = dibisukan. Bila browser memblokir suara otomatis, video tetap jalan
+      // tanpa suara dan muncul tulisan "Tanpa suara" (lihat CARA-UPDATE / penjelasan izin suara)
+      const VOLUME = 1; // 0 sampai 1 (1 = penuh). Volume TV tetap diatur dari remote TV
+      const SUMBER = "© Video: Instagram <b>@kalbotau</b>"; // kredit pemilik video (tampil di atas video). Kosongkan '' bila tidak perlu
+      const JUDUL = "Bikin Gedung dari Nol";
+      const SUB = "Kesimpulan: 6 masalah, 6 solusi";
+      const ARAB = "الْبِنَاءُ"; // tulisan Arab di kanan atas judul (boleh diganti)
 
-const LANGKAH = [
-  { masalah:'Roboh', solusi:'Rangka beton', mulai:2.5,
-    isi:'Beban dipikul kolom, balok, dan pelat lantai yang dipasang lantai demi lantai, bukan oleh tembok.' },
-  { masalah:'Balok melendut', solusi:'Beton bertulang', mulai:17,
-    isi:'Bagian bawah balok tertarik dan retak. Besi tulangan menahan tarikan, beton menahan tekanan.' },
-  { masalah:'Gedung miring', solusi:'Fondasi rakit bertiang', mulai:38,
-    isi:'Fondasi yang lebar dan tiang ke dalam tanah membuat gedung turun lebih rata, tidak miring.' },
-  { masalah:'Berayun kena angin', solusi:'Inti gedung', mulai:56,
-    isi:'Inti di tengah gedung membuat bangunan jauh lebih kaku sehingga tidak mudah berayun.' },
-  { masalah:'Gempa', solusi:'Sengkang rapat', mulai:71,
-    isi:'Sengkang (pengikat besi) dipasang rapat di ujung kolom dan balok agar tidak hancur saat gempa.' },
-  { masalah:'Angin kencang di atas', solusi:'Tiga sayap + berundak', mulai:92,
-    isi:'Bentuk gedung dibuat tiga sayap dan mengecil ke atas untuk mengurangi tekanan angin.' }
-];
-/* kalimat penutup (hapus isinya '' bila tidak diperlukan) */
-const PENUTUP = { ikon:'🏆', isi:'Rahasianya: Burj Khalifa (828 m), gedung tertinggi dunia, memakai prinsip-prinsip ini.', mulai:119 };
+      const LANGKAH = [
+        {
+          masalah: "Roboh",
+          solusi: "Rangka beton",
+          mulai: 2.5,
+          isi: "Beban dipikul kolom, balok, dan pelat lantai yang dipasang lantai demi lantai, bukan oleh tembok.",
+        },
+        {
+          masalah: "Balok melendut",
+          solusi: "Beton bertulang",
+          mulai: 17,
+          isi: "Bagian bawah balok tertarik dan retak. Besi tulangan menahan tarikan, beton menahan tekanan.",
+        },
+        {
+          masalah: "Gedung miring",
+          solusi: "Fondasi rakit bertiang",
+          mulai: 38,
+          isi: "Fondasi yang lebar dan tiang ke dalam tanah membuat gedung turun lebih rata, tidak miring.",
+        },
+        {
+          masalah: "Berayun kena angin",
+          solusi: "Inti gedung",
+          mulai: 56,
+          isi: "Inti di tengah gedung membuat bangunan jauh lebih kaku sehingga tidak mudah berayun.",
+        },
+        {
+          masalah: "Gempa",
+          solusi: "Sengkang rapat",
+          mulai: 71,
+          isi: "Sengkang (pengikat besi) dipasang rapat di ujung kolom dan balok agar tidak hancur saat gempa.",
+        },
+        {
+          masalah: "Angin kencang di atas",
+          solusi: "Tiga sayap + berundak",
+          mulai: 92,
+          isi: "Bentuk gedung dibuat tiga sayap dan mengecil ke atas untuk mengurangi tekanan angin.",
+        },
+      ];
+      /* kalimat penutup (hapus isinya '' bila tidak diperlukan) */
+      const PENUTUP = {
+        ikon: "🏆",
+        isi: "Rahasianya: Burj Khalifa (828 m), gedung tertinggi dunia, memakai prinsip-prinsip ini.",
+        mulai: 119,
+      };
 
-/* ---------------- kode tampilan (tidak perlu diubah) ---------------- */
-const { $, esc, wait } = Mading;
-Mading.init({ warna:'#a3e635', judul:'Video Pengetahuan' });
+      /* ---------------- kode tampilan (tidak perlu diubah) ---------------- */
+      const { $, esc, wait } = Mading;
+      Mading.init({ warna: "#a3e635", judul: "Video Pengetahuan" });
 
-Mading.mulai(async () => {
-  Mading.judul({ kicker:'Pengetahuan · Video', judul:JUDUL, sub:SUB, arab:ARAB });
-  const v = $('v'), area = $('area'), grid = $('grid'), bar = $('bar'), kotak = $('vkotak');
+      Mading.mulai(async () => {
+        Mading.judul({
+          kicker: "Pengetahuan · Video",
+          judul: JUDUL,
+          sub: SUB,
+          arab: ARAB,
+        });
+        const v = $("v"),
+          area = $("area"),
+          grid = $("grid"),
+          bar = $("bar"),
+          kotak = $("vkotak");
 
-  grid.style.setProperty('--baris', Math.ceil(LANGKAH.length/2));
-  grid.innerHTML = LANGKAH.map((l,i)=>`
+        grid.style.setProperty("--baris", Math.ceil(LANGKAH.length / 2));
+        grid.innerHTML =
+          LANGKAH.map(
+            (l, i) => `
     <article class="kartu lg" style="--i:${i}" id="lg${i}">
       <div class="lg-cek">✓</div>
-      <div class="lg-chip"><span class="lg-no">${i+1}</span>Masalah: ${esc(l.masalah)}</div>
+      <div class="lg-chip"><span class="lg-no">${i + 1}</span>Masalah: ${esc(l.masalah)}</div>
       <div class="lg-solusi">${esc(l.solusi)}</div>
       <div class="lg-isi">${esc(l.isi)}</div>
-    </article>`).join('') +
-    (PENUTUP.isi ? `<div class="penutup" id="penutup"><b>${esc(PENUTUP.ikon)}</b><span>${esc(PENUTUP.isi)}</span></div>` : '');
+    </article>`,
+          ).join("") +
+          (PENUTUP.isi
+            ? `<div class="penutup" id="penutup"><b>${esc(PENUTUP.ikon)}</b><span>${esc(PENUTUP.isi)}</span></div>`
+            : "");
 
-  let mulaiMs = LANGKAH.map(l => l.mulai);
-  let sedangSelesai = false, aktif = -2, adaPutar = false;
+        let mulaiMs = LANGKAH.map((l) => l.mulai);
+        let sedangSelesai = false,
+          aktif = -2,
+          adaPutar = false;
 
-  function bagiRata(){
-    if(mulaiMs.every(x => typeof x === 'number')) return;
-    const d = v.duration || 60, n = LANGKAH.length + (PENUTUP.isi ? 1 : 0);
-    mulaiMs = LANGKAH.map((_,i)=> d/n*i);
-    if(PENUTUP.isi) PENUTUP.mulai = d/n*LANGKAH.length;
-  }
+        function bagiRata() {
+          if (mulaiMs.every((x) => typeof x === "number")) return;
+          const d = v.duration || 60,
+            n = LANGKAH.length + (PENUTUP.isi ? 1 : 0);
+          mulaiMs = LANGKAH.map((_, i) => (d / n) * i);
+          if (PENUTUP.isi) PENUTUP.mulai = (d / n) * LANGKAH.length;
+        }
 
-  function tandai(t){
-    let idx = -1;
-    mulaiMs.forEach((m,i)=>{ if(typeof m==='number' && t >= m) idx = i; });
-    const pen = PENUTUP.isi && typeof PENUTUP.mulai==='number' && t >= PENUTUP.mulai;
-    const kode = pen ? 'p' : idx;
-    if(kode === aktif) return;
-    aktif = kode;
-    LANGKAH.forEach((_,i)=>{
-      const el = $('lg'+i);
-      el.classList.remove('aktif','selesai','belum');
-      if(idx < 0 && !pen) return;                    // sebelum topik pertama: semua netral
-      if(pen || i < idx) el.classList.add('selesai');
-      else if(i === idx) el.classList.add('aktif');
-      else el.classList.add('belum');
-    });
-    const p = $('penutup'); if(p) p.classList.toggle('aktif', !!pen);
-  }
+        function tandai(t) {
+          let idx = -1;
+          mulaiMs.forEach((m, i) => {
+            if (typeof m === "number" && t >= m) idx = i;
+          });
+          const pen =
+            PENUTUP.isi &&
+            typeof PENUTUP.mulai === "number" &&
+            t >= PENUTUP.mulai;
+          const kode = pen ? "p" : idx;
+          if (kode === aktif) return;
+          aktif = kode;
+          LANGKAH.forEach((_, i) => {
+            const el = $("lg" + i);
+            el.classList.remove("aktif", "selesai", "belum");
+            if (idx < 0 && !pen) return; // sebelum topik pertama: semua netral
+            if (pen || i < idx) el.classList.add("selesai");
+            else if (i === idx) el.classList.add("aktif");
+            else el.classList.add("belum");
+          });
+          const p = $("penutup");
+          if (p) p.classList.toggle("aktif", !!pen);
+        }
 
-  v.addEventListener('loadedmetadata', bagiRata);
-  v.addEventListener('playing', () => { adaPutar = true; });
-  v.addEventListener('timeupdate', () => {
-    if(v.duration) bar.style.width = (v.currentTime / v.duration * 100) + '%';
-    tandai(v.currentTime);
-  });
+        v.addEventListener("loadedmetadata", bagiRata);
+        v.addEventListener("playing", () => {
+          adaPutar = true;
+        });
+        v.addEventListener("timeupdate", () => {
+          if (v.duration)
+            bar.style.width = (v.currentTime / v.duration) * 100 + "%";
+          tandai(v.currentTime);
+        });
 
-  function gagal(teks){
-    $('pesan').innerHTML = esc(teks);
-    kotak.classList.add('galat');
-    sedangSelesai = true;
-  }
-  v.addEventListener('error', () => gagal('Video belum ditemukan.\nSimpan file di: ' + VIDEO.replace('../','')));
+        function gagal(teks) {
+          $("pesan").innerHTML = esc(teks);
+          kotak.classList.add("galat");
+          sedangSelesai = true;
+        }
+        v.addEventListener("error", () =>
+          gagal(
+            "Video belum ditemukan.\nSimpan file di: " +
+              VIDEO.replace("../", ""),
+          ),
+        );
 
-  /* kredit pemilik video */
-  if(SUMBER) $('kredit').innerHTML = SUMBER; else $('kredit').style.display = 'none';
+        /* kredit pemilik video */
+        if (SUMBER) $("kredit").innerHTML = SUMBER;
+        else $("kredit").style.display = "none";
 
-  /* mulai putar (dengan suara bila diizinkan browser) */
-  v.src = VIDEO;
-  v.volume = VOLUME;
-  v.muted = !SUARA;
-  const tandaiSuara = () => $('suara').classList.toggle('tampil', SUARA && v.muted);
-  const p = v.play();
-  if(p && p.catch) p.catch(() => { v.muted = true; v.play().catch(()=>{}); tandaiSuara(); });
-  v.addEventListener('volumechange', tandaiSuara);
-  setTimeout(tandaiSuara, 1500);
+        /* mulai putar (dengan suara bila diizinkan browser) */
+        v.src = VIDEO;
+        v.volume = VOLUME;
+        v.muted = !SUARA;
+        const tandaiSuara = () =>
+          $("suara").classList.toggle("tampil", SUARA && v.muted);
+        const p = v.play();
+        if (p && p.catch)
+          p.catch(() => {
+            v.muted = true;
+            v.play().catch(() => {});
+            tandaiSuara();
+          });
+        v.addEventListener("volumechange", tandaiSuara);
+        setTimeout(tandaiSuara, 1500);
 
-  /* selesai: video habis / video gagal / tidak mau mulai */
-  await new Promise(res => {
-    v.addEventListener('ended', res);
-    const cek = setInterval(() => { if(sedangSelesai){ clearInterval(cek); res(); } }, 500);
-    setTimeout(() => { if(!adaPutar){ clearInterval(cek); gagal('Video tidak bisa diputar.'); res(); } }, 20000);
-  });
+        /* selesai: video habis / video gagal / tidak mau mulai */
+        await new Promise((res) => {
+          v.addEventListener("ended", res);
+          const cek = setInterval(() => {
+            if (sedangSelesai) {
+              clearInterval(cek);
+              res();
+            }
+          }, 500);
+          setTimeout(() => {
+            if (!adaPutar) {
+              clearInterval(cek);
+              gagal("Video tidak bisa diputar.");
+              res();
+            }
+          }, 20000);
+        });
 
-  if(!sedangSelesai){ bar.style.width = '100%'; tandai(1e9); await wait(4000); }
-  else await wait(6000);
-  area.classList.add('out'); $('title').classList.add('out');
-  kotak.style.transition = 'opacity .6s'; kotak.style.opacity = 0;
-  await wait(700);
-  Mading.selesai();
-});
-</script>
-</body>
+        if (!sedangSelesai) {
+          bar.style.width = "100%";
+          tandai(1e9);
+          await wait(4000);
+        } else await wait(6000);
+        area.classList.add("out");
+        $("title").classList.add("out");
+        kotak.style.transition = "opacity .6s";
+        kotak.style.opacity = 0;
+        await wait(700);
+        Mading.selesai();
+      });
+    </script>
+  </body>
 </html>

@@ -230,6 +230,22 @@
         opacity: 0;
       }
 
+      /* section layar penuh (intro): sembunyikan header, footer, vignette */
+      header,
+      footer,
+      .vignette {
+        transition: opacity 0.5s;
+      }
+      #stage.penuh header,
+      #stage.penuh footer,
+      #stage.penuh .vignette {
+        opacity: 0;
+      }
+      #stage.penuh #frame {
+        top: 0;
+        height: 1080px;
+      }
+
       /* ===== HEADER (logo kiri atas) ===== */
       header {
         position: absolute;
@@ -600,7 +616,8 @@
 
       /* Titik navigasi */
       const dots = $("dots");
-      BAGIAN.forEach(() => dots.appendChild(document.createElement("i")));
+      const TAMPAK = BAGIAN.filter((b) => !b.penuh); // intro tidak dihitung di titik & nomor
+      TAMPAK.forEach(() => dots.appendChild(document.createElement("i")));
 
       function setWarna(w) {
         if (w) stage.style.setProperty("--accent", w);
@@ -614,11 +631,16 @@
         cur = (i + n) % n;
         const b = BAGIAN[cur];
         setWarna(b.warna);
-        $("secLabel").textContent = b.label || "";
-        [...dots.children].forEach((d, k) =>
-          d.classList.toggle("on", k === cur),
-        );
-        $("counter").innerHTML = pad(cur + 1) + " <em>/ " + pad(n) + "</em>";
+        stage.classList.toggle("penuh", !!b.penuh);
+        const k = TAMPAK.indexOf(b);
+        if (k >= 0) {
+          $("secLabel").textContent = b.label || "";
+          [...dots.children].forEach((d, j) =>
+            d.classList.toggle("on", j === k),
+          );
+          $("counter").innerHTML =
+            pad(k + 1) + " <em>/ " + pad(TAMPAK.length) + "</em>";
+        }
         frame.onload = () => {
           frame.classList.remove("out");
           maksT = setTimeout(() => goto(cur + 1), (b.maks || 180) * 1000); // pengaman bila section macet

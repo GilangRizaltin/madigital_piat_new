@@ -16,7 +16,7 @@ window.PENGATURAN = {
 
   /* ---------- LOGO (kiri atas) ---------- */
   NAMA_PROYEK : 'Majalah Digital PIAT 12 Riau',  // ditampilkan di tab browser
-  SKALA : 0.92,    // 1 = pas layar. Kecilkan (0.85, 0.8, ...) sampai semua tepi terlihat
+  SKALA : 0.94,    // 1 = pas layar. Kecilkan (0.85, 0.8, ...) sampai semua tepi terlihat
   SUB_NAMA    : 'Pesantren Islam Al Irsyad Tengaran 12 Riau',  // tulisan di bawah logo
   LOGO_TEKS   : '١٢',        // tulisan di kotak logo bila belum ada gambar
   LOGO_GAMBAR : 'https://psb.pesantrenalirsyadriau.org/logoalirsyad.png',          // isi mis. 'aset/logo.png' untuk memakai logo asli
@@ -39,6 +39,7 @@ window.PENGATURAN = {
      maks  : batas waktu maksimal (detik) bila sebuah section macet
      Hapus satu baris bila ingin menyembunyikan section itu. */
   BAGIAN : [
+   { file:'0-intro.html', label:'Intro', warna:'#029a65', penuh:true, maks:60 },
     { file:'1-nasehat.html',       label:'Nasehat & Dalil',  warna:'#34d399', maks:300 },
     { file:'2-kosakata.html',      label:'Kosakata',         warna:'#38bdf8', maks:300 },
     { file:'3-pengetahuan.html',   label:'Pengetahuan Umum', warna:'#a78bfa', maks:300 },
@@ -49,5 +50,5 @@ window.PENGATURAN = {
 
   /* Halaman utama dimuat ulang otomatis setiap sekian menit (di sela pergantian
      section), agar perubahan file ikut terbaca tanpa menyentuh TV. */
-  MUAT_ULANG_MENIT : 60      // 0 = tidak pernah. Di TV, muat ulang berkala membersihkan memori browser
+  MUAT_ULANG_MENIT : 30      // 0 = tidak pernah. Di TV, muat ulang berkala membersihkan memori browser
 };

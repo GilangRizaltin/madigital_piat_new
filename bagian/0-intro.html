@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Intro PIAT RIAU</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --k: 1;
+        --hijau: #029a65;
+        --lime: #c3e161;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #fff;
+        cursor: none;
+      }
+      html.standalone,
+      html.standalone body {
+        width: 100%;
+        height: 100%;
+      }
+      body {
+        position: relative;
+        font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
+      }
+      #kanvas {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        transform-origin: 0 0;
+        background: #fff;
+      }
+
+      /* ===== LATAR WARNA (mengembang dari tengah) ===== */
+      #warna {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        clip-path: circle(0% at 50% 50%);
+        background: linear-gradient(135deg, var(--hijau) 0%, var(--lime) 100%);
+        transition: clip-path calc(var(--k) * 2200ms)
+          cubic-bezier(0.65, 0, 0.25, 1);
+      }
+      #warna.buka {
+        clip-path: circle(80% at 50% 50%);
+      }
+      .blob {
+        position: absolute;
+        width: 1500px;
+        height: 1500px;
+        border-radius: 50%;
+        will-change: transform;
+      }
+      .b1 {
+        left: -420px;
+        top: -520px;
+        background: radial-gradient(
+          circle,
+          rgba(195, 225, 97, 0.95),
+          rgba(195, 225, 97, 0) 68%
+        );
+      }
+      .b2 {
+        right: -480px;
+        bottom: -560px;
+        background: radial-gradient(
+          circle,
+          rgba(4, 136, 90, 0.95),
+          rgba(2, 154, 101, 0) 68%
+        );
+      }
+      .b3 {
+        left: 25%;
+        top: 5%;
+        width: 1200px;
+        height: 1200px;
+        background: radial-gradient(
+          circle,
+          rgba(111, 165, 53, 0.8),
+          rgba(150, 205, 90, 0) 68%
+        );
+      }
+      .jalan .b1 {
+        animation: g1 16s ease-in-out infinite alternate;
+      }
+      .jalan .b2 {
+        animation: g2 19s ease-in-out infinite alternate;
+      }
+      .jalan .b3 {
+        animation: g3 22s ease-in-out infinite alternate;
+      }
+      @keyframes g1 {
+        to {
+          transform: translate(520px, 300px) scale(1.15);
+        }
+      }
+      @keyframes g2 {
+        to {
+          transform: translate(-560px, -260px) scale(1.2);
+        }
+      }
+      @keyframes g3 {
+        to {
+          transform: translate(-380px, 330px) scale(0.9);
+        }
+      }
+
+      /* ===== FOTO (tepi memudar = menyatu dengan latar) ===== */
+      .foto {
+        position: absolute;
+        aspect-ratio: 3/2;
+        opacity: 0;
+        mix-blend-mode: var(--blend, normal);
+        transform: translate(-50%, -50%) rotate(var(--r, 0deg)) scale(0.9);
+        -webkit-mask-image: radial-gradient(
+          closest-side,
+          #000 34%,
+          rgba(0, 0, 0, 0.55) 62%,
+          transparent 100%
+        );
+        mask-image: radial-gradient(
+          closest-side,
+          #000 34%,
+          rgba(0, 0, 0, 0.55) 62%,
+          transparent 100%
+        );
+        transition:
+          opacity calc(var(--k) * 2600ms) ease,
+          transform calc(var(--k) * 3600ms) cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+      .foto.tampil {
+        opacity: var(--o, 0.62);
+        transform: translate(-50%, -50%) rotate(var(--r, 0deg)) scale(1);
+      }
+      .foto img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        animation: kb 20s ease-in-out infinite alternate;
+      }
+      @keyframes kb {
+        from {
+          transform: scale(1) translate(0, 0);
+        }
+        to {
+          transform: scale(1.1) translate(-2%, 1.5%);
+        }
+      }
+
+      /* ===== TEKS ===== */
+      #pusat {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 5;
+      }
+      .judul {
+        display: flex;
+        align-items: flex-end;
+        width: max-content;
+        max-width: none;
+        white-space: nowrap;
+        line-height: 1.15;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #0b4a35;
+        transition:
+          font-size calc(var(--k) * 1300ms) cubic-bezier(0.2, 0.8, 0.2, 1),
+          color calc(var(--k) * 1400ms) ease,
+          text-shadow calc(var(--k) * 1400ms) ease;
+      }
+      .judul.putih {
+        color: #fff;
+        text-shadow: 0 6px 36px rgba(0, 70, 45, 0.45);
+      }
+      .kata {
+        display: inline-flex;
+        align-items: flex-end;
+      }
+      .h,
+      .gi {
+        display: inline-block;
+      }
+      .h,
+      .g12 .gi {
+        opacity: 0;
+      }
+      .judul.mulai .h,
+      .judul.mulai .g12 .gi {
+        animation: hurufMasuk calc(var(--k) * 800ms)
+          cubic-bezier(0.2, 0.9, 0.25, 1) forwards;
+        animation-delay: calc(
+          var(--n) * calc(var(--k) * 18ms) + calc(var(--k) * 300ms)
+        );
+      }
+      @keyframes hurufMasuk {
+        from {
+          opacity: 0;
+          transform: translateY(0.55em);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .sp {
+        display: inline-block;
+        width: 0.34em;
+        height: 1em;
+      }
+      .x {
+        overflow: hidden;
+        white-space: nowrap;
+        transition:
+          width calc(var(--k) * 850ms) cubic-bezier(0.65, 0, 0.35, 1),
+          opacity calc(var(--k) * 600ms) ease;
+      }
+      .x.pergi {
+        width: 0 !important;
+        opacity: 0 !important;
+      }
+      .g12 {
+        display: inline-block;
+        white-space: nowrap;
+      }
+      .g12 .gi {
+        transition:
+          transform calc(var(--k) * 1000ms) cubic-bezier(0.5, 0, 0.2, 1),
+          opacity calc(var(--k) * 900ms) ease;
+      }
+      .g12.melebur .gi {
+        opacity: 0 !important;
+        transform: translateX(0.9em) scale(0.35);
+      }
+      .judul .h.pop {
+        animation: pop calc(var(--k) * 800ms) ease-out forwards;
+      }
+      @keyframes pop {
+        0% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        40% {
+          opacity: 1;
+          transform: scale(1.24);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      #subwrap {
+        overflow: hidden;
+        height: 0;
+        transition: height calc(var(--k) * 1100ms)
+          cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      #sub {
+        display: block;
+        padding-top: 14px;
+        line-height: 1.35;
+        font-size: 62px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        color: #f6ffd2;
+        text-align: center;
+        transform: translateY(110%);
+        transition: transform calc(var(--k) * 1200ms)
+          cubic-bezier(0.2, 0.9, 0.25, 1);
+      }
+      #subwrap.naik #sub {
+        transform: none;
+      }
+
+      /* ===== MODE RINGAN ===== */
+      .ringan .jalan .blob,
+      .ringan .foto img {
+        animation: none;
+      }
+      .ringan .judul.putih {
+        text-shadow: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="kanvas">
+      <div id="warna">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
+      </div>
+      <div id="fotoWadah"></div>
+      <div id="pusat">
+        <div class="judul" id="judul"></div>
+        <div id="subwrap"><span id="sub"></span></div>
+      </div>
+    </div>
+
+    <script>
+      /* =====================================================================
+   INTRO / PEMISAH  —  PESANTREN ISLAM AL IRSYAD TENGARAN 12 RIAU  →  PIAT RIAU
+   Section layar penuh. Letakkan di daftar BAGIAN paling depan dengan penuh:true.
+
+   Urutan animasi:
+     putih + tulisan lengkap → latar hijau–lime mengembang → 3 foto muncul halus
+     → huruf "PIAT" tersisa → "12" melebur ke huruf R → "PIAT RIAU" membesar
+     → "Majalah Digital" naik dari balik tulisan.
+   ===================================================================== */
+
+      /* ---------- TEKS ---------- */
+      // simpan : berapa huruf DEPAN yang dipertahankan (99 = semua)
+      // gabung : true = angka/kata yang melebur ke huruf pertama kata berikutnya
+      const KATA = [
+        { t: "PESANTREN", simpan: 1 },
+        { t: "ISLAM", simpan: 1 },
+        { t: "AL", simpan: 1 },
+        { t: "IRSYAD", simpan: 0 },
+        { t: "TENGARAN", simpan: 1, jaga: true }, // jaga:true = spasi setelah kata ini dipertahankan
+        { t: "12", simpan: 99, jaga: true },
+        { t: "RIAU", simpan: 99 },
+      ];
+      const SUB = "Majalah Digital";
+
+      /* ---------- FOTO (3 foto; simpan di folder "foto" sejajar folder "bagian") ----------
+   x, y   : posisi pusat foto dalam % layar        lebar : lebar foto (piksel)
+   miring : derajat putaran                         buram : 0–1 (kepekatan foto)
+   muncul : detik ke berapa foto mulai muncul       */
+      const FOTO = [
+        {
+          src: "https://psb.pesantrenalirsyadriau.org/img/hero1.jpeg",
+          x: 15,
+          y: 25,
+          lebar: 900,
+          miring: -4,
+          o: 0.62,
+          muncul: 4.2,
+        },
+        {
+          src: "https://psb.pesantrenalirsyadriau.org/img/hero2.jpeg",
+          x: 86,
+          y: 32,
+          lebar: 880,
+          miring: 3,
+          o: 0.62,
+          muncul: 5.4,
+        },
+        {
+          src: "https://psb.pesantrenalirsyadriau.org/img/hero3.jpeg",
+          x: 50,
+          y: 88,
+          lebar: 980,
+          miring: -2,
+          o: 0.62,
+          muncul: 6.6,
+        },
+      ];
+      const BLEND = "normal"; // coba 'soft-light' / 'overlay' / 'multiply' agar foto lebih menyatu dengan warna
+
+      /* ---------- WAKTU (detik sejak mulai) ---------- */
+      const T = {
+        warna: 2.4, // latar hijau–lime mulai mengembang
+        ringkas: 7.6, // huruf selain PIAT menghilang
+        gabung: 9.5, // "12" melebur ke R
+        besar: 10.8, // PIAT RIAU membesar
+        sub: 11.8, // "Majalah Digital" naik
+        selesai: 15.0, // intro berakhir -> lanjut ke bagian berikutnya
+      };
+      const KECEPATAN = 1; // 1 = normal, 1.3 = lebih cepat, 0.8 = lebih lambat
+      const UKURAN_AKHIR = 168; // ukuran huruf "PIAT RIAU" (piksel)
+
+      /* ---------------- kode animasi (tidak perlu diubah) ---------------- */
+      const K = 1 / KECEPATAN;
+      const standalone = window.parent === window;
+      const $ = (id) => document.getElementById(id);
+      const kirim = (o) => {
+        if (!standalone) {
+          try {
+            parent.postMessage(Object.assign({ mading: true }, o), "*");
+          } catch (e) {}
+        }
+      };
+      document.documentElement.style.setProperty("--k", K);
+      if (/[?&]ringan=1/.test(location.search))
+        document.documentElement.classList.add("ringan");
+
+      function skala() {
+        const s = Math.min(innerWidth / 1920, innerHeight / 1080);
+        $("kanvas").style.transform =
+          `translate(${(innerWidth - 1920 * s) / 2}px,${(innerHeight - 1080 * s) / 2}px) scale(${s})`;
+      }
+      if (standalone) {
+        document.documentElement.classList.add("standalone");
+        skala();
+        addEventListener("resize", skala);
+      }
+      addEventListener("keydown", (e) => kirim({ type: "tombol", key: e.key }));
+      kirim({ type: "siap", warna: "#029a65", judul: "Intro" });
+
+      const judul = $("judul");
+      function bangun() {
+        let n = 0;
+        KATA.forEach((k, i) => {
+          const w = document.createElement("span");
+          w.className = "kata";
+          if (k.gabung) {
+            const g = document.createElement("span");
+            g.className = "g12 x";
+            g.dataset.t = "b";
+            const gi = document.createElement("span");
+            gi.className = "gi";
+            gi.textContent = k.t;
+            gi.style.setProperty("--n", n++);
+            g.appendChild(gi);
+            w.appendChild(g);
+          } else {
+            [...k.t].forEach((c, j) => {
+              const s = document.createElement("span");
+              s.className = "h" + (j < k.simpan ? "" : " x");
+              s.dataset.t = "a";
+              s.textContent = c;
+              s.style.setProperty("--n", n++);
+              w.appendChild(s);
+            });
+          }
+          judul.appendChild(w);
+          if (i < KATA.length - 1) {
+            const sp = document.createElement("span");
+            sp.className = "sp" + (k.jaga ? "" : " x");
+            sp.dataset.t = k.gabung ? "b" : "a";
+            judul.appendChild(sp);
+          }
+        });
+      }
+      function sesuaikan() {
+        // muat dalam layar (tanpa transisi agar ukuran terbaca langsung)
+        judul.style.transition = "none";
+        let fs = 60;
+        judul.style.fontSize = fs + "px";
+        while (judul.getBoundingClientRect().width > 1720 && fs > 28) {
+          fs -= 2;
+          judul.style.fontSize = fs + "px";
+        }
+        void judul.offsetWidth;
+        judul.style.transition = "";
+      }
+      function ukur() {
+        // kunci lebar awal tiap bagian yang akan menyusut
+        judul.querySelectorAll(".x").forEach((el) => {
+          el.style.width = el.getBoundingClientRect().width + "px";
+        });
+      }
+      function bangunFoto() {
+        const wadah = $("fotoWadah");
+        return FOTO.map((f) => {
+          const d = document.createElement("div");
+          d.className = "foto";
+          d.style.cssText = `left:${f.x}%;top:${f.y}%;width:${f.lebar}px;--r:${f.miring || 0}deg;--o:${f.o || 0.6};--blend:${BLEND}`;
+          const im = document.createElement("img");
+          im.alt = "";
+          im.onerror = () => d.remove(); // foto belum ada -> lewati saja
+          im.src = f.src;
+          d.appendChild(im);
+          wadah.appendChild(d);
+          return d;
+        });
+      }
+      const at = (detik, fn) => setTimeout(fn, detik * 1000 * K);
+
+      async function jalankan() {
+        if (document.fonts && document.fonts.ready)
+          await Promise.race([
+            document.fonts.ready,
+            new Promise((r) => setTimeout(r, 1500)),
+          ]);
+        $("sub").textContent = SUB;
+        bangun();
+        sesuaikan();
+        ukur();
+        const foto = bangunFoto();
+        const fsAwal = parseFloat(judul.style.fontSize);
+
+        judul.classList.add("mulai"); // huruf masuk
+
+        at(T.warna, () => {
+          $("warna").classList.add("buka", "jalan");
+          setTimeout(() => judul.classList.add("putih"), 500 * K);
+        });
+        foto.forEach((d, i) =>
+          at(FOTO[i].muncul, () => d.classList.add("tampil")),
+        );
+
+        at(T.ringkas, () => {
+          // sisakan P-I-A-T
+          judul.querySelectorAll('.x[data-t="a"]').forEach((el, i) => {
+            el.style.transitionDelay = i * 28 * K + "ms";
+            el.classList.add("pergi");
+          });
+        });
+        at(T.gabung, () => {
+          // 12 melebur ke R
+          judul.querySelectorAll('.x[data-t="b"]').forEach((el) => {
+            el.style.transitionDelay = "0ms";
+            el.classList.add("pergi");
+          });
+          const g = judul.querySelector(".g12");
+          if (g) g.classList.add("melebur");
+          const kataAkhir = judul.querySelector(
+            ".kata:last-child .h:first-child",
+          );
+          if (kataAkhir)
+            setTimeout(() => kataAkhir.classList.add("pop"), 650 * K);
+        });
+        at(T.besar, () => {
+          judul.style.fontSize = UKURAN_AKHIR + "px";
+        });
+        at(T.sub, () => {
+          const w = $("subwrap");
+          w.style.height = $("sub").offsetHeight + "px";
+          w.classList.add("naik");
+        });
+        at(T.selesai, () => {
+          kirim({ type: "selesai" });
+          if (standalone) setTimeout(() => location.reload(), 1500);
+        });
+      }
+      jalankan();
+    </script>
+  </body>
+</html>
