@@ -45,7 +45,7 @@ window.PENGATURAN = {
     { file:'3-pengetahuan.html',   label:'Pengetahuan Umum', warna:'#a78bfa', maks:300 },
     { file:'4-kuis.html',          label:'Kuis',             warna:'#fb923c', maks:300 },
     { file:'5-jadwal-sholat.html', label:'Jadwal Sholat',    warna:'#2dd4bf', maks:120 },
-   //  { file:'6-video-pengetahuan.html', label:'Video Sains', warna:'#a3e635', maks:600 }
+    { file:'6-video-pengetahuan.html', label:'Video Sains', warna:'#a3e635', maks:600 }
   ],
 
   /* Halaman utama dimuat ulang otomatis setiap sekian menit (di sela pergantian
