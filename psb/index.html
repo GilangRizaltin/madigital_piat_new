@@ -699,12 +699,12 @@
         position: absolute;
         right: 48px;
         top: 40px;
-        z-index: 9;
-        padding: 10px 22px;
+        z-index: 30;
+        padding: 14px 28px;
         border-radius: 30px;
         background: rgba(0, 0, 0, 0.6);
         color: #fff;
-        font-size: 22px;
+        font-size: 28px;
         font-weight: 600;
         display: none;
       }
@@ -770,7 +770,7 @@
       </div>
       <div id="progres"></div>
       <div id="bisu">
-        🔇 Tanpa suara — tekan tombol apa saja pada remote untuk menyalakan
+        🔇 Tanpa suara — tekan OK / tombol apa saja pada remote untuk menyalakan
       </div>
 
       <!-- transisi teks -->
@@ -808,20 +808,13 @@
       };
 
       /* file media (relatif terhadap /psb/) */
-      const POSTER = "/psb/poster-psb.jpeg";
+      const POSTER = "poster-psb.jpg";
 
       /* urutan segmen. tipe:'video' | 'poster'
    maks = batas waktu (detik) jika video bermasalah/tak selesai. */
       const SEGMEN = [
-        // {
-        //   id: "s-profil",
-        //   tipe: "video",
-        //   file: "video/profil.mp4",
-        //   maks: 600,
-        //   label: "Profil PIAT 12 Riau",
-        //   chipKiri: "PESANTREN ISLAM AL-IRSYAD TENGARAN 12 RIAU",
-        //   chipKanan: URL_PSB,
-        // },
+        // { id:'s-profil', tipe:'video', file:'video/profil.mp4', maks:600, label:'Profil PIAT 12 Riau',
+        //   chipKiri:'PESANTREN ISLAM AL-IRSYAD TENGARAN 12 RIAU', chipKanan: URL_PSB },
 
         {
           id: "s-eko",
@@ -1105,15 +1098,21 @@
         }, 12000); // tak kunjung main → lewati
 
         v.volume = VOLUME;
-        v.muted = !sudahSuara;
+        v.muted = !SUARA; // coba langsung bersuara
         let p = v.play();
+        const cekBisu = () => {
+          if (SUARA && v.muted) bisu.classList.add("tampak");
+          else bisu.classList.remove("tampak");
+        };
         if (p && p.catch)
           p.catch(() => {
+            // diblokir browser → putar tanpa suara + petunjuk
             v.muted = true;
-            bisu.classList.add("tampak");
             const q = v.play();
             if (q && q.catch) q.catch(() => {});
+            cekBisu();
           });
+        setTimeout(cekBisu, 1500);
       }
 
       function tampilkan(seg) {
@@ -1121,6 +1120,7 @@
           .querySelectorAll(".seg")
           .forEach((e) => e.classList.remove("on"));
         $("#" + seg.id).classList.add("on");
+        if (seg.tipe !== "video") bisu.classList.remove("tampak");
         titik.forEach((t, i) => t.classList.toggle("on", i === idx));
         $("#kaki").style.display = seg.id === "s-profil" ? "none" : "";
         setProgres(0);
@@ -1180,18 +1180,23 @@
       }
 
       /* --- kontrol remote / keyboard --- */
-      addEventListener("keydown", (e) => {
-        if (!sudahSuara) {
-          sudahSuara = true;
-          bisu.classList.remove("tampak");
-          const v = aktif && aktif.tipe === "video" ? videoDari(aktif) : null;
-          if (v) {
-            v.muted = false;
-            v.volume = VOLUME;
-            const p = v.play();
-            if (p && p.catch) p.catch(() => {});
-          }
+      function nyalakanSuara() {
+        if (!SUARA) return;
+        sudahSuara = true;
+        const v = aktif && aktif.tipe === "video" ? videoDari(aktif) : null;
+        if (v && v.muted) {
+          v.muted = false;
+          v.volume = VOLUME;
+          const p = v.play();
+          if (p && p.catch) p.catch(() => {});
         }
+        if (!v || !v.muted) bisu.classList.remove("tampak");
+      }
+      ["click", "mousedown", "pointerdown", "touchstart", "keyup"].forEach(
+        (n) => addEventListener(n, nyalakanSuara, true),
+      );
+      addEventListener("keydown", (e) => {
+        nyalakanSuara();
         const k = e.key;
         if (k === "ArrowRight" || k === "PageDown") {
           if (aktif) {
