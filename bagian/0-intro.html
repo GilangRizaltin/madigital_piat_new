@@ -1,225 +1,799 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-<meta charset="UTF-8">
-<title>Intro PIAT 12 RIAU</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
-<style>
-/* VERSI RINGAN: semua gerakan memakai opacity & transform (dikerjakan GPU),
-   tanpa blur, mask, blend-mode, clip-path, bayangan buram, dan animasi ukuran huruf. */
-:root{ --k:1; --hijau:#029a65; --lime:#c3e161; }
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{width:1920px;height:1080px;overflow:hidden;background:#fff;cursor:none}
-html.standalone,html.standalone body{width:100%;height:100%}
-body{position:relative;font-family:'Plus Jakarta Sans','Segoe UI',system-ui,sans-serif}
-#kanvas{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;transform-origin:0 0;background:#fff}
+  <head>
+    <meta charset="UTF-8" />
+    <title>Intro PIAT 12 RIAU</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* =====================================================================
+   INTRO PIAT 12 RIAU — versi sinematik RINGAN untuk TV
+   Semua gerakan hanya memakai opacity & transform (dikerjakan GPU).
+   TANPA: backdrop-filter, mask-image, mix-blend-mode, blur, grid 3D,
+          animasi letter-spacing / ukuran huruf, bayangan buram.
+   ===================================================================== */
+      :root {
+        --k: 1;
+        --lime: #d5e77b;
+        --emas: #e7c76a;
+        --krim: #fffde9;
+        --gelap: #041a17;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #041a17;
+        cursor: none;
+      }
+      html.standalone,
+      html.standalone body {
+        width: 100%;
+        height: 100%;
+      }
+      body {
+        position: relative;
+        font-family:
+          "Plus Jakarta Sans", "Segoe UI", system-ui, Arial, sans-serif;
+        color: var(--krim);
+      }
+      #kanvas {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        transform-origin: 0 0;
+        background: #041a17;
+      }
+      .lapis {
+        position: absolute;
+        inset: 0;
+      }
 
-/* ===== LATAR: gradasi statis hijau–lime, ditutup layar putih yang memudar ===== */
-.lapis{position:absolute;inset:0}
-#warna{
-  background:
-    radial-gradient(62% 72% at 12% 8%,  rgba(195,225,97,.95), rgba(195,225,97,0) 70%),
-    radial-gradient(56% 66% at 92% 96%, rgba(2,154,101,.95),  rgba(2,154,101,0) 70%),
-    radial-gradient(46% 56% at 46% 36%, rgba(150,205,90,.80), rgba(150,205,90,0) 70%),
-    linear-gradient(135deg,var(--hijau) 0%,var(--lime) 100%);
-}
-#warna2{          /* hanya dipakai bila BG_BERGERAK = true */
-  display:none;opacity:0;
-  background:
-    radial-gradient(62% 72% at 88% 10%, rgba(195,225,97,.95), rgba(195,225,97,0) 70%),
-    radial-gradient(56% 66% at 8% 94%,  rgba(2,154,101,.95),  rgba(2,154,101,0) 70%),
-    radial-gradient(46% 56% at 56% 64%, rgba(150,205,90,.80), rgba(150,205,90,0) 70%),
-    linear-gradient(315deg,var(--hijau) 0%,var(--lime) 100%);
-}
-#warna2.hidup{display:block;animation:silang 12s ease-in-out infinite alternate}
-@keyframes silang{from{opacity:0}to{opacity:1}}
-#putih{background:#fff;opacity:1;transition:opacity calc(var(--k)*1800ms) ease}
-#putih.hilang{opacity:0}
+      /* ===== LATAR (statis; opsional bergeser pelan) ===== */
+      #bg {
+        background: radial-gradient(
+          60% 75% at 50% 48%,
+          #17634d 0%,
+          #0a4a3b 40%,
+          #041a17 100%
+        );
+      }
+      #bg2 {
+        opacity: 0;
+        display: none;
+        background:
+          radial-gradient(
+            48% 60% at 14% 12%,
+            rgba(213, 231, 123, 0.5),
+            rgba(213, 231, 123, 0) 72%
+          ),
+          radial-gradient(
+            52% 64% at 88% 90%,
+            rgba(8, 161, 103, 0.6),
+            rgba(8, 161, 103, 0) 72%
+          );
+      }
+      #bg2.hidup {
+        display: block;
+        animation: silang 9s ease-in-out infinite alternate;
+      }
+      @keyframes silang {
+        from {
+          opacity: 0.25;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      #cahaya {
+        background: radial-gradient(
+          34% 42% at 50% 46%,
+          rgba(231, 199, 106, 0.2),
+          rgba(231, 199, 106, 0) 75%
+        );
+        opacity: 0;
+        transition: opacity calc(var(--k) * 2400ms) ease;
+      }
+      #cahaya.on {
+        opacity: 1;
+      }
 
-/* ===== FOTO (sudah dilembutkan tepinya lewat canvas, jadi hanya bitmap biasa) ===== */
-.foto{position:absolute;opacity:0;transform:translate(-50%,-50%) rotate(var(--r,0deg)) scale(.92);
-  transition:opacity calc(var(--k)*2600ms) ease,transform calc(var(--k)*3400ms) cubic-bezier(.2,.7,.2,1)}
-.foto.tampil{opacity:var(--o,.62);transform:translate(-50%,-50%) rotate(var(--r,0deg)) scale(1)}
-.foto canvas{display:block;width:100%;height:100%}
+      /* ===== FOTO (tepi dilembutkan sekali di canvas) ===== */
+      .foto {
+        position: absolute;
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(var(--r, 0deg)) scale(1.02);
+        transition: opacity calc(var(--k) * 2600ms) ease;
+      }
+      .foto.tampil {
+        opacity: var(--o, 0.5);
+      }
+      .foto .gerak {
+        width: 100%;
+        height: 100%;
+      }
+      .foto canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
 
-/* ===== TEKS ===== */
-#skala{position:absolute;left:50%;top:46%;transform-origin:50% 50%;
-  transition:transform calc(var(--k)*1300ms) cubic-bezier(.2,.8,.2,1)}
-.judul{display:flex;align-items:flex-end;width:max-content;white-space:nowrap;line-height:1.15;
-  font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#0b4a35;
-  transition:color calc(var(--k)*1200ms) ease}
-.judul.putih{color:#fff;text-shadow:0 3px 0 rgba(0,80,50,.28)}
-.kata{display:inline-flex;align-items:flex-end;opacity:0}
-.h,.x{display:inline-block}
-.judul.mulai .kata{animation:masuk calc(var(--k)*800ms) cubic-bezier(.2,.9,.25,1) forwards;
-  animation-delay:calc(var(--n)*var(--k)*90ms + var(--k)*300ms)}
-@keyframes masuk{from{opacity:0;transform:translateY(.5em)}to{opacity:1;transform:none}}
-.sp{display:inline-block;width:.34em;height:1em}
-.x{overflow:hidden;white-space:nowrap;transition:width calc(var(--k)*800ms) cubic-bezier(.65,0,.35,1),opacity calc(var(--k)*500ms) ease}
-.x.pergi{width:0!important;opacity:0!important}
+      #vinyet {
+        background: radial-gradient(
+          70% 80% at 50% 50%,
+          rgba(1, 12, 10, 0) 45%,
+          rgba(1, 10, 8, 0.72) 100%
+        );
+      }
 
-#subwrap{position:absolute;left:0;right:0;top:calc(46% + 92px);height:104px;overflow:hidden;z-index:5}
-#sub{display:block;padding-top:14px;line-height:1.35;font-size:62px;font-weight:700;letter-spacing:.14em;color:#f6ffd2;text-align:center;
-  text-shadow:0 2px 0 rgba(0,80,50,.25);
-  transform:translateY(115%);transition:transform calc(var(--k)*1200ms) cubic-bezier(.2,.9,.25,1)}
-#subwrap.naik #sub{transform:none}
-#pusat{position:absolute;inset:0;z-index:5}
-</style>
-</head>
-<body>
-<div id="kanvas">
-  <div class="lapis" id="warna"></div>
-  <div class="lapis" id="warna2"></div>
-  <div id="fotoWadah"></div>
-  <div class="lapis" id="putih"></div>
-  <div id="pusat">
-    <div id="skala"><div class="judul" id="judul"></div></div>
-    <div id="subwrap"><span id="sub"></span></div>
-  </div>
-</div>
+      /* ===== HIASAN BINGKAI ===== */
+      .sudut {
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        opacity: 0;
+        transition: opacity calc(var(--k) * 1400ms) ease;
+      }
+      .sudut::before,
+      .sudut::after {
+        content: "";
+        position: absolute;
+        background: var(--emas);
+      }
+      .sudut::before {
+        width: 100%;
+        height: 2px;
+      }
+      .sudut::after {
+        width: 2px;
+        height: 100%;
+      }
+      .sudut.a {
+        left: 64px;
+        top: 64px;
+      }
+      .sudut.b {
+        right: 64px;
+        top: 64px;
+        transform: scaleX(-1);
+      }
+      .sudut.c {
+        left: 64px;
+        bottom: 64px;
+        transform: scaleY(-1);
+      }
+      .sudut.d {
+        right: 64px;
+        bottom: 64px;
+        transform: scale(-1, -1);
+      }
+      .on .sudut,
+      .sudut.on {
+        opacity: 0.7;
+      }
 
-<script>
-/* =====================================================================
-   INTRO / PEMISAH (VERSI RINGAN)  —  PESANTREN ISLAM AL IRSYAD TENGARAN 12 RIAU  →  PIAT 12 RIAU
-   Section layar penuh. Letakkan di daftar BAGIAN paling depan dengan penuh:true.
+      #mark,
+      #kaki {
+        position: absolute;
+        z-index: 6;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 0.28em;
+        color: rgba(241, 244, 201, 0.8);
+        opacity: 0;
+        transform: translateY(14px);
+        transition:
+          opacity calc(var(--k) * 1000ms) ease,
+          transform calc(var(--k) * 1000ms) ease;
+      }
+      #mark {
+        left: 120px;
+        top: 110px;
+      }
+      #kaki {
+        left: 120px;
+        bottom: 108px;
+      }
+      #mark i {
+        display: block;
+        width: 60px;
+        height: 2px;
+        background: var(--emas);
+      }
+      #kaki .t {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--emas);
+      }
+      #mark.on,
+      #kaki.on {
+        opacity: 1;
+        transform: none;
+      }
 
-   Urutan animasi:
-     putih + tulisan lengkap → latar hijau–lime muncul → 3 foto muncul halus
-     → huruf selain "PIAT" menghilang → "PIAT 12 RIAU" membesar
-     → "Majalah Digital" naik dari balik tulisan.
+      /* ===== ISI TENGAH ===== */
+      #isi {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        height: 0;
+        z-index: 5;
+        text-align: center;
+      }
+      .pusatY {
+        position: absolute;
+        left: 0;
+        right: 0;
+        transform: translateY(-50%);
+      }
+      #eyebrow {
+        top: -228px;
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: 0.36em;
+        color: var(--lime);
+      }
+      #ghost {
+        top: -168px;
+        font-size: 21px;
+        font-weight: 700;
+        letter-spacing: 0.42em;
+        color: rgba(219, 237, 148, 0.42);
+      }
+      #eyebrow,
+      #ghost {
+        opacity: 0;
+        transform: translateY(-50%) translateY(16px);
+        transition:
+          opacity calc(var(--k) * 1100ms) ease,
+          transform calc(var(--k) * 1100ms) cubic-bezier(0.2, 0.9, 0.25, 1);
+      }
+      #eyebrow.on,
+      #ghost.on {
+        opacity: 1;
+        transform: translateY(-50%);
+      }
+
+      #judulWadah {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -100px;
+        height: 200px;
+        overflow: hidden;
+      }
+      #judul {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        font-size: 176px;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        line-height: 200px;
+        height: 200px;
+        text-shadow: 0 5px 0 rgba(0, 0, 0, 0.28);
+      }
+      .hrf {
+        display: inline-block;
+        opacity: 0;
+        transform: translateY(70px) scale(0.9);
+      }
+      .hrf.lime {
+        color: var(--lime);
+      }
+      .hrf.emas {
+        color: var(--emas);
+      }
+      .hrf.krim {
+        color: var(--krim);
+      }
+      #judul.mulai .hrf {
+        animation: rakit calc(var(--k) * 900ms) cubic-bezier(0.2, 0.9, 0.2, 1)
+          forwards;
+        animation-delay: calc(var(--n) * var(--k) * 85ms);
+      }
+      @keyframes rakit {
+        from {
+          opacity: 0;
+          transform: translateY(70px) scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .sp {
+        display: inline-block;
+        width: 0.26em;
+      }
+      #kilap {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 220px;
+        left: -300px;
+        background: linear-gradient(
+          100deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.2) 50%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        transform: skewX(-18deg);
+      }
+      #kilap.jalan {
+        animation: lewat calc(var(--k) * 1500ms) cubic-bezier(0.45, 0, 0.25, 1)
+          forwards;
+      }
+      @keyframes lewat {
+        from {
+          transform: translateX(0) skewX(-18deg);
+        }
+        to {
+          transform: translateX(2500px) skewX(-18deg);
+        }
+      }
+
+      #garis {
+        position: absolute;
+        left: 50%;
+        top: 116px;
+        width: 860px;
+        height: 3px;
+        margin-left: -430px;
+        background: linear-gradient(
+          90deg,
+          rgba(231, 199, 106, 0),
+          var(--emas) 25%,
+          var(--emas) 75%,
+          rgba(231, 199, 106, 0)
+        );
+        transform: scaleX(0);
+        transition: transform calc(var(--k) * 1200ms)
+          cubic-bezier(0.5, 0, 0.1, 1);
+      }
+      #garis.on {
+        transform: scaleX(1);
+      }
+
+      /* "Majalah Digital" naik dari balik garis */
+      #subWadah {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 140px;
+        height: 96px;
+        overflow: hidden;
+      }
+      #subIsi {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+        height: 96px;
+        transform: translateY(110%);
+        transition: transform calc(var(--k) * 1100ms)
+          cubic-bezier(0.2, 0.9, 0.25, 1);
+      }
+      #subIsi p {
+        font-size: 56px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        color: #f5edbb;
+        line-height: 96px;
+      }
+      #subIsi .r {
+        width: 130px;
+        height: 2px;
+        background: linear-gradient(90deg, rgba(231, 199, 106, 0), var(--emas));
+      }
+      #subIsi .r:last-child {
+        transform: rotate(180deg);
+      }
+      #subWadah.naik #subIsi {
+        transform: none;
+      }
+
+      #dukung {
+        top: 292px;
+        font-size: 21px;
+        font-weight: 700;
+        letter-spacing: 0.38em;
+        color: rgba(237, 245, 204, 0.78);
+        opacity: 0;
+        transform: translateY(-50%) translateY(14px);
+        transition:
+          opacity calc(var(--k) * 1000ms) ease,
+          transform calc(var(--k) * 1000ms) ease;
+      }
+      #dukung b {
+        margin: 0 14px;
+        color: var(--emas);
+      }
+      #dukung.on {
+        opacity: 1;
+        transform: translateY(-50%);
+      }
+
+      /* kilau kecil (loop ringan: hanya opacity + transform) */
+      .kilau {
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        z-index: 5;
+        opacity: 0;
+      }
+      .kilau::before,
+      .kilau::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        background: var(--emas);
+        border-radius: 2px;
+      }
+      .kilau::before {
+        width: 16px;
+        height: 2px;
+        margin: -1px 0 0 -8px;
+      }
+      .kilau::after {
+        width: 2px;
+        height: 16px;
+        margin: -8px 0 0 -1px;
+      }
+      .kilau.on {
+        animation: kerlip calc(var(--d, 3s)) ease-in-out infinite;
+        animation-delay: var(--w, 0s);
+      }
+      @keyframes kerlip {
+        0%,
+        100% {
+          opacity: 0;
+          transform: scale(0.3) rotate(0);
+        }
+        50% {
+          opacity: 0.95;
+          transform: scale(1.4) rotate(45deg);
+        }
+      }
+
+      /* layar hitam pembuka */
+      #tutup {
+        background: #041a17;
+        opacity: 1;
+        z-index: 20;
+        transition: opacity calc(var(--k) * 1500ms) ease;
+        pointer-events: none;
+      }
+      #tutup.buka {
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="kanvas">
+      <div class="lapis" id="bg"></div>
+      <div class="lapis" id="bg2"></div>
+      <div class="lapis" id="cahaya"></div>
+      <div id="fotoWadah"></div>
+      <div class="lapis" id="vinyet"></div>
+
+      <div class="sudut a"></div>
+      <div class="sudut b"></div>
+      <div class="sudut c"></div>
+      <div class="sudut d"></div>
+      <div id="mark"><span id="mk1"></span><i></i><span id="mk2"></span></div>
+
+      <div id="isi">
+        <div class="pusatY" id="eyebrow"></div>
+        <div class="pusatY" id="ghost"></div>
+        <div id="judulWadah">
+          <div id="judul"></div>
+          <div id="kilap"></div>
+        </div>
+        <div id="garis"></div>
+        <div id="subWadah">
+          <div id="subIsi">
+            <i class="r"></i>
+            <p id="sub"></p>
+            <i class="r"></i>
+          </div>
+        </div>
+        <div class="pusatY" id="dukung"></div>
+      </div>
+
+      <div
+        class="kilau"
+        style="left: 520px; top: 340px; --d: 3.2s; --w: 0s"
+      ></div>
+      <div
+        class="kilau"
+        style="left: 1390px; top: 300px; --d: 2.8s; --w: 0.9s"
+      ></div>
+      <div
+        class="kilau"
+        style="left: 1500px; top: 600px; --d: 3.6s; --w: 1.7s"
+      ></div>
+      <div
+        class="kilau"
+        style="left: 400px; top: 690px; --d: 3s; --w: 2.4s"
+      ></div>
+      <div
+        class="kilau"
+        style="left: 960px; top: 250px; --d: 3.4s; --w: 0.5s"
+      ></div>
+
+      <div id="kaki">
+        <span id="kk1"></span><i class="t"></i><span id="kk2"></span>
+      </div>
+      <div class="lapis" id="tutup"></div>
+    </div>
+
+    <script>
+      /* =====================================================================
+   PENGATURAN — ubah bagian ini saja
+   Letakkan di daftar BAGIAN paling depan dengan penuh:true.
    ===================================================================== */
 
-/* ---------- TEKS ---------- */
-// simpan : berapa huruf DEPAN yang dipertahankan (99 = semua)
-// jaga   : true = spasi setelah kata ini dipertahankan
-const KATA = [
-  { t:'PESANTREN', simpan:1 },
-  { t:'ISLAM',     simpan:1 },
-  { t:'AL',        simpan:1 },
-  { t:'IRSYAD',    simpan:0 },
-  { t:'TENGARAN',  simpan:1, jaga:true },
-  { t:'12',        simpan:99, jaga:true },
-  { t:'RIAU',      simpan:99 }
-];
-const SUB = 'Majalah Digital';
+      /* judul besar: t = huruf, w = warna (lime | emas | krim), sp = spasi */
+      const JUDUL = [
+        { t: "P", w: "lime" },
+        { t: "I", w: "krim" },
+        { t: "A", w: "krim" },
+        { t: "T", w: "lime" },
+        { sp: 1 },
+        { t: "1", w: "emas" },
+        { t: "2", w: "emas" },
+        { sp: 1 },
+        { t: "R", w: "krim" },
+        { t: "I", w: "krim" },
+        { t: "A", w: "krim" },
+        { t: "U", w: "krim" },
+      ];
+      const EYEBROW = "✦ EDISI KHUSUS · PROVINSI RIAU";
+      const GHOST = "PESANTREN ISLAM AL IRSYAD TENGARAN";
+      const SUB = "Majalah Digital";
+      const DUKUNG = ["INOVASI", "KREATIVITAS", "BUDAYA MELAYU"];
+      const MARK = ["PIAT", "12 / RIAU"];
+      const KAKI = ["PIAT 12 RIAU", "VOL. 01 / 2026"];
 
-/* ---------- FOTO (3 foto; simpan di folder "foto" sejajar folder "bagian") ----------
-   x, y   : posisi pusat foto dalam % layar        lebar : lebar foto (piksel, rasio 3:2)
-   miring : derajat putaran                         o     : kepekatan foto 0–1
-   muncul : detik ke berapa foto mulai muncul       */
-const FOTO = [
-  { src:'../foto/foto1.jpg', x:15, y:25, lebar:900, miring:-4, o:.62, muncul:4.2 },
-  { src:'../foto/foto2.jpg', x:86, y:32, lebar:880, miring: 3, o:.62, muncul:5.4 },
-  { src:'../foto/foto3.jpg', x:50, y:88, lebar:980, miring:-2, o:.62, muncul:6.6 }
-];
+      /* FOTO (foto diam; zoom pelan sengaja dibuang karena memberatkan TV): tiap foto boleh punya beberapa alamat — dicoba berurutan (lokal dulu, lalu internet).
+   x,y = posisi pusat (% layar)  lebar = piksel (rasio 3:2)  miring = derajat  o = kepekatan 0–1
+   muncul = detik muncul   gx,gy = arah geser pelan (piksel) */
+      const FOTO = [
+        {
+          src: [
+            "../foto/foto1.jpg",
+            "https://psb.pesantrenalirsyadriau.org/img/landing/hero1.webp",
+          ],
+          x: 16,
+          y: 30,
+          lebar: 980,
+          miring: -4,
+          o: 0.55,
+          muncul: 1.8,
+          gx: -18,
+          gy: 10,
+        },
+        {
+          src: [
+            "../foto/foto2.jpg",
+            "https://psb.pesantrenalirsyadriau.org/img/landing/hero2.webp",
+          ],
+          x: 85,
+          y: 36,
+          lebar: 960,
+          miring: 3,
+          o: 0.55,
+          muncul: 3.0,
+          gx: 16,
+          gy: -10,
+        },
+        {
+          src: [
+            "../foto/foto3.jpg",
+            "https://psb.pesantrenalirsyadriau.org/img/landing/hero3.webp",
+          ],
+          x: 50,
+          y: 92,
+          lebar: 1040,
+          miring: -2,
+          o: 0.5,
+          muncul: 4.2,
+          gx: 0,
+          gy: -14,
+        },
+      ];
 
-/* ---------- WAKTU (detik sejak mulai) ---------- */
-const T = {
-  warna   : 2.4,    // layar putih memudar -> latar hijau–lime
-  ringkas : 7.6,    // huruf selain PIAT menghilang
-  besar   : 10.2,   // tulisan membesar
-  sub     : 11.2,   // "Majalah Digital" naik
-  selesai : 14.5    // intro berakhir -> lanjut ke bagian berikutnya
-};
-const KECEPATAN   = 1;      // 1 = normal, 1.3 = lebih cepat, 0.8 = lebih lambat
-const BG_BERGERAK = false;  // true = latar bergeser warna pelan (lebih cantik, tetapi lebih berat untuk TV lemah)
-const UKURAN_AKHIR = 168;   // ukuran huruf "PIAT 12 RIAU" setelah membesar (piksel)
+      /* WAKTU (detik sejak mulai) */
+      const T = {
+        buka: 0.2, // layar hitam membuka
+        hiasan: 0.6, // sudut emas, penanda kiri atas
+        eyebrow: 0.9,
+        ghost: 1.5,
+        judul: 1.9, // huruf PIAT 12 RIAU dirakit satu per satu
+        kilap: 3.6, // kilap cahaya lewat di atas judul
+        garis: 3.9,
+        sub: 4.5, // "Majalah Digital" naik dari balik garis
+        dukung: 5.6,
+        kaki: 6.2,
+        selesai: 11.5, // intro berakhir -> lanjut ke bagian berikutnya
+      };
+      const KECEPATAN = 1; // 1 = normal, 1.3 = lebih cepat, 0.8 = lebih lambat
+      const BG_BERGERAK = false; // true = latar berdenyut pelan (lebih cantik, tetapi lebih berat untuk TV lemah)
 
-/* ---------------- kode animasi (tidak perlu diubah) ---------------- */
-const K = 1 / KECEPATAN;
-const standalone = window.parent === window;
-const $ = id => document.getElementById(id);
-const kirim = o => { if(!standalone){ try{ parent.postMessage(Object.assign({mading:true},o),'*'); }catch(e){} } };
-document.documentElement.style.setProperty('--k', K);
+      /* ---------------- kode animasi (tidak perlu diubah) ---------------- */
+      const K = 1 / KECEPATAN;
+      const standalone = window.parent === window;
+      const $ = (id) => document.getElementById(id);
+      const kirim = (o) => {
+        if (!standalone) {
+          try {
+            parent.postMessage(Object.assign({ mading: true }, o), "*");
+          } catch (e) {}
+        }
+      };
+      document.documentElement.style.setProperty("--k", K);
 
-function skala(){
-  const s = Math.min(innerWidth/1920, innerHeight/1080);
-  $('kanvas').style.transform = `translate(${(innerWidth-1920*s)/2}px,${(innerHeight-1080*s)/2}px) scale(${s})`;
-}
-if(standalone){ document.documentElement.classList.add('standalone'); skala(); addEventListener('resize', skala); }
-addEventListener('keydown', e => kirim({type:'tombol', key:e.key}));
-kirim({type:'siap', warna:'#029a65', judul:'Intro'});
+      function skala() {
+        const s = Math.min(innerWidth / 1920, innerHeight / 1080);
+        $("kanvas").style.transform =
+          `translate(${(innerWidth - 1920 * s) / 2}px,${(innerHeight - 1080 * s) / 2}px) scale(${s})`;
+      }
+      if (standalone) {
+        document.documentElement.classList.add("standalone");
+        skala();
+        addEventListener("resize", skala);
+      }
+      addEventListener("keydown", (e) => kirim({ type: "tombol", key: e.key }));
+      kirim({ type: "siap", warna: "#029a65", judul: "Intro" });
 
-const judul = $('judul'), sk = $('skala');
-const POSISI = s => `translate(-50%,-50%) scale(${s})`;
+      /* susun teks */
+      function susun() {
+        $("eyebrow").textContent = EYEBROW;
+        $("ghost").textContent = GHOST;
+        $("sub").textContent = SUB;
+        $("dukung").innerHTML = DUKUNG.join(" <b>·</b> ");
+        $("mk1").textContent = MARK[0];
+        $("mk2").textContent = MARK[1];
+        $("kk1").textContent = KAKI[0];
+        $("kk2").textContent = KAKI[1];
+        const j = $("judul");
+        let n = 0;
+        JUDUL.forEach((h) => {
+          const s = document.createElement("span");
+          if (h.sp) {
+            s.className = "sp";
+            s.innerHTML = "&nbsp;";
+          } else {
+            s.className = "hrf " + (h.w || "krim");
+            s.textContent = h.t;
+            s.style.setProperty("--n", n++);
+          }
+          j.appendChild(s);
+        });
+      }
 
-function bangun(){
-  KATA.forEach((k,i)=>{
-    const w = document.createElement('span'); w.className = 'kata'; w.style.setProperty('--n', i);
-    const depan = k.t.slice(0, k.simpan), sisa = k.t.slice(k.simpan);
-    if(depan){ const h = document.createElement('span'); h.className = 'h'; h.textContent = depan; w.appendChild(h); }
-    if(sisa){  const x = document.createElement('span'); x.className = 'x'; x.textContent = sisa; w.appendChild(x); }
-    judul.appendChild(w);
-    if(i < KATA.length-1){
-      const sp = document.createElement('span'); sp.className = 'sp' + (k.jaga ? '' : ' x'); judul.appendChild(sp);
-    }
-  });
-}
-/* Teks disusun pada ukuran AKHIR (tajam), lalu diperkecil dengan transform agar muat di layar.
-   Membesar = hanya transform (ringan, tetap tajam). */
-function ukurDanKecilkan(){
-  judul.style.fontSize = UKURAN_AKHIR + 'px';
-  sk.style.transition = 'none'; sk.style.transform = POSISI(1);
-  judul.querySelectorAll('.x').forEach(el => { el.style.width = el.getBoundingClientRect().width + 'px'; });
-  const lebar = judul.getBoundingClientRect().width;
-  sk.style.transform = POSISI(Math.min(1, 1720 / lebar));
-  void sk.offsetWidth; sk.style.transition = '';
-}
-/* Foto: tepi dilembutkan SEKALI di canvas (bukan mask CSS yang berat). */
-function bangunFoto(){
-  const wadah = $('fotoWadah');
-  return FOTO.map(f=>{
-    const d = document.createElement('div'); d.className = 'foto';
-    const tinggi = f.lebar * 2/3;
-    d.style.cssText = `left:${f.x}%;top:${f.y}%;width:${f.lebar}px;height:${tinggi}px;--r:${f.miring||0}deg;--o:${f.o||.6}`;
-    const im = new Image();
-    im.onerror = () => d.remove();                        // foto belum ada -> lewati
-    im.onload = () => {
-      const c = document.createElement('canvas'); c.width = 600; c.height = 400;
-      const g = c.getContext('2d');
-      const sc = Math.max(600/im.naturalWidth, 400/im.naturalHeight);
-      const w = im.naturalWidth*sc, h = im.naturalHeight*sc;
-      g.drawImage(im, (600-w)/2, (400-h)/2, w, h);
-      g.globalCompositeOperation = 'destination-in';      // tepi memudar halus
-      g.save(); g.translate(300,200); g.scale(300,200);
-      const r = g.createRadialGradient(0,0,0,0,0,1);
-      r.addColorStop(0,'rgba(0,0,0,1)'); r.addColorStop(.34,'rgba(0,0,0,1)');
-      r.addColorStop(.62,'rgba(0,0,0,.55)'); r.addColorStop(1,'rgba(0,0,0,0)');
-      g.fillStyle = r; g.fillRect(-1,-1,2,2); g.restore();
-      d.appendChild(c);
-    };
-    im.src = f.src; wadah.appendChild(d);
-    return d;
-  });
-}
-const at = (detik, fn) => setTimeout(fn, detik * 1000 * K);
+      /* Foto: tepi dilembutkan SEKALI di canvas (bukan mask CSS yang berat). */
+      function muatGambar(daftar, selesai) {
+        let i = 0;
+        (function coba() {
+          if (i >= daftar.length) return selesai(null);
+          const im = new Image();
+          im.onload = () => selesai(im);
+          im.onerror = () => {
+            i++;
+            coba();
+          };
+          im.src = daftar[i];
+        })();
+      }
+      function bangunFoto() {
+        const wadah = $("fotoWadah");
+        return FOTO.map((f) => {
+          const d = document.createElement("div");
+          d.className = "foto";
+          d.style.cssText = `left:${f.x}%;top:${f.y}%;width:${f.lebar}px;height:${(f.lebar * 2) / 3}px;--r:${f.miring || 0}deg;--o:${f.o || 0.5};--gx:${f.gx || 0}px;--gy:${f.gy || 0}px`;
+          const g = document.createElement("div");
+          g.className = "gerak";
+          d.appendChild(g);
+          wadah.appendChild(d);
+          muatGambar([].concat(f.src), (im) => {
+            if (!im) {
+              d.remove();
+              return;
+            }
+            const c = document.createElement("canvas");
+            c.width = 640;
+            c.height = 427;
+            const x = c.getContext("2d");
+            const sc = Math.max(640 / im.naturalWidth, 427 / im.naturalHeight);
+            const w = im.naturalWidth * sc,
+              h = im.naturalHeight * sc;
+            x.drawImage(im, (640 - w) / 2, (427 - h) / 2, w, h);
+            x.globalCompositeOperation = "destination-in";
+            x.save();
+            x.translate(320, 213.5);
+            x.scale(320, 213.5);
+            const r = x.createRadialGradient(0, 0, 0, 0, 0, 1);
+            r.addColorStop(0, "rgba(0,0,0,1)");
+            r.addColorStop(0.36, "rgba(0,0,0,1)");
+            r.addColorStop(0.64, "rgba(0,0,0,.5)");
+            r.addColorStop(1, "rgba(0,0,0,0)");
+            x.fillStyle = r;
+            x.fillRect(-1, -1, 2, 2);
+            x.restore();
+            g.appendChild(c);
+          });
+          return d;
+        });
+      }
 
-async function jalankan(){
-  if(document.fonts && document.fonts.ready) await Promise.race([document.fonts.ready, new Promise(r=>setTimeout(r,1500))]);
-  $('sub').textContent = SUB;
-  bangun(); ukurDanKecilkan();
-  const foto = bangunFoto();
+      const at = (detik, fn) => setTimeout(fn, detik * 1000 * K);
+      const on = (id) => $(id).classList.add("on");
 
-  judul.classList.add('mulai');                                   // kata masuk satu per satu
-  at(T.warna, () => {
-    $('putih').classList.add('hilang');
-    setTimeout(() => judul.classList.add('putih'), 400*K);
-    if(BG_BERGERAK) setTimeout(() => $('warna2').classList.add('hidup'), 2000*K);
-  });
-  foto.forEach((d,i) => at(FOTO[i].muncul, () => d.classList.add('tampil')));
+      async function jalankan() {
+        if (document.fonts && document.fonts.ready)
+          await Promise.race([
+            document.fonts.ready,
+            new Promise((r) => setTimeout(r, 1500)),
+          ]);
+        susun();
+        const foto = bangunFoto();
 
-  at(T.ringkas, () => {                                           // sisakan P-I-A-T (dan 12 RIAU)
-    judul.querySelectorAll('.x').forEach((el,i)=>{
-      el.style.transitionDelay = (i*45*K)+'ms'; el.classList.add('pergi');
-    });
-  });
-  at(T.besar, () => { sk.style.transform = POSISI(1); });
-  at(T.sub,   () => { $('subwrap').classList.add('naik'); });
-  at(T.selesai, () => { kirim({type:'selesai'}); if(standalone) setTimeout(()=>location.reload(), 1500); });
-}
-jalankan();
-</script>
-</body>
+        at(T.buka, () => {
+          $("tutup").classList.add("buka");
+          on("cahaya");
+        });
+        at(T.hiasan, () => {
+          document
+            .querySelectorAll(".sudut")
+            .forEach((e) => e.classList.add("on"));
+          on("mark");
+          document
+            .querySelectorAll(".kilau")
+            .forEach((e) => e.classList.add("on"));
+          if (BG_BERGERAK) $("bg2").classList.add("hidup");
+        });
+        at(T.eyebrow, () => on("eyebrow"));
+        at(T.ghost, () => on("ghost"));
+        at(T.judul, () => $("judul").classList.add("mulai"));
+        foto.forEach((d, i) =>
+          at(FOTO[i].muncul, () => d.classList.add("tampil")),
+        );
+        at(T.kilap, () => $("kilap").classList.add("jalan"));
+        at(T.garis, () => on("garis"));
+        at(T.sub, () => $("subWadah").classList.add("naik"));
+        at(T.dukung, () => on("dukung"));
+        at(T.kaki, () => on("kaki"));
+        at(T.selesai, () => {
+          kirim({ type: "selesai" });
+          if (standalone) setTimeout(() => location.reload(), 1500);
+        });
+      }
+      jalankan();
+    </script>
+  </body>
 </html>
