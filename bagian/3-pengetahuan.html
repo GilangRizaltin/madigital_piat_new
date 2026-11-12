@@ -1,340 +1,343 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Pengetahuan Umum</title>
-    <link rel="stylesheet" href="../aset/bagian.css" />
-    <style>
-      .area {
-        display: grid;
-        grid-template-columns: 1fr 1.3fr;
-        grid-template-rows: 1fr 104px;
-        gap: 22px 26px;
-        --accent: #a78bfa;
-      }
-      .area.out > * {
-        animation: keluar 0.6s cubic-bezier(0.5, 0, 0.8, 0.3) forwards;
-      }
-      .area > * {
-        animation: masuk 1s cubic-bezier(0.2, 0.9, 0.25, 1) backwards;
-      }
+<head>
+<meta charset="UTF-8">
+<title>Pengetahuan Umum</title>
+<link rel="stylesheet" href="../aset/bagian.css">
+<style>
+/* ===== kerangka: halaman isi + bilah navigasi halaman ===== */
+.area{display:flex;flex-direction:column;gap:16px;--accent:#a78bfa}
+.halaman{flex:1;min-height:0;position:relative}
+.hal{position:absolute;inset:0;display:grid;gap:22px}
+.hal.out>*{animation:keluar .6s cubic-bezier(.5,0,.8,.3) forwards!important}
+.hal>*{animation:masuk .9s cubic-bezier(.2,.9,.25,1) backwards;animation-delay:calc(var(--i,0)*.12s)}
 
-      /* kartu pengertian */
-      .info {
-        padding: 34px 40px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-        gap: 20px;
-        background: linear-gradient(
-          160deg,
-          rgba(167, 139, 250, 0.24),
-          rgba(255, 255, 255, 0.05) 62%
-        );
-      }
-      .ikon {
-        font-size: 128px;
-        line-height: 1;
-        filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.4));
-        animation: melayang 4.5s ease-in-out infinite;
-        font-family:
-          "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
-      }
-      @keyframes melayang {
-        0%,
-        100% {
-          transform: translateY(0) rotate(-3deg);
-        }
-        50% {
-          transform: translateY(-14px) rotate(3deg);
-        }
-      }
-      .kategori {
-        display: inline-block;
-        padding: 6px 20px;
-        border-radius: 30px;
-        background: rgba(255, 255, 255, 0.12);
-        font-size: 21px;
-        font-weight: 800;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--accent);
-      }
-      .ringkas {
-        font-size: 35px;
-        line-height: 1.48;
-        font-weight: 500;
-        color: #f1f5f9;
-      }
+.ikon{line-height:1;font-family:'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif}
+.kategori{display:inline-block;padding:6px 20px;border-radius:30px;background:rgba(255,255,255,.12);font-size:21px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
 
-      /* daftar langkah */
-      .langkah {
-        padding: 26px 30px;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
-      .langkah-judul {
-        font-size: 23px;
-        font-weight: 800;
-        letter-spacing: 0.24em;
-        text-transform: uppercase;
-        color: var(--accent);
-        padding-left: 6px;
-      }
-      .daftar {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        min-height: 0;
-      }
-      .lk {
-        flex: 1;
-        min-height: 0;
-        display: flex;
-        align-items: center;
-        gap: 22px;
-        padding: 6px 22px 6px 14px;
-        border-radius: 24px;
-        background: rgba(255, 255, 255, 0.07);
-        border: 1.5px solid rgba(255, 255, 255, 0.1);
-        animation: lkMasuk 0.8s cubic-bezier(0.2, 0.9, 0.25, 1) backwards;
-        animation-delay: calc(var(--i) * 0.45s + 1s);
-      }
-      @keyframes lkMasuk {
-        from {
-          opacity: 0;
-          transform: translateX(70px);
-        }
-        to {
-          opacity: 1;
-          transform: none;
-        }
-      }
-      .lk-no {
-        flex: none;
-        width: 62px;
-        height: 62px;
-        border-radius: 20px;
-        display: grid;
-        place-items: center;
-        background: var(--accent);
-        color: #0b1020;
-        font-size: 32px;
-        font-weight: 800;
-        box-shadow: 0 0 28px -4px var(--accent);
-      }
-      .lk-judul {
-        font-size: 31px;
-        font-weight: 800;
-        line-height: 1.15;
-      }
-      .lk-isi {
-        font-size: 24px;
-        line-height: 1.3;
-        color: #cbd5e1;
-        font-weight: 500;
-        margin-top: 2px;
-      }
+/* navigasi halaman (bawah) */
+.nav{flex:none;height:54px;display:flex;gap:10px}
+.n{flex:1;min-width:0;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:10px;
+  border-radius:27px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.1);
+  font-size:21px;font-weight:700;color:#cbd5e1;white-space:nowrap;transition:opacity .4s,background-color .4s,color .4s}
+.n .n-i{font-size:24px;font-family:'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif}
+.n.selesai{opacity:.5}
+.n.aktif{background:var(--accent);color:#0b1020;border-color:var(--accent)}
+.n.aktif::after{content:'';position:absolute;left:0;right:0;bottom:0;height:5px;background:rgba(11,16,32,.45);
+  transform-origin:0 50%;animation:isi var(--w) linear forwards}
+@keyframes isi{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 
-      /* tahukah kamu */
-      .fakta {
-        grid-column: 1/-1;
-        display: flex;
-        align-items: center;
-        gap: 26px;
-        padding: 0 38px;
-        background: linear-gradient(
-          90deg,
-          rgba(251, 191, 36, 0.2),
-          rgba(255, 255, 255, 0.05)
-        );
-        border-color: rgba(251, 191, 36, 0.4);
-        animation: masuk 1s 1.2s cubic-bezier(0.2, 0.9, 0.25, 1) backwards;
-      }
-      .fakta-ikon {
-        flex: none;
-        width: 68px;
-        height: 68px;
-        border-radius: 22px;
-        background: var(--gold);
-        display: grid;
-        place-items: center;
-        font-size: 40px;
-        box-shadow: 0 0 36px -4px var(--gold);
-        animation: blink 2.4s ease-in-out infinite;
-      }
-      .fakta b {
-        display: block;
-        font-size: 21px;
-        letter-spacing: 0.26em;
-        text-transform: uppercase;
-        color: var(--gold);
-        margin-bottom: 4px;
-      }
-      .fakta span {
-        font-size: 29px;
-        line-height: 1.32;
-        font-weight: 600;
-      }
-    </style>
-  </head>
-  <body>
-    <section class="title" id="title">
-      <div>
-        <div class="kicker" id="kicker"></div>
-        <h1 id="tTitle"></h1>
-        <p id="tSub"></p>
-      </div>
-      <div class="t-ar" id="tAr" lang="ar" dir="rtl"></div>
-    </section>
-    <div class="progress"><i id="bar"></i></div>
-    <main class="area" id="area"></main>
+/* ===== 1. PENGERTIAN ===== */
+.h-pengertian{grid-template-columns:.8fr 1.7fr}
+.h-pengertian .kiri{padding:30px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:22px;
+  background:linear-gradient(160deg,rgba(167,139,250,.26),rgba(255,255,255,.05) 62%)}
+.h-pengertian .ikon{font-size:170px}
+.h-pengertian .asal small{display:block;font-size:20px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--mut);margin-bottom:6px}
+.h-pengertian .asal b{font-size:38px;line-height:1.2;color:var(--gold)}
+.h-pengertian .isi{padding:34px 42px;display:flex;flex-direction:column;justify-content:space-between;gap:20px}
+.h-pengertian .besar{font-size:42px;line-height:1.42;font-weight:600;color:#f1f5f9}
+.ciri{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.ciri .c{display:flex;align-items:center;gap:16px;padding:16px 20px;border-radius:22px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.1)}
+.ciri .c span{font-size:44px;line-height:1;font-family:'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif}
+.ciri .c b{font-size:25px;line-height:1.25;font-weight:700}
 
-    <script src="../aset/bagian.js"></script>
-    <script>
-      /* =====================================================================
-   PENGETAHUAN UMUM  (apa itu komputer, bagaimana cara kerja mobil, dll.)
-   Cara update: ubah / tambah / hapus blok { ... } di DATA di bawah ini.
-     kategori   : mis. 'Teknologi', 'Otomotif', 'Alam', 'Kesehatan'
-     ikon       : satu emoji
-     judul      : pertanyaan / topik (tampil besar di judul)
-     ringkas    : penjelasan singkat (usahakan maks. ±180 karakter)
-     langkahJudul : judul daftar di kanan, mis. 'Cara kerjanya'
-     langkah    : 3–5 pasangan [ 'judul pendek', 'penjelasan (maks. ±75 karakter)' ]
-     fakta      : satu kalimat "Tahukah kamu?"
-   Contoh di bawah hanyalah contoh — silakan ganti sesuai kebutuhan.
+/* ===== 2. GARIS WAKTU / PENEMU ===== */
+.h-waktu{grid-template-rows:116px 1fr}
+.sorot{display:flex;align-items:center;gap:26px;padding:0 38px;background:linear-gradient(90deg,rgba(251,191,36,.22),rgba(255,255,255,.05));border-color:rgba(251,191,36,.4)}
+.s-ikon{flex:none;width:72px;height:72px;border-radius:22px;background:var(--gold);display:grid;place-items:center;font-size:42px;font-family:'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif}
+.sorot b{display:block;font-size:22px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.sorot span{font-size:29px;line-height:1.3;font-weight:600}
+.tl{position:relative;display:grid;gap:18px}
+.tl::before{content:'';position:absolute;left:4%;right:4%;top:20px;height:4px;border-radius:2px;background:rgba(255,255,255,.22)}
+.tk{display:flex;flex-direction:column;align-items:center;gap:14px;min-height:0}
+.tk .dot{flex:none;width:44px;height:44px;border-radius:50%;background:var(--accent);border:6px solid #0b1020;position:relative;z-index:1}
+.tk .kartu{flex:1;width:100%;padding:22px 22px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
+.tk .th{font-size:54px;font-weight:800;color:var(--accent);line-height:1}
+.tk .tj{font-size:28px;font-weight:800;line-height:1.15}
+.tk .tt{font-size:22px;line-height:1.36;color:#cbd5e1;font-weight:500}
+
+/* ===== 3. LANGKAH ===== */
+.h-langkah{grid-template-columns:.85fr 1.6fr}
+.h-langkah .info{padding:32px 36px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:20px;
+  background:linear-gradient(160deg,rgba(167,139,250,.24),rgba(255,255,255,.05) 62%)}
+.h-langkah .ikon{font-size:140px}
+.ringkas{font-size:35px;line-height:1.45;font-weight:500;color:#f1f5f9}
+.h-langkah .lkwrap{padding:24px 28px;display:flex;flex-direction:column;gap:12px}
+.lk{flex:1;min-height:0;display:flex;align-items:center;gap:22px;padding:6px 22px 6px 14px;border-radius:24px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.1);
+  animation:lkMasuk .8s cubic-bezier(.2,.9,.25,1) backwards;animation-delay:calc(var(--i)*.4s + .5s)}
+@keyframes lkMasuk{from{opacity:0;transform:translateX(70px)}to{opacity:1;transform:none}}
+.lk-no{flex:none;width:62px;height:62px;border-radius:20px;display:grid;place-items:center;background:var(--accent);color:#0b1020;font-size:32px;font-weight:800}
+.lk-judul{font-size:32px;font-weight:800;line-height:1.15}
+.lk-isi{font-size:25px;line-height:1.3;color:#cbd5e1;font-weight:500;margin-top:2px}
+
+/* ===== 4. ELEMEN / ISTILAH ===== */
+.h-elemen{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr}
+.el{padding:26px 30px;display:flex;flex-direction:column;gap:14px;justify-content:center}
+.el .baris{display:flex;align-items:center;gap:20px}
+.el .e-ikon{flex:none;width:76px;height:76px;border-radius:24px;background:rgba(167,139,250,.22);display:grid;place-items:center;font-size:46px;
+  font-family:'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif}
+.el .e-nama{font-size:36px;font-weight:800;line-height:1.1;color:var(--accent)}
+.el .e-ket{font-size:26px;line-height:1.36;font-weight:500;color:#e2e8f0}
+
+/* ===== 5–6. DAFTAR (positif / hindari) ===== */
+.h-daftar{grid-template-rows:104px 1fr;--accent:var(--c)}
+.baner{display:flex;align-items:center;gap:26px;padding:0 38px;background:linear-gradient(90deg,var(--bg),rgba(255,255,255,.05));border-color:var(--c)}
+.baner .b-ikon{flex:none;font-size:56px;line-height:1;font-family:'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif}
+.baner span{font-size:40px;font-weight:800;line-height:1.15}
+.grid-d{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:20px;min-height:0}
+.it{padding:20px 26px;display:flex;flex-direction:column;justify-content:center;gap:10px}
+.it .baris{display:flex;align-items:center;gap:16px}
+.it .tanda{flex:none;width:50px;height:50px;border-radius:50%;background:var(--c);color:#0b1020;display:grid;place-items:center;font-size:30px;font-weight:800}
+.it .i-ikon{flex:none;font-size:38px;line-height:1;font-family:'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif}
+.it .i-judul{font-size:31px;font-weight:800;line-height:1.12}
+.it .i-ket{font-size:24px;line-height:1.34;font-weight:500;color:#dbe3ee}
+
+/* ===== 7. PENUTUP ===== */
+.h-penutup{grid-template-columns:1fr 1.25fr}
+.fk{padding:34px 40px;display:flex;flex-direction:column;justify-content:center;gap:22px;
+  background:linear-gradient(160deg,rgba(251,191,36,.24),rgba(255,255,255,.05) 62%);border-color:rgba(251,191,36,.4)}
+.fk .fk-ikon{font-size:100px;line-height:1;font-family:'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif}
+.fk b{display:block;font-size:24px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold)}
+.fk span{font-size:40px;line-height:1.38;font-weight:600}
+.h-penutup .lkwrap{padding:24px 28px;display:flex;flex-direction:column;gap:14px}
+.lkwrap .atas{font-size:23px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);padding-left:6px}
+
+/* mode ringan */
+.ringan .ciri .c,.ringan .tk .dot{box-shadow:none}
+</style>
+</head>
+<body>
+<section class="title" id="title">
+  <div><div class="kicker" id="kicker"></div><h1 id="tTitle"></h1><p id="tSub"></p></div>
+  <div class="t-ar" id="tAr" lang="ar" dir="rtl"></div>
+</section>
+<div class="progress"><i id="bar"></i></div>
+<main class="area" id="area"><div class="halaman" id="halaman"></div><nav class="nav" id="nav"></nav></main>
+
+<script src="../aset/bagian.js"></script>
+<script>
+/* =====================================================================
+   PENGETAHUAN UMUM — SATU TOPIK LENGKAP
+   Satu section membahas SATU topik (contoh: Internet) lewat beberapa
+   "halaman" yang berganti otomatis. Untuk topik baru, cukup ganti isi
+   TOPIK dan HALAMAN di bawah. Halaman boleh dihapus, ditambah, atau
+   diubah urutannya.
+
+   Jenis halaman (tipe):
+   'pengertian'  : apa itu …            → asal, isi, ciri (3 butir)
+   'garis-waktu' : penemu / sejarah     → sorotJudul, sorot, titik (3–6 butir)
+   'langkah'     : cara / langkah       → ikon, label, intro, langkah (3–5 butir)
+   'elemen'      : istilah penting      → item (maks. 6 butir)
+   'daftar'      : positif / hindari    → tema ('baik' | 'hindari'), baner, item (maks. 6 butir)
+   'penutup'     : ringkasan + fakta    → fakta, poin (3 butir)
+
+   Setiap halaman punya: tab (nama pendek di bawah, maks. ±12 huruf),
+   ikon (satu emoji), judul (tampil di judul atas), dan waktu (detik, boleh dikosongkan).
+
+   PANDUAN PANJANG TEKS (agar tidak meluap):
+     isi pengertian ≤ 190 | ciri ≤ 30 | sorot ≤ 130 | titik: judul ≤ 18, teks ≤ 75
+     langkah: judul ≤ 22, teks ≤ 60 | elemen: nama ≤ 18, ket ≤ 80
+     daftar: judul ≤ 22, teks ≤ 62 | penutup: fakta ≤ 110, poin teks ≤ 70
    ===================================================================== */
-      const WAKTU_PER_TOPIK = 22; // detik tampil untuk tiap topik
+const TOPIK = {
+  kategori : 'Teknologi',
+  ikon     : '🌐',
+  judul    : 'Internet',
+  arab     : 'الْمَعْرِفَةُ',
+  waktu    : 16            // detik per halaman (bisa diganti per halaman lewat "waktu")
+};
 
-      const DATA = [
-        {
-          kategori: "Teknologi",
-          ikon: "🌐",
-          judul: "Apa itu Internet?",
-          ringkas:
-            "Internet adalah jaringan global yang menghubungkan jutaan komputer dan perangkat di seluruh dunia sehingga dapat saling bertukar data.",
-          langkahJudul: "Cara kerja internet",
-          langkah: [
-            ["Permintaan", "Kamu mengetik alamat website atau menekan tautan."],
-            [
-              "Penyedia internet",
-              "Permintaan diteruskan oleh ISP lewat kabel atau sinyal.",
-            ],
-            [
-              "Mencari alamat",
-              "DNS mengubah nama website menjadi alamat angka (IP) server.",
-            ],
-            [
-              "Jawaban",
-              "Server mengirim data berupa paket kecil yang disusun jadi halaman.",
-            ],
-          ],
-          fakta:
-            "Sebagian besar data internet antarbenua melewati kabel serat optik di dasar laut.",
-        },
+const HALAMAN = [
+  { tipe:'pengertian', tab:'Apa itu?', ikon:'❓', judul:'Apa itu Internet?',
+    asal:['Asal kata','Interconnection Networking'],
+    isi:'Internet adalah jaringan global yang menghubungkan jutaan komputer, HP, dan perangkat lain di seluruh dunia sehingga semuanya dapat saling bertukar informasi.',
+    ciri:[ ['🌍','Menjangkau seluruh dunia'], ['⚡','Pertukaran data sangat cepat'], ['🕒','Dapat diakses setiap saat'] ] },
 
-        {
-          kategori: "Fotografi",
-          ikon: "📷",
-          judul: "Bagaimana Cara Kerja Kamera?",
-          ringkas:
-            "Kamera menangkap cahaya yang dipantulkan oleh benda, lalu mengubahnya menjadi gambar yang dapat disimpan.",
-          langkahJudul: "Cara kerja kamera digital",
-          langkah: [
-            [
-              "Cahaya masuk",
-              "Cahaya yang dipantulkan benda masuk melalui lensa.",
-            ],
-            [
-              "Difokuskan",
-              "Lensa mengumpulkan dan memfokuskan cahaya ke sensor.",
-            ],
-            ["Sensor", "Sensor gambar mengubah cahaya menjadi sinyal listrik."],
-            [
-              "Diolah dan disimpan",
-              "Prosesor mengubah sinyal menjadi gambar digital dan menyimpannya.",
-            ],
-          ],
-          fakta:
-            "Kata kamera berasal dari “camera obscura”, bahasa Latin yang berarti “ruang gelap”.",
-        },
+  { tipe:'garis-waktu', tab:'Penemu', ikon:'🧑‍💻', judul:'Siapa yang Menemukan Internet?',
+    sorotJudul:'Bukan satu orang saja!',
+    sorot:'Internet lahir dari kerja banyak ilmuwan selama puluhan tahun. Vint Cerf dan Bob Kahn dijuluki “bapak internet”.',
+    titik:[
+      ['1969','ARPANET','Jaringan komputer pertama milik Amerika Serikat, menghubungkan beberapa kampus.'],
+      ['1971','Email pertama','Ray Tomlinson mengirim surel pertama dan memakai tanda @.'],
+      ['1983','TCP/IP','Bahasa bersama rancangan Vint Cerf dan Bob Kahn resmi dipakai.'],
+      ['1991','World Wide Web','Tim Berners-Lee membuat web: halaman yang saling terhubung.'],
+      ['1994','Masuk Indonesia','Internet komersial pertama hadir lewat IndoNet.']
+    ] },
 
-        {
-          kategori: "Teknologi",
-          ikon: "📶",
-          judul: "Bagaimana Cara Kerja WiFi?",
-          ringkas:
-            "WiFi adalah teknologi yang menghubungkan perangkat ke jaringan tanpa kabel dengan memakai gelombang radio.",
-          langkahJudul: "Cara kerja WiFi",
-          langkah: [
-            ["Modem", "Modem menerima internet dari penyedia lewat kabel."],
-            ["Router", "Router memancarkan data sebagai gelombang radio."],
-            [
-              "Perangkat",
-              "Antena di HP atau laptop menerima gelombang radio itu.",
-            ],
-            [
-              "Dua arah",
-              "Perangkat mengirim data balik ke router dengan cara serupa.",
-            ],
-          ],
-          fakta:
-            "WiFi bekerja pada gelombang radio, umumnya pada frekuensi 2,4 GHz dan 5 GHz.",
-        },
-      ];
-      /* ---------------- kode tampilan (tidak perlu diubah) ---------------- */
-      const { $, esc, pad, wait } = Mading;
-      Mading.init({ warna: "#a78bfa", judul: "Pengetahuan Umum" });
+  { tipe:'langkah', tab:'Cara akses', ikon:'📱', judul:'Bagaimana Cara Mengakses Internet?',
+    ikonBesar:'📶', label:'Empat langkah',
+    intro:'Untuk terhubung, kamu butuh perangkat dan sambungan dari penyedia layanan internet (ISP).',
+    langkah:[
+      ['Siapkan perangkat','HP, laptop, tablet, atau komputer yang dapat terhubung.'],
+      ['Pilih sambungan','Pakai kuota data seluler atau jaringan WiFi.'],
+      ['Hubungkan','Aktifkan data, atau pilih WiFi dan masukkan kata sandi.'],
+      ['Buka browser','Ketik alamat website atau cari lewat mesin pencari.']
+    ] },
 
-      Mading.mulai(async () => {
-        Mading.bar(DATA.length * WAKTU_PER_TOPIK * 1000);
-        const area = $("area");
+  { tipe:'elemen', tab:'Istilah', ikon:'🧩', judul:'Istilah Penting di Internet',
+    item:[
+      ['🌐','Website','Kumpulan halaman web yang punya alamat (URL) dan dibuka lewat browser.'],
+      ['🧭','Browser','Aplikasi untuk membuka website, contohnya Chrome, Firefox, dan Safari.'],
+      ['🔎','Mesin pencari','Situs untuk mencari informasi dengan kata kunci, seperti Google.'],
+      ['⬇️','Download (unduh)','Mengambil file dari internet lalu menyimpannya di perangkat kita.'],
+      ['⬆️','Upload (unggah)','Mengirim file dari perangkat kita ke internet, misalnya foto atau tugas.'],
+      ['✉️','Email (surel)','Surat elektronik untuk mengirim pesan dan berkas lewat internet.']
+    ] },
 
-        for (let i = 0; i < DATA.length; i++) {
-          const d = DATA[i];
-          area.classList.remove("out");
-          $("title").classList.remove("out");
-          Mading.judul({
-            kicker:
-              "Pengetahuan Umum · " + pad(i + 1) + " / " + pad(DATA.length),
-            judul: d.judul,
-            sub: d.kategori,
-            arab: "الْمَعْرِفَةُ",
-          });
-          area.innerHTML = `
-      <article class="kartu info">
-        <div class="ikon">${esc(d.ikon)}</div>
-        <div class="kategori">${esc(d.kategori)}</div>
-        <div class="ringkas">${esc(d.ringkas)}</div>
+  { tipe:'daftar', tema:'baik', tab:'Positif', ikon:'✅', judul:'Memakai Internet dengan Positif',
+    baner:['🌱','Jadikan internet ladang ilmu dan kebaikan'],
+    item:[
+      ['📚','Belajar dan cari ilmu','Tonton kajian, baca e-book, dan pakai kamus atau video pelajaran.'],
+      ['🤝','Jaga silaturahmi','Hubungi keluarga lewat telepon atau video call.'],
+      ['🕌','Sebarkan kebaikan','Bagikan konten bermanfaat, nasihat, dan ilmu yang benar.'],
+      ['🔍','Tabayyun dulu','Cek kebenaran berita sebelum dibagikan (QS. Al-Hujurat: 6).'],
+      ['🔐','Lindungi data pribadi','Gunakan kata sandi kuat dan rahasiakan kode OTP.'],
+      ['⏳','Atur waktu','Batasi durasi, jangan sampai melalaikan sholat dan belajar.']
+    ] },
+
+  { tipe:'daftar', tema:'hindari', tab:'Hindari', ikon:'⛔', judul:'Hal yang Harus Dihindari',
+    baner:['🚧','Waspada! Ini jebakan di dunia maya'],
+    item:[
+      ['📰','Hoaks','Menyebarkan kabar yang belum jelas kebenarannya.'],
+      ['🔞','Konten terlarang','Pornografi, kekerasan, judi online, dan pinjol ilegal.'],
+      ['🪪','Bagikan data pribadi','Alamat, kata sandi, kode OTP, dan foto pribadi.'],
+      ['💬','Perundungan siber','Menghina, mengejek, atau bergunjing di kolom komentar.'],
+      ['🎮','Kecanduan','Game dan medsos berlebihan hingga begadang dan lalai ibadah.'],
+      ['🎣','Tautan mencurigakan','Hadiah palsu, penipuan (phishing), dan aplikasi bajakan.']
+    ] },
+
+  { tipe:'penutup', tab:'Rangkuman', ikon:'⭐', judul:'Ringkasan dan Tahukah Kamu?',
+    fakta:'Sebagian besar data antarbenua mengalir lewat kabel serat optik di dasar laut, bukan lewat satelit.',
+    poin:[
+      ['Internet = jaringan','Website, email, dan media sosial hanyalah isi yang berjalan di atasnya.'],
+      ['Manfaatkan untuk kebaikan','Gunakan untuk ilmu, ibadah, dan silaturahmi.'],
+      ['Lindungi diri','Cek berita, jaga data pribadi, dan atur waktu.']
+    ] }
+];
+
+/* ---------------- kode tampilan (tidak perlu diubah) ---------------- */
+const { $, esc, pad, wait } = Mading;
+Mading.init({ warna:'#a78bfa', judul:'Pengetahuan Umum' });
+
+const waktuHal = h => (h.waktu || TOPIK.waktu) * 1000;
+
+const TEMPLAT = {
+  'pengertian': h => `
+    <div class="hal h-pengertian">
+      <article class="kartu kiri" style="--i:0">
+        <div class="ikon">${esc(TOPIK.ikon)}</div>
+        <div class="kategori">${esc(TOPIK.kategori)}</div>
+        <div class="asal"><small>${esc(h.asal[0])}</small><b>${esc(h.asal[1])}</b></div>
       </article>
-      <article class="kartu langkah">
-        <div class="langkah-judul">${esc(d.langkahJudul)}</div>
-        <div class="daftar">
-          ${d.langkah
-            .map(
-              (l, k) => `
-            <div class="lk" style="--i:${k}">
-              <div class="lk-no">${k + 1}</div>
-              <div><div class="lk-judul">${esc(l[0])}</div><div class="lk-isi">${esc(l[1])}</div></div>
-            </div>`,
-            )
-            .join("")}
-        </div>
+      <article class="kartu isi" style="--i:1">
+        <div class="besar">${esc(h.isi)}</div>
+        <div class="ciri">${h.ciri.map(c => `<div class="c"><span>${esc(c[0])}</span><b>${esc(c[1])}</b></div>`).join('')}</div>
       </article>
-      <article class="kartu fakta">
-        <div class="fakta-ikon">💡</div>
-        <div><b>Tahukah kamu?</b><span>${esc(d.fakta)}</span></div>
-      </article>`;
-          await wait(WAKTU_PER_TOPIK * 1000 - 700);
-          area.classList.add("out");
-          $("title").classList.add("out");
-          await wait(700);
-        }
-        Mading.selesai();
-      });
-    </script>
-  </body>
+    </div>`,
+
+  'garis-waktu': h => `
+    <div class="hal h-waktu">
+      <article class="kartu sorot" style="--i:0">
+        <div class="s-ikon">💡</div>
+        <div><b>${esc(h.sorotJudul)}</b><span>${esc(h.sorot)}</span></div>
+      </article>
+      <div class="tl" style="grid-template-columns:repeat(${h.titik.length},1fr)">
+        ${h.titik.map((t,k) => `
+          <div class="tk" style="--i:${k+1}">
+            <div class="dot"></div>
+            <article class="kartu">
+              <div class="th">${esc(t[0])}</div>
+              <div class="tj">${esc(t[1])}</div>
+              <div class="tt">${esc(t[2])}</div>
+            </article>
+          </div>`).join('')}
+      </div>
+    </div>`,
+
+  'langkah': h => `
+    <div class="hal h-langkah">
+      <article class="kartu info" style="--i:0">
+        <div class="ikon">${esc(h.ikonBesar || h.ikon)}</div>
+        <div class="kategori">${esc(h.label)}</div>
+        <div class="ringkas">${esc(h.intro)}</div>
+      </article>
+      <article class="kartu lkwrap" style="--i:1">
+        ${h.langkah.map((l,k) => `
+          <div class="lk" style="--i:${k}">
+            <div class="lk-no">${k+1}</div>
+            <div><div class="lk-judul">${esc(l[0])}</div><div class="lk-isi">${esc(l[1])}</div></div>
+          </div>`).join('')}
+      </article>
+    </div>`,
+
+  'elemen': h => `
+    <div class="hal h-elemen">
+      ${h.item.map((e,k) => `
+        <article class="kartu el" style="--i:${k}">
+          <div class="baris"><div class="e-ikon">${esc(e[0])}</div><div class="e-nama">${esc(e[1])}</div></div>
+          <div class="e-ket">${esc(e[2])}</div>
+        </article>`).join('')}
+    </div>`,
+
+  'daftar': h => {
+    const baik = h.tema !== 'hindari';
+    const c = baik ? '#34d399' : '#fb7185', bg = baik ? 'rgba(52,211,153,.3)' : 'rgba(251,113,133,.3)';
+    return `
+    <div class="hal h-daftar" style="--c:${c};--bg:${bg}">
+      <article class="kartu baner" style="--i:0">
+        <div class="b-ikon">${esc(h.baner[0])}</div><span>${esc(h.baner[1])}</span>
+      </article>
+      <div class="grid-d">
+        ${h.item.map((e,k) => `
+          <article class="kartu it" style="--i:${k+1}">
+            <div class="baris"><div class="tanda">${baik ? '✓' : '✕'}</div><div class="i-ikon">${esc(e[0])}</div><div class="i-judul">${esc(e[1])}</div></div>
+            <div class="i-ket">${esc(e[2])}</div>
+          </article>`).join('')}
+      </div>
+    </div>`;
+  },
+
+  'penutup': h => `
+    <div class="hal h-penutup">
+      <article class="kartu fk" style="--i:0">
+        <div class="fk-ikon">💡</div>
+        <div><b>Tahukah kamu?</b><span>${esc(h.fakta)}</span></div>
+      </article>
+      <article class="kartu lkwrap" style="--i:1">
+        <div class="atas">Ingat selalu</div>
+        ${h.poin.map((l,k) => `
+          <div class="lk" style="--i:${k}">
+            <div class="lk-no">${k+1}</div>
+            <div><div class="lk-judul">${esc(l[0])}</div><div class="lk-isi">${esc(l[1])}</div></div>
+          </div>`).join('')}
+      </article>
+    </div>`
+};
+
+Mading.mulai(async () => {
+  const total = HALAMAN.reduce((a,h) => a + waktuHal(h), 0);
+  Mading.bar(total);
+  const wadah = $('halaman'), nav = $('nav');
+  nav.innerHTML = HALAMAN.map(h =>
+    `<div class="n"><span class="n-i">${esc(h.ikon)}</span><span>${esc(h.tab)}</span></div>`).join('');
+  const chips = [...nav.children];
+
+  for(let i = 0; i < HALAMAN.length; i++){
+    const h = HALAMAN[i], t = waktuHal(h);
+    $('title').classList.remove('out');
+    Mading.judul({ kicker:'Pengetahuan Umum · Halaman ' + pad(i+1) + ' / ' + pad(HALAMAN.length),
+                   judul:TOPIK.judul, sub:h.judul, arab:TOPIK.arab });
+    chips.forEach((c,k) => { c.classList.toggle('selesai', k < i); c.classList.toggle('aktif', k === i); });
+    chips[i].style.setProperty('--w', t + 'ms');
+    const fn = TEMPLAT[h.tipe];
+    wadah.innerHTML = fn ? fn(h) : '';
+    await wait(t - 700);
+    const el = wadah.firstElementChild; if(el) el.classList.add('out');
+    $('title').classList.add('out');
+    await wait(700);
+  }
+  Mading.selesai();
+});
+</script>
+</body>
 </html>
