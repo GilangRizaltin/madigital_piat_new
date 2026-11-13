@@ -1,65 +1,210 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-<meta charset="UTF-8">
-<title>Jam Pelajaran</title>
-<link rel="stylesheet" href="../aset/bagian.css">
-<style>
-.area{--accent:#f472b6}
-.area.out>*{animation:keluar .6s cubic-bezier(.5,0,.8,.3) forwards}
+  <head>
+    <meta charset="UTF-8" />
+    <title>Jam Pelajaran</title>
+    <link rel="stylesheet" href="../aset/bagian.css" />
+    <style>
+      .area {
+        --accent: #f472b6;
+      }
+      .area.out > * {
+        animation: keluar 0.6s cubic-bezier(0.5, 0, 0.8, 0.3) forwards;
+      }
 
-/* ===== tabel jadwal (grid) ===== */
-.jadwal{position:absolute;inset:0;display:grid;grid-template-columns:236px repeat(4,minmax(0,1fr));column-gap:6px;row-gap:5px}
-.jadwal>*{animation:rowIn .55s cubic-bezier(.2,.9,.25,1) backwards;animation-delay:calc(var(--r,0)*38ms)}
-@keyframes rowIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+      /* ===== tabel jadwal (grid) ===== */
+      .jadwal {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-columns: 236px repeat(4, minmax(0, 1fr));
+        column-gap: 6px;
+        row-gap: 5px;
+      }
+      .jadwal > * {
+        animation: rowIn 0.55s cubic-bezier(0.2, 0.9, 0.25, 1) backwards;
+        animation-delay: calc(var(--r, 0) * 38ms);
+      }
+      @keyframes rowIn {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
 
-.hd{display:flex;align-items:center;justify-content:center;border-radius:14px;font-weight:800;font-size:29px;letter-spacing:.04em;
-  background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.14)}
-.hd.kelas{color:#0b1020}
-.hd.k7{background:#38bdf8}
-.hd.k8{background:#fbbf24}
-.hd.sudut{font-size:21px;letter-spacing:.2em;color:var(--mut);font-weight:800}
+      .hd {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 14px;
+        font-weight: 800;
+        font-size: 29px;
+        letter-spacing: 0.04em;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1.5px solid rgba(255, 255, 255, 0.14);
+      }
+      .hd.kelas {
+        color: #0b1020;
+      }
+      .hd.k7 {
+        background: #38bdf8;
+      }
+      .hd.k8 {
+        background: #fbbf24;
+      }
+      .hd.sudut {
+        font-size: 21px;
+        letter-spacing: 0.2em;
+        color: var(--mut);
+        font-weight: 800;
+      }
 
-/* kolom waktu */
-.wk{display:flex;align-items:center;gap:14px;padding:0 14px;border-radius:14px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.1)}
-.wk .no{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#0b1020;font-size:20px;font-weight:800}
-.wk .jam{font-size:24px;font-weight:700;color:#e2e8f0;letter-spacing:.01em;white-space:nowrap}
-.wk.ekstra{justify-content:center;font-size:21px;font-weight:700;color:var(--mut);letter-spacing:.04em}
-.wk.kini{background:#fff;border-color:#fff}
-.wk.kini .jam{color:#0b1020}
-.wk.kini .no{background:#0b1020;color:#fff}
+      /* kolom waktu */
+      .wk {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 0 14px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1.5px solid rgba(255, 255, 255, 0.1);
+      }
+      .wk .no {
+        flex: none;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: var(--accent);
+        color: #0b1020;
+        font-size: 20px;
+        font-weight: 800;
+      }
+      .wk .jam {
+        font-size: 24px;
+        font-weight: 700;
+        color: #e2e8f0;
+        letter-spacing: 0.01em;
+        white-space: nowrap;
+      }
+      .wk.ekstra {
+        justify-content: center;
+        font-size: 21px;
+        font-weight: 700;
+        color: var(--mut);
+        letter-spacing: 0.04em;
+      }
+      .wk.kini {
+        background: #fff;
+        border-color: #fff;
+      }
+      .wk.kini .jam {
+        color: #0b1020;
+      }
+      .wk.kini .no {
+        background: #0b1020;
+        color: #fff;
+      }
 
-/* pita istirahat / ishoma */
-.jeda{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:16px;border-radius:12px;
-  background:linear-gradient(90deg,rgba(251,113,133,.05),rgba(251,113,133,.30) 20%,rgba(251,113,133,.30) 80%,rgba(251,113,133,.05));
-  font-size:23px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:#fecdd3}
-.jeda b{letter-spacing:.06em;font-weight:700;color:#fff}
-.jeda .e{font-family:'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif;font-size:24px;letter-spacing:0}
+      /* pita istirahat / ishoma */
+      .jeda {
+        grid-column: 1/-1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        border-radius: 12px;
+        background: linear-gradient(
+          90deg,
+          rgba(251, 113, 133, 0.05),
+          rgba(251, 113, 133, 0.3) 20%,
+          rgba(251, 113, 133, 0.3) 80%,
+          rgba(251, 113, 133, 0.05)
+        );
+        font-size: 23px;
+        font-weight: 800;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: #fecdd3;
+      }
+      .jeda b {
+        letter-spacing: 0.06em;
+        font-weight: 700;
+        color: #fff;
+      }
+      .jeda .e {
+        font-family:
+          "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+        font-size: 24px;
+        letter-spacing: 0;
+      }
 
-/* sel pelajaran */
-.sel{display:flex;align-items:center;justify-content:center;text-align:center;padding:0 12px;border-radius:14px;
-  font-size:27px;font-weight:700;line-height:1.1;color:#fff;
-  background:rgba(var(--rgb),.32);border:1.5px solid rgba(var(--rgb),.55);border-left:7px solid rgb(var(--rgb))}
-.sel small{display:block;font-size:19px;font-weight:600;color:#cbd5e1;margin-top:3px}
-.sel.panjang{font-size:29px}
-.sel.kini{box-shadow:inset 0 0 0 3px #fff}
-.sel.ekstra{background:rgba(163,230,53,.18);border:1.5px solid rgba(163,230,53,.5);border-left:7px solid #a3e635;font-size:29px}
-.sel.upacara{letter-spacing:.2em;text-transform:uppercase;font-size:25px}
+      /* sel pelajaran */
+      .sel {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0 12px;
+        border-radius: 14px;
+        font-size: 27px;
+        font-weight: 700;
+        line-height: 1.1;
+        color: #fff;
+        background: rgba(var(--rgb), 0.32);
+        border: 1.5px solid rgba(var(--rgb), 0.55);
+        border-left: 7px solid rgb(var(--rgb));
+      }
+      .sel small {
+        display: block;
+        font-size: 19px;
+        font-weight: 600;
+        color: #cbd5e1;
+        margin-top: 3px;
+      }
+      .sel.panjang {
+        font-size: 29px;
+      }
+      .sel.kini {
+        box-shadow: inset 0 0 0 3px #fff;
+      }
+      .sel.ekstra {
+        background: rgba(163, 230, 53, 0.18);
+        border: 1.5px solid rgba(163, 230, 53, 0.5);
+        border-left: 7px solid #a3e635;
+        font-size: 29px;
+      }
+      .sel.upacara {
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        font-size: 25px;
+      }
 
-.ringan .sel.kini{box-shadow:inset 0 0 0 3px #fff}
-</style>
-</head>
-<body>
-<section class="title" id="title">
-  <div><div class="kicker" id="kicker"></div><h1 id="tTitle"></h1><p id="tSub"></p></div>
-  <div class="t-ar" id="tAr" lang="ar" dir="rtl"></div>
-</section>
-<div class="progress"><i id="bar"></i></div>
-<main class="area" id="area"></main>
+      .ringan .sel.kini {
+        box-shadow: inset 0 0 0 3px #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="title" id="title">
+      <div>
+        <div class="kicker" id="kicker"></div>
+        <h1 id="tTitle"></h1>
+        <p id="tSub"></p>
+      </div>
+      <div class="t-ar" id="tAr" lang="ar" dir="rtl"></div>
+    </section>
+    <div class="progress"><i id="bar"></i></div>
+    <main class="area" id="area"></main>
 
-<script src="../aset/bagian.js"></script>
-<script>
-/* =====================================================================
+    <script src="../aset/bagian.js"></script>
+    <script>
+      /* =====================================================================
    JAM PELAJARAN — MTs Al Irsyad Tengaran 12 Riau, Tahun Pelajaran 2026/2027
    Jadwal berlaku mulai Senin, 24 Agustus 2026.
 
@@ -70,214 +215,519 @@
    Ekstrakurikuler: [kelasMulai, kelasSelesai, 'Nama']  (kelas 1–4)
    Jam & istirahat tiap hari ada di SLOT_*.  Hapus satu hari jika libur.
    ===================================================================== */
-const WAKTU_PER_HARI = 18;        // detik tampil untuk tiap hari
-const MULAI_DARI_HARI_INI = true; // true = mulai dari hari ini, lalu hari berikutnya
-const HANYA_HARI_INI = false;     // true = hanya tampilkan hari ini (Minggu → Senin)
-const TAHUN_AJARAN = '2026/2027';
+      /* ATURAN TAMPIL (otomatis mengikuti jam perangkat):
+   • Senin–Jumat sebelum JAM_GANTI  → hanya jadwal HARI INI
+   • Senin–Jumat mulai JAM_GANTI    → hanya jadwal BESOK, sampai besok JAM_GANTI
+   • Sabtu sebelum JAM_SABTU_SEMUA  → jadwal Sabtu
+   • Sabtu mulai JAM_SABTU_SEMUA    → SEMUA hari (Senin–Sabtu, pekan depan), sampai Minggu 23.59
+   • Minggu                         → semua hari (pekan depan)
+   Untuk uji coba, buka halaman ini dengan ?waktu=2026-11-14T14:30 */
+      const JAM_GANTI = 15; // jam (0–23)
+      const JAM_SABTU_SEMUA = 14; // jam (0–23)
+      const WAKTU_HARI_TUNGGAL = 25; // detik, jika hanya 1 hari yang tampil
+      const WAKTU_PER_HARI = 18; // detik tiap hari, jika semua hari tampil
+      const TAHUN_AJARAN = "2026/2027";
 
-const KELAS = ['VII A','VII B','VIII A','VIII B'];
+      const KELAS = ["VII A", "VII B", "VIII A", "VIII B"];
 
-/* warna per kelompok pelajaran (boleh ditambah). Pelajaran lain otomatis abu-abu kebiruan. */
-const KELOMPOK = [
-  { rgb:'251,191,36',  daftar:['Nahwu','Shorof','Tadrib Lughawiy',"Ta'bir","Khat Imla'","Fahmul Maqru'"] },   // bahasa Arab
-  { rgb:'52,211,153',  daftar:['Tahfidz','Tajwid Tahsin','Tafsir'] },                                       // Al-Qur'an
-  { rgb:'167,139,250', daftar:['Aqidah','Fiqh','Akhlak','Hadits','Siroh'] },                               // ilmu syar'i
-  { rgb:'56,189,248',  daftar:['Matematika','IPA','Informatika'] },                                        // sains
-  { rgb:'251,146,60',  daftar:['IPS','Pancasila','Bahasa Indonesia','Bahasa Inggris'] }                   // umum
-];
-const WARNA_LAIN = '148,163,184';
+      /* warna per kelompok pelajaran (boleh ditambah). Pelajaran lain otomatis abu-abu kebiruan. */
+      const KELOMPOK = [
+        {
+          rgb: "251,191,36",
+          daftar: [
+            "Nahwu",
+            "Shorof",
+            "Tadrib Lughawiy",
+            "Ta'bir",
+            "Khat Imla'",
+            "Fahmul Maqru'",
+          ],
+        }, // bahasa Arab
+        { rgb: "52,211,153", daftar: ["Tahfidz", "Tajwid Tahsin", "Tafsir"] }, // Al-Qur'an
+        {
+          rgb: "167,139,250",
+          daftar: ["Aqidah", "Fiqh", "Akhlak", "Hadits", "Siroh"],
+        }, // ilmu syar'i
+        { rgb: "56,189,248", daftar: ["Matematika", "IPA", "Informatika"] }, // sains
+        {
+          rgb: "251,146,60",
+          daftar: ["IPS", "Pancasila", "Bahasa Indonesia", "Bahasa Inggris"],
+        }, // umum
+      ];
+      const WARNA_LAIN = "148,163,184";
 
-/* jam tiap hari: jp = jam pelajaran, jeda = istirahat/ishoma */
-const SLOT_STD = [
-  {jp:1,w:'07.30 – 08.10'},{jp:2,w:'08.10 – 08.50'},{jp:3,w:'08.50 – 09.30'},
-  {jeda:'Istirahat',e:'☕',w:'09.30 – 09.55'},
-  {jp:4,w:'09.55 – 10.35'},{jp:5,w:'10.35 – 11.15'},{jp:6,w:'11.15 – 11.55'},
-  {jeda:'Ishoma',e:'🕌',w:'11.55 – 13.00'},
-  {jp:7,w:'13.00 – 13.40'},{jp:8,w:'13.40 – 14.20'},{jp:9,w:'14.20 – 15.00'}
-];
-const SLOT_JUMAT = [
-  {jp:1,w:'07.30 – 08.10'},{jp:2,w:'08.10 – 08.50'},{jp:3,w:'08.50 – 09.30'},
-  {jeda:'Istirahat',e:'☕',w:'09.30 – 09.55'},
-  {jp:4,w:'09.55 – 10.35'},{jp:5,w:'10.35 – 11.15'},
-  {jeda:'Ishoma · Sholat Jumat',e:'🕌',w:'11.15 – 13.40'},
-  {jp:6,w:'13.40 – 14.20'},{jp:7,w:'14.20 – 15.00'}
-];
-const SLOT_SABTU = [
-  {jp:1,w:'07.30 – 08.10'},{jp:2,w:'08.10 – 08.50'},{jp:3,w:'08.50 – 09.30'},
-  {jeda:'Istirahat',e:'☕',w:'09.30 – 09.55'},
-  {jp:4,w:'09.55 – 10.35'},{jp:5,w:'10.35 – 11.15'},{jp:6,w:'11.15 – 11.55'},
-  {jeda:'Ishoma',e:'🕌',w:'11.55 – 13.00'},
-  {jp:7,w:'13.00 – 14.00'}
-];
+      /* jam tiap hari: jp = jam pelajaran, jeda = istirahat/ishoma */
+      const SLOT_STD = [
+        { jp: 1, w: "07.30 – 08.10" },
+        { jp: 2, w: "08.10 – 08.50" },
+        { jp: 3, w: "08.50 – 09.30" },
+        { jeda: "Istirahat", e: "☕", w: "09.30 – 09.55" },
+        { jp: 4, w: "09.55 – 10.35" },
+        { jp: 5, w: "10.35 – 11.15" },
+        { jp: 6, w: "11.15 – 11.55" },
+        { jeda: "Ishoma", e: "🕌", w: "11.55 – 13.00" },
+        { jp: 7, w: "13.00 – 13.40" },
+        { jp: 8, w: "13.40 – 14.20" },
+        { jp: 9, w: "14.20 – 15.00" },
+      ];
+      const SLOT_JUMAT = [
+        { jp: 1, w: "07.30 – 08.10" },
+        { jp: 2, w: "08.10 – 08.50" },
+        { jp: 3, w: "08.50 – 09.30" },
+        { jeda: "Istirahat", e: "☕", w: "09.30 – 09.55" },
+        { jp: 4, w: "09.55 – 10.35" },
+        { jp: 5, w: "10.35 – 11.15" },
+        { jeda: "Ishoma · Sholat Jumat", e: "🕌", w: "11.15 – 13.40" },
+        { jp: 6, w: "13.40 – 14.20" },
+        { jp: 7, w: "14.20 – 15.00" },
+      ];
+      const SLOT_SABTU = [
+        { jp: 1, w: "07.30 – 08.10" },
+        { jp: 2, w: "08.10 – 08.50" },
+        { jp: 3, w: "08.50 – 09.30" },
+        { jeda: "Istirahat", e: "☕", w: "09.30 – 09.55" },
+        { jp: 4, w: "09.55 – 10.35" },
+        { jp: 5, w: "10.35 – 11.15" },
+        { jp: 6, w: "11.15 – 11.55" },
+        { jeda: "Ishoma", e: "🕌", w: "11.55 – 13.00" },
+        { jp: 7, w: "13.00 – 14.00" },
+      ];
 
-const HARI = [
-  { nama:'Senin', arab:'الِاثْنَيْنِ', dow:1, slot:SLOT_STD, labelEkstra:'Ekstrakurikuler',
-    kelas:[
-      [[1,1,'Upacara'],[2,2,'IPS'],[3,3,'Matematika'],[4,4,'Matematika'],[5,6,'Akhlak'],[7,9,'Shorof']],
-      [[1,1,'Upacara'],[2,3,'Akhlak'],[4,5,'Tafsir'],[6,6,'Pancasila'],[7,8,'Bahasa Indonesia'],[9,9,'IPS']],
-      [[1,1,'Upacara'],[2,3,"Khat Imla'"],[4,5,'Bahasa Indonesia'],[6,6,'Tadrib Lughawiy'],[7,7,'Tadrib Lughawiy'],[8,9,'Akhlak']],
-      [[1,1,'Upacara'],[2,3,'Tafsir'],[4,5,'Akhlak'],[6,6,'Bahasa Indonesia'],[7,7,'Matematika'],[8,9,'IPA']]
-    ],
-    ekstra:[[1,2,'English Club'],[3,4,'English Club']] },
+      const HARI = [
+        {
+          nama: "Senin",
+          arab: "الِاثْنَيْنِ",
+          dow: 1,
+          slot: SLOT_STD,
+          labelEkstra: "Ekstrakurikuler",
+          kelas: [
+            [
+              [1, 1, "Upacara"],
+              [2, 2, "IPS"],
+              [3, 3, "Matematika"],
+              [4, 4, "Matematika"],
+              [5, 6, "Akhlak"],
+              [7, 9, "Shorof"],
+            ],
+            [
+              [1, 1, "Upacara"],
+              [2, 3, "Akhlak"],
+              [4, 5, "Tafsir"],
+              [6, 6, "Pancasila"],
+              [7, 8, "Bahasa Indonesia"],
+              [9, 9, "IPS"],
+            ],
+            [
+              [1, 1, "Upacara"],
+              [2, 3, "Khat Imla'"],
+              [4, 5, "Bahasa Indonesia"],
+              [6, 6, "Tadrib Lughawiy"],
+              [7, 7, "Tadrib Lughawiy"],
+              [8, 9, "Akhlak"],
+            ],
+            [
+              [1, 1, "Upacara"],
+              [2, 3, "Tafsir"],
+              [4, 5, "Akhlak"],
+              [6, 6, "Bahasa Indonesia"],
+              [7, 7, "Matematika"],
+              [8, 9, "IPA"],
+            ],
+          ],
+          ekstra: [
+            [1, 2, "English Club"],
+            [3, 4, "English Club"],
+          ],
+        },
 
-  { nama:'Selasa', arab:'الثُّلَاثَاءُ', dow:2, slot:SLOT_STD, labelEkstra:'Ekstrakurikuler',
-    kelas:[
-      [[1,1,'Pancasila'],[2,3,'Informatika'],[4,4,'Siroh'],[5,6,'Hadits'],[7,7,'Matematika'],[8,9,'IPA']],
-      [[1,2,'Hadits'],[3,3,'Matematika'],[4,4,'Matematika'],[5,6,'Siroh'],[7,9,'Tadrib Lughawiy']],
-      [[1,3,'Fiqh'],[4,5,'Nahwu'],[6,6,'Tajwid Tahsin'],[7,9,'Aqidah']],
-      [[1,2,'Nahwu'],[3,3,'Tajwid Tahsin'],[4,5,"Khat Imla'"],[6,6,'Pancasila'],[7,9,'Fiqh']]
-    ],
-    ekstra:[[1,2,'Pecinta Alam'],[3,4,'Pecinta Alam']] },
+        {
+          nama: "Selasa",
+          arab: "الثُّلَاثَاءُ",
+          dow: 2,
+          slot: SLOT_STD,
+          labelEkstra: "Ekstrakurikuler",
+          kelas: [
+            [
+              [1, 1, "Pancasila"],
+              [2, 3, "Informatika"],
+              [4, 4, "Siroh"],
+              [5, 6, "Hadits"],
+              [7, 7, "Matematika"],
+              [8, 9, "IPA"],
+            ],
+            [
+              [1, 2, "Hadits"],
+              [3, 3, "Matematika"],
+              [4, 4, "Matematika"],
+              [5, 6, "Siroh"],
+              [7, 9, "Tadrib Lughawiy"],
+            ],
+            [
+              [1, 3, "Fiqh"],
+              [4, 5, "Nahwu"],
+              [6, 6, "Tajwid Tahsin"],
+              [7, 9, "Aqidah"],
+            ],
+            [
+              [1, 2, "Nahwu"],
+              [3, 3, "Tajwid Tahsin"],
+              [4, 5, "Khat Imla'"],
+              [6, 6, "Pancasila"],
+              [7, 9, "Fiqh"],
+            ],
+          ],
+          ekstra: [
+            [1, 2, "Pecinta Alam"],
+            [3, 4, "Pecinta Alam"],
+          ],
+        },
 
-  { nama:'Rabu', arab:'الْأَرْبِعَاءُ', dow:3, slot:SLOT_STD,
-    kelas:[
-      [[1,2,'Nahwu'],[3,3,'Tajwid Tahsin'],[4,5,'Bahasa Inggris'],[6,6,'IPS'],[7,9,'Fiqh']],
-      [[1,3,'Fiqh'],[4,4,'Matematika'],[5,6,'IPA'],[7,8,'Nahwu'],[9,9,'Tajwid Tahsin']],
-      [[1,1,'Pancasila'],[2,3,'Shorof'],[4,4,'Shorof'],[5,6,'Hadits'],[7,8,'Matematika'],[9,9,'IPS']],
-      [[1,2,'Hadits'],[3,3,'Bahasa Indonesia'],[4,6,'Aqidah'],[7,8,'IPS'],[9,9,'Tahfidz']]
-    ] },
+        {
+          nama: "Rabu",
+          arab: "الْأَرْبِعَاءُ",
+          dow: 3,
+          slot: SLOT_STD,
+          kelas: [
+            [
+              [1, 2, "Nahwu"],
+              [3, 3, "Tajwid Tahsin"],
+              [4, 5, "Bahasa Inggris"],
+              [6, 6, "IPS"],
+              [7, 9, "Fiqh"],
+            ],
+            [
+              [1, 3, "Fiqh"],
+              [4, 4, "Matematika"],
+              [5, 6, "IPA"],
+              [7, 8, "Nahwu"],
+              [9, 9, "Tajwid Tahsin"],
+            ],
+            [
+              [1, 1, "Pancasila"],
+              [2, 3, "Shorof"],
+              [4, 4, "Shorof"],
+              [5, 6, "Hadits"],
+              [7, 8, "Matematika"],
+              [9, 9, "IPS"],
+            ],
+            [
+              [1, 2, "Hadits"],
+              [3, 3, "Bahasa Indonesia"],
+              [4, 6, "Aqidah"],
+              [7, 8, "IPS"],
+              [9, 9, "Tahfidz"],
+            ],
+          ],
+        },
 
-  { nama:'Kamis', arab:'الْخَمِيسُ', dow:4, slot:SLOT_STD, labelEkstra:'Ekstrakurikuler',
-    kelas:[
-      [[1,3,'Aqidah'],[4,6,'Tadrib Lughawiy'],[7,8,'Tafsir'],[9,9,'Tahfidz']],
-      [[1,3,'Tadrib Lughawiy'],[4,4,'Tahfidz'],[5,6,"Khat Imla'"],[7,8,'Bahasa Inggris'],[9,9,'IPS']],
-      [[1,2,'Siroh'],[3,3,"Ta'bir"],[4,4,"Ta'bir"],[5,6,'Tadrib Lughawiy'],[7,7,'Matematika'],[8,9,'IPA']],
-      [[1,2,"Ta'bir"],[3,3,'Matematika'],[4,4,'Matematika'],[5,6,'Siroh'],[7,9,'Tadrib Lughawiy']]
-    ],
-    ekstra:[[1,2,'Pramuka'],[3,4,'Pramuka']] },
+        {
+          nama: "Kamis",
+          arab: "الْخَمِيسُ",
+          dow: 4,
+          slot: SLOT_STD,
+          labelEkstra: "Ekstrakurikuler",
+          kelas: [
+            [
+              [1, 3, "Aqidah"],
+              [4, 6, "Tadrib Lughawiy"],
+              [7, 8, "Tafsir"],
+              [9, 9, "Tahfidz"],
+            ],
+            [
+              [1, 3, "Tadrib Lughawiy"],
+              [4, 4, "Tahfidz"],
+              [5, 6, "Khat Imla'"],
+              [7, 8, "Bahasa Inggris"],
+              [9, 9, "IPS"],
+            ],
+            [
+              [1, 2, "Siroh"],
+              [3, 3, "Ta'bir"],
+              [4, 4, "Ta'bir"],
+              [5, 6, "Tadrib Lughawiy"],
+              [7, 7, "Matematika"],
+              [8, 9, "IPA"],
+            ],
+            [
+              [1, 2, "Ta'bir"],
+              [3, 3, "Matematika"],
+              [4, 4, "Matematika"],
+              [5, 6, "Siroh"],
+              [7, 9, "Tadrib Lughawiy"],
+            ],
+          ],
+          ekstra: [
+            [1, 2, "Pramuka"],
+            [3, 4, "Pramuka"],
+          ],
+        },
 
-  { nama:'Jumat', arab:'الْجُمُعَةُ', dow:5, slot:SLOT_JUMAT, labelEkstra:'Ekstrakurikuler',
-    kelas:[
-      [[1,2,"Khat Imla'"],[3,3,"Fahmul Maqru'"],[4,5,'Bahasa Indonesia'],[6,7,'Tahfidz']],
-      [[1,3,'Aqidah'],[4,5,'Shorof'],[6,7,'Tahfidz']],
-      [[1,2,'Bahasa Inggris'],[3,3,"Fahmul Maqru'"],[4,5,'Informatika'],[6,7,'Tahfidz']],
-      [[1,3,'Shorof'],[4,5,'Tadrib Lughawiy'],[6,7,'Tahfidz']]
-    ],
-    ekstra:[[1,2,'Sepakbola'],[3,4,'Sepakbola']] },
+        {
+          nama: "Jumat",
+          arab: "الْجُمُعَةُ",
+          dow: 5,
+          slot: SLOT_JUMAT,
+          labelEkstra: "Ekstrakurikuler",
+          kelas: [
+            [
+              [1, 2, "Khat Imla'"],
+              [3, 3, "Fahmul Maqru'"],
+              [4, 5, "Bahasa Indonesia"],
+              [6, 7, "Tahfidz"],
+            ],
+            [
+              [1, 3, "Aqidah"],
+              [4, 5, "Shorof"],
+              [6, 7, "Tahfidz"],
+            ],
+            [
+              [1, 2, "Bahasa Inggris"],
+              [3, 3, "Fahmul Maqru'"],
+              [4, 5, "Informatika"],
+              [6, 7, "Tahfidz"],
+            ],
+            [
+              [1, 3, "Shorof"],
+              [4, 5, "Tadrib Lughawiy"],
+              [6, 7, "Tahfidz"],
+            ],
+          ],
+          ekstra: [
+            [1, 2, "Sepakbola"],
+            [3, 4, "Sepakbola"],
+          ],
+        },
 
-  { nama:'Sabtu', arab:'السَّبْتُ', dow:6, slot:SLOT_SABTU,
-    kelas:[
-      [[1,3,'Tadrib Lughawiy'],[4,5,"Ta'bir"],[6,6,'Siroh']],
-      [[1,1,"Fahmul Maqru'"],[2,3,"Ta'bir"],[4,5,'Informatika'],[6,6,'Shorof']],
-      [[1,2,'Tafsir'],[3,3,'Tahfidz'],[4,4,'IPS'],[5,6,'Tadrib Lughawiy']],
-      [[1,2,'Informatika'],[3,3,"Fahmul Maqru'"],[4,4,'Tadrib Lughawiy'],[5,6,'Bahasa Inggris']]
-    ],
-    /* kotak lintas kelas pada satu JP: [JP, kelasMulai, kelasSelesai, 'Nama', 'Keterangan kecil'] */
-    gabung:[[7,1,2,'Kokurikuler','Pekan 3 / 4'],[7,3,4,'Kokurikuler','Pekan 3 / 4']] }
-];
+        {
+          nama: "Sabtu",
+          arab: "السَّبْتُ",
+          dow: 6,
+          slot: SLOT_SABTU,
+          kelas: [
+            [
+              [1, 3, "Tadrib Lughawiy"],
+              [4, 5, "Ta'bir"],
+              [6, 6, "Siroh"],
+            ],
+            [
+              [1, 1, "Fahmul Maqru'"],
+              [2, 3, "Ta'bir"],
+              [4, 5, "Informatika"],
+              [6, 6, "Shorof"],
+            ],
+            [
+              [1, 2, "Tafsir"],
+              [3, 3, "Tahfidz"],
+              [4, 4, "IPS"],
+              [5, 6, "Tadrib Lughawiy"],
+            ],
+            [
+              [1, 2, "Informatika"],
+              [3, 3, "Fahmul Maqru'"],
+              [4, 4, "Tadrib Lughawiy"],
+              [5, 6, "Bahasa Inggris"],
+            ],
+          ],
+          /* kotak lintas kelas pada satu JP: [JP, kelasMulai, kelasSelesai, 'Nama', 'Keterangan kecil'] */
+          gabung: [
+            [7, 1, 2, "Kokurikuler", "Pekan 3 / 4"],
+            [7, 3, 4, "Kokurikuler", "Pekan 3 / 4"],
+          ],
+        },
+      ];
 
-/* ---------------- kode tampilan (tidak perlu diubah) ---------------- */
-const { $, esc, pad, wait } = Mading;
-Mading.init({ warna:'#f472b6', judul:'Jam Pelajaran' });
+      /* ---------------- kode tampilan (tidak perlu diubah) ---------------- */
+      const { $, esc, pad, wait } = Mading;
+      Mading.init({ warna: "#f472b6", judul: "Jam Pelajaran" });
 
-const BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-const rgbDari = nama => { for(const k of KELOMPOK) if(k.daftar.indexOf(nama) >= 0) return k.rgb; return WARNA_LAIN; };
-const menit = s => { const m = /(\d\d)\.(\d\d)/.exec(s); return m ? (+m[1])*60 + (+m[2]) : 0; };
+      const BULAN = [
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember",
+      ];
+      const rgbDari = (nama) => {
+        for (const k of KELOMPOK) if (k.daftar.indexOf(nama) >= 0) return k.rgb;
+        return WARNA_LAIN;
+      };
+      const menit = (s) => {
+        const m = /(\d\d)\.(\d\d)/.exec(s);
+        return m ? +m[1] * 60 + +m[2] : 0;
+      };
 
-function urutanHari(){
-  const now = new Date(), dow = now.getDay();            // 0 = Minggu
-  let i = HARI.findIndex(h => h.dow === dow);
-  if(i < 0) i = 0;                                       // Minggu → mulai dari Senin
-  if(HANYA_HARI_INI) return [i];
-  const semua = HARI.map((h,k) => k);
-  return MULAI_DARI_HARI_INI ? semua.slice(i).concat(semua.slice(0,i)) : semua;
-}
+      /* waktu sekarang (boleh disimulasikan lewat ?waktu=YYYY-MM-DDTHH:MM) */
+      function sekarang() {
+        const q = new URLSearchParams(location.search).get("waktu");
+        if (q) {
+          const d = new Date(q);
+          if (!isNaN(d)) return d;
+        }
+        return new Date();
+      }
 
-function tanggalHari(h){
-  const now = new Date(), dow = now.getDay();
-  const selisih = (h.dow - dow + 7) % 7;
-  const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + selisih);
-  return { selisih, teks: d.getDate() + ' ' + BULAN[d.getMonth()] + ' ' + d.getFullYear() };
-}
+      /* tentukan hari apa yang ditampilkan */
+      function tentukan() {
+        const now = sekarang(),
+          dow = now.getDay(); // 0 = Minggu
+        const jam = now.getHours() + now.getMinutes() / 60;
+        const semuaIdx = HARI.map((h, k) => k);
+        if (dow === 0 || (dow === 6 && jam >= JAM_SABTU_SEMUA))
+          return { semua: true, plus: 0, idx: semuaIdx };
+        const plus = jam >= JAM_GANTI ? 1 : 0;
+        const i = HARI.findIndex((h) => h.dow === dow + plus);
+        return i < 0
+          ? { semua: true, plus: 0, idx: semuaIdx }
+          : { semua: false, plus, idx: [i] };
+      }
 
-function bangun(h){
-  const S = h.slot;
-  const barisJP = {};                       // JP -> nomor baris grid
-  S.forEach((s,i) => { if(s.jp) barisJP[s.jp] = i + 2; });
-  let html = '';
-  /* header */
-  html += `<div class="hd sudut" style="grid-row:1;grid-column:1;--r:0">JP · WAKTU</div>`;
-  KELAS.forEach((k,c) => {
-    html += `<div class="hd kelas ${k.indexOf('VIII')===0?'k8':'k7'}" style="grid-row:1;grid-column:${c+2};--r:0">${esc(k)}</div>`;
-  });
-  /* kolom waktu + pita jeda */
-  S.forEach((s,i) => {
-    const r = i + 2;
-    if(s.jeda){
-      html += `<div class="jeda" style="grid-row:${r};--r:${r}"><span class="e">${s.e||''}</span><span>${esc(s.jeda)}</span><b>${esc(s.w.replace(' – ','–'))}</b></div>`;
-    } else {
-      html += `<div class="wk" data-w="${esc(s.w)}" style="grid-row:${r};grid-column:1;--r:${r}"><span class="no">${s.jp}</span><span class="jam">${esc(s.w.replace(' – ','–'))}</span></div>`;
-    }
-  });
-  /* pelajaran */
-  h.kelas.forEach((daftar,c) => {
-    daftar.forEach(p => {
-      const a = barisJP[p[0]], b = barisJP[p[1]];
-      if(!a || !b) return;
-      const nama = p[2];
-      const cls = 'sel' + (p[1]-p[0] >= 1 ? ' panjang' : '') + (nama === 'Upacara' ? ' upacara' : '');
-      const rgb = nama === 'Upacara' ? '244,244,245' : rgbDari(nama);
-      html += `<div class="${cls}" data-a="${S[a-2].w}" data-b="${S[b-2].w}" style="grid-row:${a}/${b+1};grid-column:${c+2};--rgb:${rgb};--r:${a}">${esc(nama)}</div>`;
-    });
-  });
-  /* kotak lintas kelas (mis. kokurikuler) */
-  (h.gabung || []).forEach(g => {
-    const a = barisJP[g[0]]; if(!a) return;
-    html += `<div class="sel ekstra" data-a="${S[a-2].w}" data-b="${S[a-2].w}" style="grid-row:${a};grid-column:${g[1]+1}/${g[2]+2};--r:${a}"><div>${esc(g[3])}${g[4] ? `<small>${esc(g[4])}</small>` : ''}</div></div>`;
-  });
-  /* ekstrakurikuler */
-  if(h.ekstra){
-    const r = S.length + 2;
-    html += `<div class="wk ekstra" style="grid-row:${r};grid-column:1;--r:${r}">${esc(h.labelEkstra || 'Ekstrakurikuler')}</div>`;
-    h.ekstra.forEach(e => {
-      html += `<div class="sel ekstra" style="grid-row:${r};grid-column:${e[0]+1}/${e[1]+2};--r:${r}">${esc(e[2])}</div>`;
-    });
-  }
-  /* tinggi baris */
-  const rows = ['46px'].concat(S.map(s => s.jeda ? '36px' : 'minmax(0,1fr)'));
-  if(h.ekstra) rows.push('54px');
-  return `<div class="jadwal" id="jadwal" style="grid-template-rows:${rows.join(' ')}">${html}</div>`;
-}
+      function tanggalHari(h, mode) {
+        const now = sekarang(),
+          dow = now.getDay();
+        let selisih;
+        if (mode.semua)
+          selisih = (h.dow - dow + 7) % 7 || 7; // kemunculan berikutnya (pekan depan)
+        else selisih = mode.plus;
+        const d = new Date(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate() + selisih,
+        );
+        return {
+          selisih,
+          teks: d.getDate() + " " + BULAN[d.getMonth()] + " " + d.getFullYear(),
+        };
+      }
 
-/* sorot jam yang sedang berlangsung (hanya untuk hari ini) */
-function sorotSekarang(aktifHariIni){
-  document.querySelectorAll('.kini').forEach(e => e.classList.remove('kini'));
-  if(!aktifHariIni) return;
-  const n = new Date(), m = n.getHours()*60 + n.getMinutes();
-  document.querySelectorAll('.wk[data-w]').forEach(e => {
-    const p = e.dataset.w.split('–'); if(m >= menit(p[0]) && m < menit(p[1])) e.classList.add('kini');
-  });
-  document.querySelectorAll('.sel[data-a]').forEach(e => {
-    const a = menit(e.dataset.a.split('–')[0]), b = menit(e.dataset.b.split('–')[1]);
-    if(m >= a && m < b) e.classList.add('kini');
-  });
-}
+      function bangun(h) {
+        const S = h.slot;
+        const barisJP = {}; // JP -> nomor baris grid
+        S.forEach((s, i) => {
+          if (s.jp) barisJP[s.jp] = i + 2;
+        });
+        let html = "";
+        /* header */
+        html += `<div class="hd sudut" style="grid-row:1;grid-column:1;--r:0">JP · WAKTU</div>`;
+        KELAS.forEach((k, c) => {
+          html += `<div class="hd kelas ${k.indexOf("VIII") === 0 ? "k8" : "k7"}" style="grid-row:1;grid-column:${c + 2};--r:0">${esc(k)}</div>`;
+        });
+        /* kolom waktu + pita jeda */
+        S.forEach((s, i) => {
+          const r = i + 2;
+          if (s.jeda) {
+            html += `<div class="jeda" style="grid-row:${r};--r:${r}"><span class="e">${s.e || ""}</span><span>${esc(s.jeda)}</span><b>${esc(s.w.replace(" – ", "–"))}</b></div>`;
+          } else {
+            html += `<div class="wk" data-w="${esc(s.w)}" style="grid-row:${r};grid-column:1;--r:${r}"><span class="no">${s.jp}</span><span class="jam">${esc(s.w.replace(" – ", "–"))}</span></div>`;
+          }
+        });
+        /* pelajaran */
+        h.kelas.forEach((daftar, c) => {
+          daftar.forEach((p) => {
+            const a = barisJP[p[0]],
+              b = barisJP[p[1]];
+            if (!a || !b) return;
+            const nama = p[2];
+            const cls =
+              "sel" +
+              (p[1] - p[0] >= 1 ? " panjang" : "") +
+              (nama === "Upacara" ? " upacara" : "");
+            const rgb = nama === "Upacara" ? "244,244,245" : rgbDari(nama);
+            html += `<div class="${cls}" data-a="${S[a - 2].w}" data-b="${S[b - 2].w}" style="grid-row:${a}/${b + 1};grid-column:${c + 2};--rgb:${rgb};--r:${a}">${esc(nama)}</div>`;
+          });
+        });
+        /* kotak lintas kelas (mis. kokurikuler) */
+        (h.gabung || []).forEach((g) => {
+          const a = barisJP[g[0]];
+          if (!a) return;
+          html += `<div class="sel ekstra" data-a="${S[a - 2].w}" data-b="${S[a - 2].w}" style="grid-row:${a};grid-column:${g[1] + 1}/${g[2] + 2};--r:${a}"><div>${esc(g[3])}${g[4] ? `<small>${esc(g[4])}</small>` : ""}</div></div>`;
+        });
+        /* ekstrakurikuler */
+        if (h.ekstra) {
+          const r = S.length + 2;
+          html += `<div class="wk ekstra" style="grid-row:${r};grid-column:1;--r:${r}">${esc(h.labelEkstra || "Ekstrakurikuler")}</div>`;
+          h.ekstra.forEach((e) => {
+            html += `<div class="sel ekstra" style="grid-row:${r};grid-column:${e[0] + 1}/${e[1] + 2};--r:${r}">${esc(e[2])}</div>`;
+          });
+        }
+        /* tinggi baris */
+        const rows = ["46px"].concat(
+          S.map((s) => (s.jeda ? "36px" : "minmax(0,1fr)")),
+        );
+        if (h.ekstra) rows.push("54px");
+        return `<div class="jadwal" id="jadwal" style="grid-template-rows:${rows.join(" ")}">${html}</div>`;
+      }
 
-Mading.mulai(async () => {
-  const urut = urutanHari();
-  Mading.bar(urut.length * WAKTU_PER_HARI * 1000);
-  const area = $('area');
-  let timer = null;
+      /* sorot jam yang sedang berlangsung (hanya untuk hari ini) */
+      function sorotSekarang(aktifHariIni) {
+        document
+          .querySelectorAll(".kini")
+          .forEach((e) => e.classList.remove("kini"));
+        if (!aktifHariIni) return;
+        const n = sekarang(),
+          m = n.getHours() * 60 + n.getMinutes();
+        document.querySelectorAll(".wk[data-w]").forEach((e) => {
+          const p = e.dataset.w.split("–");
+          if (m >= menit(p[0]) && m < menit(p[1])) e.classList.add("kini");
+        });
+        document.querySelectorAll(".sel[data-a]").forEach((e) => {
+          const a = menit(e.dataset.a.split("–")[0]),
+            b = menit(e.dataset.b.split("–")[1]);
+          if (m >= a && m < b) e.classList.add("kini");
+        });
+      }
 
-  for(let n = 0; n < urut.length; n++){
-    const h = HARI[urut[n]], tg = tanggalHari(h), hariIni = tg.selisih === 0;
-    area.classList.remove('out'); $('title').classList.remove('out');
-    Mading.judul({
-      kicker:'Jam Pelajaran ' + TAHUN_AJARAN + ' · Hari ' + pad(n+1) + ' / ' + pad(urut.length),
-      judul:h.nama,
-      sub:(hariIni ? '● Hari ini · ' : tg.selisih === 1 ? 'Besok · ' : '') + tg.teks,
-      arab:h.arab
-    });
-    area.innerHTML = bangun(h);
-    sorotSekarang(hariIni);
-    clearInterval(timer); timer = setInterval(() => sorotSekarang(hariIni), 20000);
-    await wait(WAKTU_PER_HARI*1000 - 700);
-    area.classList.add('out'); $('title').classList.add('out');
-    await wait(700);
-  }
-  clearInterval(timer);
-  Mading.selesai();
-});
-</script>
-</body>
+      Mading.mulai(async () => {
+        const mode = tentukan(),
+          urut = mode.idx;
+        const detik = mode.semua ? WAKTU_PER_HARI : WAKTU_HARI_TUNGGAL;
+        Mading.bar(urut.length * detik * 1000);
+        const area = $("area");
+        let timer = null;
+
+        for (let n = 0; n < urut.length; n++) {
+          const h = HARI[urut[n]],
+            tg = tanggalHari(h, mode);
+          const hariIni = !mode.semua && mode.plus === 0;
+          area.classList.remove("out");
+          $("title").classList.remove("out");
+          Mading.judul({
+            kicker:
+              "Jam Pelajaran " +
+              TAHUN_AJARAN +
+              " · " +
+              (mode.semua
+                ? "Jadwal Pekan Depan · Hari " +
+                  pad(n + 1) +
+                  " / " +
+                  pad(urut.length)
+                : hariIni
+                  ? "Jadwal Hari Ini"
+                  : "Jadwal Besok"),
+            judul: h.nama,
+            sub:
+              (hariIni ? "● Hari ini · " : tg.selisih === 1 ? "Besok · " : "") +
+              tg.teks,
+            arab: h.arab,
+          });
+          area.innerHTML = bangun(h);
+          sorotSekarang(hariIni);
+          clearInterval(timer);
+          timer = setInterval(() => sorotSekarang(hariIni), 20000);
+          await wait(detik * 1000 - 700);
+          area.classList.add("out");
+          $("title").classList.add("out");
+          await wait(700);
+        }
+        clearInterval(timer);
+        Mading.selesai();
+      });
+    </script>
+  </body>
 </html>
