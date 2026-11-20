@@ -1175,10 +1175,38 @@
       /* =====================================================================
    PENGATURAN DISPLAY PERPUSTAKAAN DIGITAL PIAT 12
    Semua yang perlu diubah ada di blok ini. Setelah disimpan, cukup refresh (F5).
-   Tombol: ← / → ganti segmen, ↑ / ↓ perbesar/kecilkan skala (0 = reset), F atau Enter = layar penuh.
+   Tombol: ← / → ganti segmen, ↑ / ↓ ubah skala sementara, F atau Enter = layar penuh.
    Uji cepat: tambahkan ?seg=2 (mulai dari segmen ke-2) atau ?waktu=14:30
    ===================================================================== */
-      let SKALA = 1; // skala awal: 1 = pas layar, 0.98 = sedikit lebih kecil (bisa diubah live: tombol ↑ ↓ pada remote)
+      /* ---- SKALA TAMPILAN ----
+   aturSkala(1)    = pas layar TV
+   aturSkala(0.98) = sedikit lebih kecil (mis. jika tepi terpotong di TV)
+   Bisa juga dipanggil dari HTML/konsol kapan saja: aturSkala(0.95)
+   Saat tampil, tombol ↑ / ↓ di remote mengubah skala sementara (angkanya muncul di layar,
+   salin ke baris di bawah ini agar permanen). ?skala=0.96 di URL menimpa pengaturan ini. */
+      let SKALA = 0.98,
+        SIAP = false,
+        skalaTimer = 0;
+      function aturSkala(nilai, tampilkan) {
+        const v = parseFloat(nilai);
+        if (!(v > 0)) return SKALA;
+        SKALA = Math.round(Math.min(1.2, Math.max(0.5, v)) * 100) / 100;
+        if (SIAP) {
+          resize();
+          if (tampilkan) {
+            const el = document.getElementById("skalaInfo");
+            el.textContent = "aturSkala(" + SKALA.toFixed(2) + ")";
+            el.style.opacity = 1;
+            clearTimeout(skalaTimer);
+            skalaTimer = setTimeout(() => {
+              el.style.opacity = 0;
+            }, 2500);
+          }
+        }
+        return SKALA;
+      }
+      aturSkala(0.95); // <-- UBAH ANGKA INI (1 = pas layar, 0.98 = lebih kecil)
+
       const MUAT_ULANG_MENIT = 60;
 
       const LOGO = {
@@ -1434,41 +1462,12 @@
           ")";
       }
       addEventListener("resize", resize);
-      /* ---- skala: ?skala=0.96 di URL, atau tombol ↑/↓ (+/-) pada remote/keyboard; 0 = reset. Tersimpan otomatis ---- */
-      const SKALA_AWAL = SKALA,
-        SKALA_MIN = 0.5,
-        SKALA_MAX = 1.2,
-        SKALA_LANGKAH = 0.01;
-      let skalaTimer = 0;
-      function ubahSkala(v, simpan) {
-        SKALA =
-          Math.round(Math.min(SKALA_MAX, Math.max(SKALA_MIN, v)) * 100) / 100;
-        resize();
-        if (simpan) {
-          try {
-            localStorage.setItem("piatSkala", String(SKALA));
-          } catch (e) {}
-        }
-        const el = $("skalaInfo");
-        el.textContent =
-          "Skala " + SKALA.toFixed(2) + (SKALA === 1 ? " (pas layar)" : "");
-        el.style.opacity = 1;
-        clearTimeout(skalaTimer);
-        skalaTimer = setTimeout(() => {
-          el.style.opacity = 0;
-        }, 2000);
+      SIAP = true;
+      {
+        const q = parseFloat(new URLSearchParams(location.search).get("skala"));
+        if (q > 0) aturSkala(q);
+        else resize();
       }
-      (function () {
-        let v = parseFloat(new URLSearchParams(location.search).get("skala"));
-        if (!(v > 0)) {
-          try {
-            v = parseFloat(localStorage.getItem("piatSkala"));
-          } catch (e) {}
-        }
-        SKALA =
-          v > 0 ? Math.min(SKALA_MAX, Math.max(SKALA_MIN, v)) : SKALA_AWAL;
-        resize();
-      })();
 
       /* logo */
       $("logoName").textContent = LOGO.nama;
@@ -1804,10 +1803,9 @@
 
       addEventListener("keydown", (e) => {
         if (e.key === "ArrowUp" || e.key === "+" || e.key === "=")
-          ubahSkala(SKALA + SKALA_LANGKAH, true);
+          aturSkala(SKALA + 0.01, true);
         else if (e.key === "ArrowDown" || e.key === "-" || e.key === "_")
-          ubahSkala(SKALA - SKALA_LANGKAH, true);
-        else if (e.key === "0") ubahSkala(SKALA_AWAL, true);
+          aturSkala(SKALA - 0.01, true);
         else if (e.key === "ArrowRight") loncat(cur + 1);
         else if (e.key === "ArrowLeft") loncat(cur - 1);
         else if (e.key === "Enter" || e.key === "f" || e.key === "F") {
