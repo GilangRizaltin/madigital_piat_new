@@ -1,0 +1,1748 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Display Perpustakaan Digital PIAT 12</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --milk: #fbf8ef;
+        --milk2: #f3eedd;
+        --deep: #064e3b;
+        --emerald: #047857;
+        --bright: #22c55e;
+        --mint: #86efac;
+        --gold: #c9a227;
+        --gold-d: #a8820f;
+        --gold-l: #f1d98a;
+        --ink: #0b3b2e;
+        --mut: #5d7d70;
+        --accent: #047857;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #06382b;
+        cursor: none;
+      }
+      body {
+        font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
+        color: var(--ink);
+      }
+      #stage {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 1920px;
+        height: 1080px;
+        transform: translate(-50%, -50%) scale(1);
+        transform-origin: center center;
+        overflow: hidden;
+        background: radial-gradient(
+          120% 120% at 15% 0%,
+          #fffdf6 0%,
+          #faf6ea 50%,
+          #f1ebd8 100%
+        );
+      }
+      .glow {
+        position: absolute;
+        border-radius: 50%;
+      }
+      .g1 {
+        left: -320px;
+        top: -400px;
+        width: 1100px;
+        height: 1100px;
+        background: radial-gradient(
+          circle,
+          rgba(34, 197, 94, 0.22),
+          transparent 65%
+        );
+      }
+      .g2 {
+        right: -380px;
+        bottom: -460px;
+        width: 1100px;
+        height: 1100px;
+        background: radial-gradient(
+          circle,
+          rgba(201, 162, 39, 0.24),
+          transparent 65%
+        );
+      }
+      .pattern {
+        position: absolute;
+        inset: 0;
+        opacity: 0.07;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23047857' stroke-width='1.4'%3E%3Crect x='30' y='30' width='60' height='60'/%3E%3Crect x='30' y='30' width='60' height='60' transform='rotate(45 60 60)'/%3E%3Ccircle cx='60' cy='60' r='9'/%3E%3C/g%3E%3C/svg%3E");
+      }
+      .frame {
+        position: absolute;
+        inset: 14px;
+        border: 2px solid rgba(201, 162, 39, 0.45);
+        border-radius: 34px;
+        pointer-events: none;
+        z-index: 6;
+      }
+
+      /* HEADER */
+      header {
+        position: absolute;
+        top: 40px;
+        left: 68px;
+        right: 68px;
+        height: 88px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 5;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+      }
+      .logo-mark {
+        width: 88px;
+        height: 88px;
+        border-radius: 26px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, var(--emerald), var(--bright));
+        font-family: "Amiri", serif;
+        font-size: 56px;
+        line-height: 1;
+        color: var(--gold-l);
+        font-weight: 700;
+        box-shadow:
+          0 10px 26px rgba(4, 120, 87, 0.3),
+          inset 0 0 0 3px rgba(241, 217, 138, 0.7);
+      }
+      .logo-mark img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 26px;
+      }
+      .logo-text b {
+        display: block;
+        font-size: 40px;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        line-height: 1.1;
+        color: var(--deep);
+      }
+      .logo-text small {
+        display: block;
+        margin-top: 6px;
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--mut);
+      }
+      .head-right {
+        display: flex;
+        align-items: center;
+        gap: 34px;
+      }
+      .sec-label {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--accent);
+        letter-spacing: 0.04em;
+      }
+      .dots {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .dots i {
+        display: block;
+        width: 14px;
+        height: 14px;
+        border-radius: 7px;
+        background: rgba(6, 78, 59, 0.16);
+        transition:
+          width 0.5s,
+          background-color 0.5s;
+      }
+      .dots i.on {
+        width: 64px;
+        background: var(--accent);
+      }
+      .counter {
+        font-size: 36px;
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+        color: var(--deep);
+      }
+      .counter em {
+        font-style: normal;
+        color: var(--mut);
+        font-weight: 600;
+      }
+
+      /* FOOTER */
+      footer {
+        position: absolute;
+        left: 68px;
+        right: 68px;
+        bottom: 40px;
+        height: 84px;
+        display: flex;
+        gap: 24px;
+        z-index: 5;
+      }
+      .ticker {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        height: 84px;
+        border-radius: 42px;
+        background: linear-gradient(100deg, var(--deep), var(--emerald));
+        border: 2px solid var(--gold);
+        overflow: hidden;
+        box-shadow: 0 10px 26px rgba(6, 78, 59, 0.22);
+      }
+      .tk-label {
+        flex: none;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 0 38px 0 34px;
+        font-size: 26px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        color: var(--deep);
+        background: linear-gradient(120deg, var(--gold-l), var(--gold));
+        border-radius: 42px 0 0 42px;
+        position: relative;
+        z-index: 2;
+      }
+      .tk-label i {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--emerald);
+        animation: blink 1.2s ease-in-out infinite;
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0.2;
+        }
+      }
+      .tk-view {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        height: 100%;
+      }
+      .tk-track {
+        display: inline-flex;
+        align-items: center;
+        height: 100%;
+        white-space: nowrap;
+        width: max-content;
+        font-size: 32px;
+        font-weight: 600;
+        color: #fffdf5;
+        animation: marquee 60s linear infinite;
+      }
+      @keyframes marquee {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+      .tk-item {
+        padding: 0 8px;
+      }
+      .sep {
+        color: var(--gold-l);
+        margin: 0 34px;
+        font-size: 26px;
+      }
+      .tk-item .a {
+        font-family: "Amiri", serif;
+        font-size: 42px;
+        color: var(--gold-l);
+        font-weight: 700;
+        unicode-bidi: isolate;
+        padding: 0 6px;
+      }
+      .clock {
+        flex: none;
+        width: 370px;
+        height: 84px;
+        border-radius: 42px;
+        background: #fffdf7;
+        border: 2px solid var(--gold);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        line-height: 1.15;
+        box-shadow: 0 10px 26px rgba(6, 78, 59, 0.12);
+      }
+      .clock b {
+        font-size: 38px;
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0.04em;
+        color: var(--deep);
+      }
+      .clock b em {
+        font-style: normal;
+        animation: blink 1s step-end infinite;
+        color: var(--gold-d);
+      }
+      .clock small {
+        font-size: 21px;
+        color: var(--mut);
+        font-weight: 600;
+      }
+
+      /* SEGMEN */
+      .seg {
+        position: absolute;
+        left: 68px;
+        right: 68px;
+        top: 150px;
+        height: 786px;
+        visibility: hidden;
+        z-index: 3;
+      }
+      .seg.on {
+        visibility: visible;
+      }
+      .head {
+        height: 128px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      .kicker {
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      .head h1 {
+        font-size: 66px;
+        font-weight: 800;
+        letter-spacing: -1.5px;
+        line-height: 1.12;
+        margin-top: 6px;
+        color: var(--deep);
+      }
+      .head h1::after {
+        content: "";
+        display: block;
+        width: 140px;
+        height: 6px;
+        border-radius: 3px;
+        margin-top: 8px;
+        background: linear-gradient(90deg, var(--gold), var(--gold-l));
+      }
+      .head .ar {
+        font-family: "Amiri", serif;
+        font-size: 76px;
+        line-height: 1.3;
+        color: var(--gold-d);
+        font-weight: 700;
+        padding-top: 10px;
+      }
+      .body {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 140px;
+        bottom: 0;
+      }
+      .kartu {
+        background: rgba(255, 255, 255, 0.82);
+        border: 1.5px solid rgba(4, 120, 87, 0.16);
+        border-radius: 30px;
+        box-shadow: 0 12px 32px rgba(6, 78, 59, 0.09);
+      }
+
+      /* animasi masuk */
+      .anim {
+        opacity: 0;
+        transform: translateY(40px) scale(0.97);
+      }
+      .on.go .anim {
+        animation: naik 0.85s cubic-bezier(0.2, 0.9, 0.25, 1) forwards;
+        animation-delay: calc(var(--i, 0) * 0.1s);
+      }
+      .keluar .anim {
+        animation: turun 0.5s ease-in forwards !important;
+        animation-delay: 0s !important;
+      }
+      @keyframes naik {
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @keyframes turun {
+        from {
+          opacity: 1;
+          transform: none;
+        }
+        to {
+          opacity: 0;
+          transform: translateY(-22px) scale(0.98);
+        }
+      }
+
+      /* 1 selamat datang */
+      .s1 .body {
+        display: grid;
+        grid-template-columns: 1fr 640px;
+        gap: 36px;
+        top: 30px;
+      }
+      .s1 .kiri {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-left: 8px;
+      }
+      .s1 .ar-besar {
+        text-align: left;
+        font-family: "Amiri", serif;
+        font-size: 150px;
+        line-height: 1.25;
+        color: var(--gold-d);
+        font-weight: 700;
+      }
+      .s1 .sel {
+        font-size: 104px;
+        font-weight: 800;
+        letter-spacing: -3px;
+        line-height: 1.05;
+        margin-top: 6px;
+        color: var(--deep);
+      }
+      .s1 .di {
+        font-size: 48px;
+        font-weight: 600;
+        color: var(--mut);
+        margin-top: 10px;
+      }
+      .s1 .nm {
+        font-size: 84px;
+        font-weight: 800;
+        letter-spacing: -2px;
+        color: var(--emerald);
+        line-height: 1.1;
+      }
+      .s1 .nm span {
+        color: var(--gold);
+      }
+      .s1 .kutip {
+        margin-top: 34px;
+        font-size: 30px;
+        line-height: 1.5;
+        color: #34574a;
+        max-width: 900px;
+        border-left: 6px solid var(--gold);
+        padding-left: 24px;
+      }
+      .s1 .kanan {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        justify-content: center;
+      }
+      .fitur {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 26px;
+        padding: 0 32px;
+      }
+      .fitur .ik {
+        flex: none;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          rgba(34, 197, 94, 0.2),
+          rgba(201, 162, 39, 0.22)
+        );
+        display: grid;
+        place-items: center;
+        font-size: 52px;
+        font-family:
+          "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+      }
+      .fitur b {
+        display: block;
+        font-size: 38px;
+        font-weight: 800;
+        color: var(--deep);
+      }
+      .fitur span {
+        display: block;
+        font-size: 26px;
+        color: var(--mut);
+        margin-top: 4px;
+        line-height: 1.35;
+      }
+
+      /* 2 & 3 daftar */
+      .grid {
+        display: grid;
+        gap: 24px;
+        height: 100%;
+      }
+      .item {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 26px 32px;
+        position: relative;
+        overflow: hidden;
+      }
+      .item::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 10px;
+        background: var(--accent);
+      }
+      .item .ik {
+        width: 84px;
+        height: 84px;
+        border-radius: 24px;
+        display: grid;
+        place-items: center;
+        font-size: 46px;
+        margin-bottom: 16px;
+        background: color-mix(in srgb, var(--accent) 14%, white);
+        font-family:
+          "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+      }
+      .item b {
+        font-size: 38px;
+        font-weight: 800;
+        line-height: 1.2;
+        color: var(--deep);
+      }
+      .item span {
+        font-size: 26px;
+        color: var(--mut);
+        margin-top: 8px;
+        line-height: 1.4;
+      }
+      .item .tanda {
+        position: absolute;
+        right: 26px;
+        top: 22px;
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        font-size: 36px;
+        font-weight: 800;
+        display: grid;
+        place-items: center;
+      }
+
+      /* 4 info perpustakaan */
+      .s4 .body {
+        display: grid;
+        grid-template-columns: 760px 1fr;
+        grid-template-rows: minmax(0, 1fr);
+        gap: 26px;
+      }
+      .s4 .body > div {
+        min-height: 0;
+      }
+      .kolinfo {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .kolinfo .kartu {
+        padding: 18px 32px;
+        flex: none;
+      }
+      .kolinfo h3,
+      .pengumuman h3 {
+        font-size: 23px;
+        font-weight: 800;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--emerald);
+        margin-bottom: 8px;
+      }
+      .jam {
+        display: flex;
+        justify-content: space-between;
+        font-size: 30px;
+        font-weight: 600;
+        padding: 5px 0;
+        border-bottom: 1px dashed rgba(4, 120, 87, 0.25);
+      }
+      .jam:last-child {
+        border-bottom: 0;
+      }
+      .jam b {
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+        color: var(--deep);
+      }
+      .stat {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        text-align: center;
+      }
+      .stat b {
+        display: block;
+        font-size: 52px;
+        font-weight: 800;
+        line-height: 1.1;
+        color: var(--emerald);
+      }
+      .stat span {
+        display: block;
+        font-size: 22px;
+        color: var(--mut);
+        font-weight: 600;
+        margin-top: 2px;
+      }
+      .kontak {
+        font-size: 27px;
+        font-weight: 600;
+        line-height: 1.5;
+        color: var(--ink);
+      }
+      .kontak i {
+        font-style: normal;
+      }
+      .pengumuman {
+        display: flex;
+        flex-direction: column;
+        padding: 26px 34px;
+        background: linear-gradient(160deg, #fffdf6, #f4f9ef);
+      }
+      .pengumuman h3 {
+        font-size: 25px;
+        color: var(--gold-d);
+        margin-bottom: 12px;
+      }
+      .pgm {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        min-height: 0;
+      }
+      .pg {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        padding: 0 24px;
+        border-radius: 22px;
+        background: #fff;
+        border: 1.5px solid rgba(201, 162, 39, 0.35);
+      }
+      .pg .tg {
+        flex: none;
+        min-width: 112px;
+        text-align: center;
+        padding: 8px 16px;
+        border-radius: 30px;
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #fff;
+        background: linear-gradient(120deg, var(--emerald), var(--bright));
+      }
+      .pg b {
+        display: block;
+        font-size: 31px;
+        font-weight: 800;
+        line-height: 1.25;
+        color: var(--deep);
+      }
+      .pg span {
+        display: block;
+        font-size: 24px;
+        color: var(--mut);
+        margin-top: 3px;
+        line-height: 1.35;
+      }
+
+      /* 5 jadwal sholat */
+      .s5 .body {
+        display: grid;
+        grid-template-columns: 640px 1fr;
+        gap: 28px;
+      }
+      .menuju {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 30px;
+        color: #fff;
+        border: 2px solid var(--gold);
+        background: linear-gradient(
+          160deg,
+          var(--deep) 0%,
+          var(--emerald) 70%,
+          #0a9a5e 100%
+        );
+        position: relative;
+        overflow: hidden;
+      }
+      .menuju::after {
+        content: "";
+        position: absolute;
+        right: -120px;
+        bottom: -120px;
+        width: 380px;
+        height: 380px;
+        border-radius: 50%;
+        border: 3px solid rgba(241, 217, 138, 0.35);
+        box-shadow: 0 0 0 26px rgba(241, 217, 138, 0.08);
+      }
+      .menuju .l {
+        font-size: 26px;
+        font-weight: 800;
+        letter-spacing: 0.3em;
+        color: var(--mint);
+      }
+      .menuju .n {
+        font-size: 112px;
+        font-weight: 800;
+        line-height: 1.1;
+        margin-top: 8px;
+        letter-spacing: -2px;
+      }
+      .menuju .h {
+        font-size: 108px;
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+        line-height: 1.1;
+        color: var(--gold-l);
+        margin-top: 6px;
+      }
+      .menuju .t {
+        font-size: 27px;
+        color: #d7f3e4;
+        font-weight: 600;
+        margin-top: 18px;
+        line-height: 1.4;
+      }
+      .menuju .lok {
+        margin-top: 22px;
+        padding: 10px 26px;
+        border-radius: 30px;
+        border: 1.5px solid rgba(241, 217, 138, 0.6);
+        font-size: 23px;
+        font-weight: 700;
+        color: var(--gold-l);
+        position: relative;
+        z-index: 1;
+      }
+      .wk {
+        min-height: 0;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        gap: 20px;
+      }
+      .w {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 38px;
+        position: relative;
+        overflow: hidden;
+      }
+      .w .kk {
+        display: flex;
+        flex-direction: column;
+      }
+      .w .nm2 {
+        font-size: 42px;
+        font-weight: 800;
+        color: var(--deep);
+      }
+      .w .ar2 {
+        font-family: "Amiri", serif;
+        font-size: 46px;
+        color: var(--gold-d);
+        font-weight: 700;
+        line-height: 1.3;
+      }
+      .w .jm {
+        font-size: 90px;
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+        line-height: 1.1;
+        letter-spacing: -2px;
+        color: var(--emerald);
+      }
+      .w.lewat {
+        opacity: 0.5;
+      }
+      .w.berikut {
+        background: linear-gradient(135deg, #ecfdf3, #fff8dc);
+        border: 2.5px solid var(--gold);
+        box-shadow:
+          0 0 0 6px rgba(201, 162, 39, 0.18),
+          0 14px 34px rgba(6, 78, 59, 0.15);
+      }
+      .w.berikut .jm {
+        color: var(--gold-d);
+      }
+
+      /* TRANSISI: tirai emerald bergantian + bintang emas */
+      #tr {
+        position: absolute;
+        inset: 0;
+        z-index: 20;
+        visibility: hidden;
+        overflow: hidden;
+      }
+      #tr .strips {
+        position: absolute;
+        inset: 0;
+        display: flex;
+      }
+      #tr .strip {
+        flex: 1;
+        margin-right: -1px;
+        transform: translateY(var(--from));
+        background: var(--c);
+        box-shadow: inset -4px 0 0 rgba(201, 162, 39, 0.55);
+      }
+      #tr .strip::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.12),
+          transparent 40%,
+          rgba(0, 0, 0, 0.14)
+        );
+      }
+      #tr .strip {
+        position: relative;
+      }
+      #tr .bintang {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 1000px;
+        height: 1000px;
+        margin: -500px 0 0 -500px;
+        opacity: 0;
+        transform: scale(0.3) rotate(-45deg);
+      }
+      #tr .ring {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 760px;
+        height: 760px;
+        margin: -380px 0 0 -380px;
+        border-radius: 50%;
+        border: 6px solid var(--gold);
+        opacity: 0;
+        transform: scale(0.2);
+      }
+      #tr .ring.r2 {
+        width: 900px;
+        height: 900px;
+        margin: -450px 0 0 -450px;
+        border: 3px solid var(--mint);
+      }
+      #tr .isi {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      #tr .ln {
+        overflow: hidden;
+        padding: 6px 0;
+      }
+      #tr .ln > span {
+        display: block;
+        transform: translateY(125%);
+      }
+      #tr .nomor {
+        font-size: 30px;
+        font-weight: 800;
+        letter-spacing: 0.4em;
+        color: var(--mint);
+      }
+      #tr .jd {
+        font-size: 128px;
+        font-weight: 800;
+        letter-spacing: -3px;
+        line-height: 1.1;
+        color: #fffdf2;
+      }
+      #tr .jd2 {
+        font-size: 44px;
+        font-weight: 600;
+        color: var(--gold-l);
+        letter-spacing: 0.06em;
+      }
+      #tr .garis {
+        width: 380px;
+        height: 6px;
+        border-radius: 3px;
+        background: linear-gradient(
+          90deg,
+          var(--gold),
+          var(--gold-l),
+          var(--gold)
+        );
+        margin: 26px 0;
+        transform: scaleX(0);
+      }
+      #tr .pill {
+        margin-top: 36px;
+        padding: 12px 40px;
+        border-radius: 40px;
+        background: rgba(6, 78, 59, 0.7);
+        border: 2px solid var(--gold);
+        color: var(--gold-l);
+        font-size: 26px;
+        font-weight: 800;
+        letter-spacing: 0.2em;
+        opacity: 0;
+      }
+      #tr.run {
+        visibility: visible;
+      }
+      #tr.run .strip {
+        animation:
+          sIn 0.75s cubic-bezier(0.77, 0, 0.18, 1) calc(var(--k) * 0.05s) both,
+          sOut 0.75s cubic-bezier(0.77, 0, 0.18, 1)
+            calc(2.45s + (9 - var(--k)) * 0.05s) forwards;
+      }
+      #tr.run .bintang {
+        animation: bin 2.4s cubic-bezier(0.2, 0.8, 0.2, 1) 0.5s forwards;
+      }
+      #tr.run .ring {
+        animation: rg 1.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.7s forwards;
+      }
+      #tr.run .ring.r2 {
+        animation-delay: 0.9s;
+      }
+      #tr.run .ln > span {
+        animation: lnIn 0.8s cubic-bezier(0.2, 0.9, 0.25, 1) forwards;
+        animation-delay: calc(0.85s + var(--d) * 0.12s);
+      }
+      #tr.run .garis {
+        animation: gr 0.7s cubic-bezier(0.2, 0.9, 0.25, 1) 1.3s forwards;
+      }
+      #tr.run .pill {
+        animation: fade 0.5s ease 1.7s forwards;
+      }
+      #tr.run .isi {
+        animation: isiOut 0.35s ease-in 2.25s forwards;
+      }
+      @keyframes sIn {
+        from {
+          transform: translateY(var(--from));
+        }
+        to {
+          transform: translateY(0);
+        }
+      }
+      @keyframes sOut {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(var(--to));
+        }
+      }
+      @keyframes bin {
+        0% {
+          opacity: 0;
+          transform: scale(0.3) rotate(-45deg);
+        }
+        25% {
+          opacity: 0.35;
+        }
+        80% {
+          opacity: 0.3;
+        }
+        100% {
+          opacity: 0;
+          transform: scale(1.1) rotate(45deg);
+        }
+      }
+      @keyframes rg {
+        0% {
+          opacity: 0;
+          transform: scale(0.2);
+        }
+        30% {
+          opacity: 0.9;
+        }
+        100% {
+          opacity: 0;
+          transform: scale(1.15);
+        }
+      }
+      @keyframes lnIn {
+        to {
+          transform: none;
+        }
+      }
+      @keyframes gr {
+        to {
+          transform: scaleX(1);
+        }
+      }
+      @keyframes fade {
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes isiOut {
+        to {
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="stage">
+      <div class="glow g1"></div>
+      <div class="glow g2"></div>
+      <div class="pattern"></div>
+      <div class="frame"></div>
+
+      <header>
+        <div class="logo">
+          <div class="logo-mark" id="logoMark"><span id="logoTeks"></span></div>
+          <div class="logo-text">
+            <b id="logoName"></b><small id="logoSub"></small>
+          </div>
+        </div>
+        <div class="head-right">
+          <div class="sec-label" id="secLabel"></div>
+          <div class="dots" id="dots"></div>
+          <div class="counter" id="counter"></div>
+        </div>
+      </header>
+
+      <section class="seg s1" id="seg0"></section>
+      <section class="seg s2" id="seg1"></section>
+      <section class="seg s3" id="seg2"></section>
+      <section class="seg s4" id="seg3"></section>
+      <section class="seg s5" id="seg4"></section>
+
+      <div id="tr">
+        <div class="strips" id="strips"></div>
+        <svg
+          class="bintang"
+          viewBox="0 0 200 200"
+          fill="none"
+          stroke="#f1d98a"
+          stroke-width="1.6"
+        >
+          <rect x="40" y="40" width="120" height="120" />
+          <rect
+            x="40"
+            y="40"
+            width="120"
+            height="120"
+            transform="rotate(45 100 100)"
+          />
+          <circle cx="100" cy="100" r="34" />
+          <circle cx="100" cy="100" r="62" />
+        </svg>
+        <div class="ring"></div>
+        <div class="ring r2"></div>
+        <div class="isi">
+          <div class="ln">
+            <span class="nomor" style="--d: 0" id="trNo"></span>
+          </div>
+          <div class="ln">
+            <span class="jd" style="--d: 1" id="trJd"></span>
+          </div>
+          <div class="garis"></div>
+          <div class="ln">
+            <span class="jd2" style="--d: 3" id="trSub"></span>
+          </div>
+          <div class="pill" id="trPill"></div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="ticker">
+          <div class="tk-label"><i></i>INFO</div>
+          <div class="tk-view"><div class="tk-track" id="track"></div></div>
+        </div>
+        <div class="clock"><b id="time"></b><small id="date"></small></div>
+      </footer>
+    </div>
+
+    <script>
+      /* =====================================================================
+   PENGATURAN DISPLAY PERPUSTAKAAN DIGITAL PIAT 12
+   Semua yang perlu diubah ada di blok ini. Setelah disimpan, cukup refresh (F5).
+   Tombol: ← / → ganti segmen, F atau Enter = layar penuh.
+   Uji cepat: tambahkan ?seg=2 (mulai dari segmen ke-2) atau ?waktu=14:30
+   ===================================================================== */
+      const SKALA = 1;
+      const MUAT_ULANG_MENIT = 60;
+
+      const LOGO = {
+        teks: "١٢",
+        gambar: "",
+        nama: "Perpustakaan Digital PIAT 12",
+        sub: "Pesantren Islam Al Irsyad Tengaran 12",
+      };
+
+      const RUNNING_TEXT = [
+        "Selamat datang di Perpustakaan Digital PIAT 12.",
+        "Jaga ketenangan — perpustakaan adalah tempat belajar bersama.",
+        "Kembalikan buku tepat waktu dan rapikan kembali ke raknya.",
+        'Ucapkan <span class="a" lang="ar" dir="rtl">السَّلَامُ عَلَيْكُمْ</span> ketika memasuki perpustakaan.',
+        'Membaca adalah jendela ilmu — <span class="a" lang="ar" dir="rtl">اقْرَأْ</span>',
+      ];
+      const KECEPATAN_RUNNING_TEXT = 120;
+
+      /* ---- Durasi tampil tiap segmen (detik, di luar transisi) ---- */
+      const DURASI = [18, 20, 20, 24, 24];
+
+      /* ---- 1. Selamat datang ---- */
+      const WELCOME = {
+        arab: "مَرْحَبًا بِكُمْ",
+        judul: "Selamat Datang",
+        di: "di Perpustakaan Digital",
+        nama: ["PIAT", "12"],
+        kutip:
+          "Perpustakaan adalah taman ilmu. Bacalah, pelajarilah, dan jadikan setiap halaman sebagai langkah menuju pribadi yang berilmu dan berakhlak.",
+        fitur: [
+          {
+            ikon: "📚",
+            judul: "Koleksi Buku",
+            teks: "Buku pelajaran, bacaan umum dan kitab",
+          },
+          {
+            ikon: "💻",
+            judul: "Akses Digital",
+            teks: "Komputer & bahan belajar digital",
+          },
+          {
+            ikon: "🤫",
+            judul: "Nyaman & Tenang",
+            teks: "Ruang baca untuk fokus belajar",
+          },
+        ],
+      };
+
+      /* ---- 2. Boleh dilakukan (maks. 8 item) ---- */
+      const BOLEH = [
+        {
+          ikon: "🤲",
+          judul: "Mengucap salam",
+          teks: "Ucapkan salam saat masuk dan keluar",
+        },
+        {
+          ikon: "📖",
+          judul: "Membaca & belajar",
+          teks: "Membaca dengan tenang di ruang baca",
+        },
+        {
+          ikon: "📝",
+          judul: "Meminjam buku",
+          teks: "Catat peminjaman pada petugas",
+        },
+        {
+          ikon: "💻",
+          judul: "Memakai komputer",
+          teks: "Untuk belajar dan mencari referensi",
+        },
+        {
+          ikon: "🔁",
+          judul: "Mengembalikan ke rak",
+          teks: "Rapikan buku sesuai tempatnya",
+        },
+        {
+          ikon: "🤝",
+          judul: "Belajar kelompok",
+          teks: "Berdiskusi dengan suara pelan",
+        },
+      ];
+
+      /* ---- 3. Dilarang (maks. 8 item) ---- */
+      const DILARANG = [
+        {
+          ikon: "🗣️",
+          judul: "Gaduh & berteriak",
+          teks: "Jaga suara agar tidak mengganggu",
+        },
+        {
+          ikon: "🍽️",
+          judul: "Makan & minum",
+          teks: "Tidak membawa makanan dan minuman",
+        },
+        {
+          ikon: "✂️",
+          judul: "Merusak buku",
+          teks: "Dilarang mencoret, menyobek, melipat",
+        },
+        {
+          ikon: "📱",
+          judul: "Bermain gawai",
+          teks: "Dilarang bermain game dan hiburan",
+        },
+        {
+          ikon: "🏃",
+          judul: "Berlarian",
+          teks: "Berjalan dengan tertib di dalam ruangan",
+        },
+        {
+          ikon: "🚪",
+          judul: "Membawa buku keluar",
+          teks: "Tanpa mencatat peminjaman",
+        },
+      ];
+
+      /* ---- 4. Informasi perpustakaan ---- */
+      const INFO = {
+        jamBuka: [
+          ["Sabtu – Kamis", "07.30 – 15.00"],
+          ["Istirahat", "12.00 – 13.00"],
+          ["Jum’at", "Tutup"],
+        ],
+        stat: [
+          ["3", "Buku / pinjam"],
+          ["7", "Hari pinjam"],
+          ["1", "Perpanjangan"],
+        ],
+        kontak: [
+          ["📍", "Lantai 1, Gedung Perpustakaan"],
+          ["👤", "Petugas: [nama petugas]"],
+          ["📞", "[nomor / kontak]"],
+        ],
+        /* Pengumuman (maks. 4 item). tag = label kecil di kiri */
+        pengumuman: [
+          {
+            tag: "Baru",
+            judul: "Koleksi buku baru telah tersedia",
+            teks: "Cek rak “Buku Baru” di dekat meja petugas.",
+          },
+          {
+            tag: "Info",
+            judul: "Perpustakaan tutup saat jam istirahat",
+            teks: "Layanan dibuka kembali pukul 13.00.",
+          },
+          {
+            tag: "Lomba",
+            judul: "[Isi judul kegiatan / lomba]",
+            teks: "[Isi tanggal dan keterangan singkat]",
+          },
+          {
+            tag: "Ingat",
+            judul: "Kembalikan buku tepat waktu",
+            teks: "Agar teman-teman lain bisa ikut membacanya.",
+          },
+        ],
+      };
+
+      /* ---- 5. Jadwal sholat (dihitung otomatis, metode Kemenag; tanpa internet) ---- */
+      const LOKASI = {
+        nama: "Lubuk Sakat, Kab. Kampar, Riau",
+        lat: 0.25,
+        lon: 101.17,
+        zona: 7,
+      }; // WIB
+      const HIJRI_GESER = 0;
+      const KOREKSI = {
+        subuh: 0,
+        terbit: 0,
+        dzuhur: 0,
+        ashar: 0,
+        maghrib: 0,
+        isya: 0,
+      };
+
+      /* ---- Judul segmen & teks transisi ---- */
+      const SEGMEN = [
+        {
+          label: "Selamat Datang",
+          kicker: "Perpustakaan Digital",
+          judul: "Selamat Datang",
+          arab: "",
+          warna: "#047857",
+          sub: "PERPUSTAKAAN DIGITAL PIAT 12",
+          trJd: "SELAMAT DATANG",
+          next: "MULAI",
+        },
+        {
+          label: "Boleh Dilakukan",
+          kicker: "Tata Tertib",
+          judul: "Hal yang Boleh Dilakukan",
+          arab: "",
+          warna: "#16a34a",
+          sub: "DI PERPUSTAKAAN",
+          trJd: "YANG BOLEH",
+          next: "BERIKUTNYA",
+        },
+        {
+          label: "Dilarang",
+          kicker: "Tata Tertib",
+          judul: "Hal yang Dilarang",
+          arab: "",
+          warna: "#b8891a",
+          sub: "DI PERPUSTAKAAN",
+          trJd: "YANG DILARANG",
+          next: "BERIKUTNYA",
+        },
+        {
+          label: "Info Perpustakaan",
+          kicker: "Informasi",
+          judul: "Info & Pengumuman",
+          arab: "",
+          warna: "#047857",
+          sub: "JAM LAYANAN · PEMINJAMAN · PENGUMUMAN",
+          trJd: "INFO PERPUSTAKAAN",
+          next: "BERIKUTNYA",
+        },
+        {
+          label: "Jadwal Sholat",
+          kicker: "Waktu Ibadah",
+          judul: "Jadwal Sholat",
+          arab: "مَوَاقِيتُ الصَّلَاةِ",
+          warna: "#c9a227",
+          sub: "WAKTU SHOLAT HARI INI",
+          trJd: "JADWAL SHOLAT",
+          next: "BERIKUTNYA",
+        },
+      ];
+
+      /* =====================================================================
+   KODE (tidak perlu diubah)
+   ===================================================================== */
+      const $ = (id) => document.getElementById(id),
+        pad = (n) => String(n).padStart(2, "0");
+      const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+      const stage = $("stage");
+      const Q = new URLSearchParams(location.search);
+      const mulaiMs = Date.now();
+
+      function sekarang() {
+        const d = new Date(),
+          w = Q.get("waktu");
+        if (w) {
+          const [h, m] = w.split(":").map(Number);
+          d.setHours(h, m || 0, 0, 0);
+        }
+        return d;
+      }
+      function resize() {
+        stage.style.transform =
+          "translate(-50%,-50%) scale(" +
+          Math.min(innerWidth / 1920, innerHeight / 1080) * SKALA +
+          ")";
+      }
+      addEventListener("resize", resize);
+      resize();
+
+      /* logo */
+      $("logoName").textContent = LOGO.nama;
+      $("logoSub").textContent = LOGO.sub;
+      $("logoTeks").textContent = LOGO.teks;
+      if (LOGO.gambar) {
+        const m = $("logoMark");
+        m.style.background = "transparent";
+        m.style.boxShadow = "none";
+        m.innerHTML = '<img alt="Logo" src="' + LOGO.gambar + '">';
+      }
+
+      /* dots */
+      SEGMEN.forEach(() => $("dots").appendChild(document.createElement("i")));
+
+      /* tirai transisi */
+      (function () {
+        const warna = [
+          "#064e3b",
+          "#047857",
+          "#059669",
+          "#0a8f5f",
+          "#16a34a",
+          "#16a34a",
+          "#0a8f5f",
+          "#059669",
+          "#047857",
+          "#064e3b",
+        ];
+        $("strips").innerHTML = warna
+          .map(
+            (c, k) =>
+              `<div class="strip" style="--k:${k};--c:${c};--from:${k % 2 ? "101%" : "-101%"};--to:${k % 2 ? "-101%" : "101%"}"></div>`,
+          )
+          .join("");
+      })();
+
+      /* ---- bangun segmen ---- */
+      const kepala = (s) =>
+        `<div class="head anim" style="--i:0"><div><div class="kicker">${s.kicker}</div><h1>${s.judul}</h1></div>${s.arab ? `<div class="ar" lang="ar" dir="rtl">${s.arab}</div>` : ""}</div>`;
+
+      function bangun() {
+        const W = WELCOME;
+        $("seg0").innerHTML = `<div class="body">
+    <div class="kiri">
+      <div class="ar-besar anim" style="--i:0" lang="ar" dir="rtl">${W.arab}</div>
+      <div class="sel anim" style="--i:1">${W.judul}</div>
+      <div class="di anim" style="--i:2">${W.di}</div>
+      <div class="nm anim" style="--i:3">${W.nama[0]} <span>${W.nama[1]}</span></div>
+      <div class="kutip anim" style="--i:4">${W.kutip}</div>
+    </div>
+    <div class="kanan">${W.fitur.map((f, k) => `<div class="kartu fitur anim" style="--i:${k + 2}"><div class="ik">${f.ikon}</div><div><b>${f.judul}</b><span>${f.teks}</span></div></div>`).join("")}</div>
+  </div>`;
+
+        const daftar = (arr, tanda, warna) => {
+          const kol = arr.length > 6 ? 4 : 3,
+            baris = Math.ceil(arr.length / kol);
+          return (
+            `<div class="body"><div class="grid" style="grid-template-columns:repeat(${kol},1fr);grid-template-rows:repeat(${baris},1fr);--accent:${warna}">` +
+            arr
+              .map(
+                (x, k) =>
+                  `<div class="kartu item anim" style="--i:${k + 1}"><div class="tanda">${tanda}</div><div class="ik">${x.ikon}</div><b>${x.judul}</b><span>${x.teks}</span></div>`,
+              )
+              .join("") +
+            `</div></div>`
+          );
+        };
+        $("seg1").innerHTML = kepala(SEGMEN[1]) + daftar(BOLEH, "✓", "#16a34a");
+        $("seg2").innerHTML =
+          kepala(SEGMEN[2]) + daftar(DILARANG, "✕", "#b8891a");
+
+        $("seg3").innerHTML =
+          kepala(SEGMEN[3]) +
+          `<div class="body">
+    <div class="kolinfo">
+      <div class="kartu anim" style="--i:1"><h3>Jam Operasional</h3>${INFO.jamBuka.map((j) => `<div class="jam"><span>${j[0]}</span><b>${j[1]}</b></div>`).join("")}</div>
+      <div class="kartu anim" style="--i:2"><h3>Peminjaman</h3><div class="stat">${INFO.stat.map((s) => `<div><b>${s[0]}</b><span>${s[1]}</span></div>`).join("")}</div></div>
+      <div class="kartu anim" style="--i:3"><h3>Lokasi & Kontak</h3><div class="kontak">${INFO.kontak.map((k) => `<div><i>${k[0]}</i>&nbsp; ${k[1]}</div>`).join("")}</div></div>
+    </div>
+    <div class="kartu pengumuman anim" style="--i:2"><h3>📢 Pengumuman</h3><div class="pgm">${INFO.pengumuman.map((p) => `<div class="pg"><div class="tg">${p.tag}</div><div><b>${p.judul}</b><span>${p.teks}</span></div></div>`).join("")}</div></div>
+  </div>`;
+
+        $("seg4").innerHTML =
+          kepala(SEGMEN[4]) +
+          `<div class="body">
+    <div class="kartu menuju anim" style="--i:1"><div class="l">MENUJU WAKTU</div><div class="n" id="mNama">—</div><div class="h" id="mHitung">00:00:00</div><div class="t" id="mTgl"></div><div class="lok">📍 ${LOKASI.nama}</div></div>
+    <div class="wk" id="wk"></div>
+  </div>`;
+      }
+
+      /* ---- jadwal sholat ---- */
+      const dtr = Math.PI / 180;
+      const sin = (d) => Math.sin(d * dtr),
+        cos = (d) => Math.cos(d * dtr),
+        tan = (d) => Math.tan(d * dtr);
+      const arcsin = (x) => Math.asin(x) / dtr,
+        arccos = (x) => Math.acos(x) / dtr,
+        arctan2 = (y, x) => Math.atan2(y, x) / dtr,
+        arccot = (x) => Math.atan(1 / x) / dtr;
+      const fix = (a, b) => {
+        a = a - b * Math.floor(a / b);
+        return a < 0 ? a + b : a;
+      };
+      function julian(y, m, d) {
+        if (m <= 2) {
+          y -= 1;
+          m += 12;
+        }
+        const A = Math.floor(y / 100),
+          B = 2 - A + Math.floor(A / 4);
+        return (
+          Math.floor(365.25 * (y + 4716)) +
+          Math.floor(30.6001 * (m + 1)) +
+          d +
+          B -
+          1524.5
+        );
+      }
+      function hitung(tgl) {
+        const lat = LOKASI.lat,
+          lon = LOKASI.lon;
+        const jd =
+          julian(tgl.getFullYear(), tgl.getMonth() + 1, tgl.getDate()) -
+          lon / (15 * 24);
+        const posisi = (j) => {
+          const D = j - 2451545.0,
+            g = fix(357.529 + 0.98560028 * D, 360),
+            q = fix(280.459 + 0.98564736 * D, 360);
+          const L = fix(q + 1.915 * sin(g) + 0.02 * sin(2 * g), 360),
+            e = 23.439 - 0.00000036 * D,
+            RA = arctan2(cos(e) * sin(L), cos(L)) / 15;
+          return { decl: arcsin(sin(e) * sin(L)), eqt: q / 15 - fix(RA, 24) };
+        };
+        const tengah = (t) => fix(12 - posisi(jd + t).eqt, 24);
+        const sudut = (a, t, ccw) => {
+          const decl = posisi(jd + t).decl,
+            noon = tengah(t);
+          const h =
+            (1 / 15) *
+            arccos((-sin(a) - sin(decl) * sin(lat)) / (cos(decl) * cos(lat)));
+          return noon + (ccw ? -h : h);
+        };
+        const asar = (f, t) => {
+          const decl = posisi(jd + t).decl;
+          return sudut(-arccot(f + tan(Math.abs(lat - decl))), t, false);
+        };
+        const geser = LOKASI.zona - lon / 15;
+        const jam = {
+          subuh: sudut(20, 5 / 24, true) + geser,
+          terbit: sudut(0.833, 6 / 24, true) + geser,
+          dzuhur: tengah(12 / 24) + geser,
+          ashar: asar(1, 13 / 24) + geser,
+          maghrib: sudut(0.833, 18 / 24, false) + geser,
+          isya: sudut(18, 18 / 24, false) + geser,
+        };
+        const m = {};
+        for (const k in jam)
+          m[k] = Math.round(
+            jam[k] * 60 + (k === "terbit" ? -2 : 2) + (KOREKSI[k] || 0),
+          );
+        return m;
+      }
+      const WAKTU = [
+        { k: "subuh", nama: "Subuh", ar: "الْفَجْرُ", sholat: true },
+        { k: "terbit", nama: "Terbit", ar: "الشُّرُوقُ", sholat: false },
+        { k: "dzuhur", nama: "Dzuhur", ar: "الظُّهْرُ", sholat: true },
+        { k: "ashar", nama: "Ashar", ar: "الْعَصْرُ", sholat: true },
+        { k: "maghrib", nama: "Maghrib", ar: "الْمَغْرِبُ", sholat: true },
+        { k: "isya", nama: "Isya", ar: "الْعِشَاءُ", sholat: true },
+      ];
+      const fmt = (m) => pad(Math.floor(m / 60) % 24) + ":" + pad(m % 60);
+      function hijri(d) {
+        try {
+          const x = new Date(d.getTime() + HIJRI_GESER * 86400000);
+          return (
+            new Intl.DateTimeFormat("id-ID-u-ca-islamic-umalqura", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })
+              .format(x)
+              .replace(/\s*H$/, "") + " H"
+          );
+        } catch (e) {
+          return "";
+        }
+      }
+
+      function isiSholat() {
+        const now = sekarang(),
+          hari = hitung(now);
+        $("wk").innerHTML = WAKTU.map(
+          (w, i) =>
+            `<div class="kartu w anim" data-k="${w.k}" style="--i:${i + 2}"><div class="kk"><div class="nm2">${w.k === "dzuhur" && now.getDay() === 5 ? "Dzuhur (Jum’at)" : w.nama}</div><div class="ar2" lang="ar" dir="rtl">${w.ar}</div></div><div class="jm">${fmt(hari[w.k])}</div></div>`,
+        ).join("");
+        $("mTgl").innerHTML =
+          now.toLocaleDateString("id-ID", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          }) + (hijri(now) ? "<br>" + hijri(now) : "");
+      }
+      function renderSholat() {
+        if (!$("mNama")) return;
+        const now = sekarang(),
+          hari = hitung(now);
+        const dtk =
+          now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+        let b = WAKTU.find((w) => w.sholat && hari[w.k] * 60 > dtk),
+          target;
+        if (b) target = hari[b.k] * 60;
+        else {
+          b = WAKTU[0];
+          target =
+            86400 +
+            hitung(
+              new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1),
+            )[b.k] *
+              60;
+        }
+        const s = Math.max(0, target - dtk);
+        $("mNama").textContent = b.nama;
+        $("mHitung").textContent =
+          pad(Math.floor(s / 3600)) +
+          ":" +
+          pad(Math.floor((s % 3600) / 60)) +
+          ":" +
+          pad(s % 60);
+        document.querySelectorAll(".w").forEach((el) => {
+          el.classList.toggle("berikut", el.dataset.k === b.k);
+          el.classList.toggle("lewat", hari[el.dataset.k] * 60 <= dtk);
+        });
+      }
+
+      /* ---- running text & jam ---- */
+      function buildTicker() {
+        const t = $("track");
+        const one =
+          RUNNING_TEXT.map((x) => `<span class="tk-item">${x}</span>`).join(
+            '<span class="sep">✦</span>',
+          ) + '<span class="sep">✦</span>';
+        t.innerHTML = one + one;
+        t.style.animationDuration =
+          t.scrollWidth / 2 / KECEPATAN_RUNNING_TEXT + "s";
+      }
+      buildTicker();
+      if (document.fonts && document.fonts.ready)
+        document.fonts.ready.then(buildTicker);
+      function tick() {
+        const d = sekarang();
+        $("time").innerHTML =
+          pad(d.getHours()) + "<em>:</em>" + pad(d.getMinutes());
+        $("date").textContent = d.toLocaleDateString("id-ID", {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+        renderSholat();
+      }
+      tick();
+      setInterval(tick, 1000);
+
+      /* ---- transisi & alur ---- */
+      let cur = -1,
+        token = 0;
+      function setWarna(w) {
+        stage.style.setProperty("--accent", w);
+      }
+
+      async function transisi(i) {
+        const s = SEGMEN[i],
+          tr = $("tr");
+        $("trNo").textContent = pad(i + 1) + " / " + pad(SEGMEN.length);
+        $("trJd").textContent = s.trJd;
+        $("trSub").textContent = s.sub;
+        $("trPill").textContent =
+          s.next === "MULAI" ? "SELAMAT MEMBACA" : "BERIKUTNYA";
+        tr.classList.remove("run");
+        void tr.offsetWidth;
+        tr.classList.add("run");
+        await wait(1500); // tirai menutup -> tukar segmen
+        tampil(i);
+        await wait(2100); // judul tampil, tirai membuka
+        tr.classList.remove("run");
+      }
+      function tampil(i) {
+        for (let k = 0; k < SEGMEN.length; k++) {
+          const e = $("seg" + k);
+          e.classList.remove("on", "go", "keluar");
+        }
+        const e = $("seg" + i);
+        e.classList.add("on");
+        void e.offsetWidth;
+        e.classList.add("go");
+        const s = SEGMEN[i];
+        setWarna(s.warna);
+        cur = i;
+        $("secLabel").textContent = s.label;
+        [...$("dots").children].forEach((d, k) =>
+          d.classList.toggle("on", k === i),
+        );
+        $("counter").innerHTML =
+          pad(i + 1) + " <em>/ " + pad(SEGMEN.length) + "</em>";
+        renderSholat();
+      }
+      async function jalankan(i) {
+        const my = ++token;
+        await transisi(i);
+        if (my !== token) return;
+        await wait(DURASI[i] * 1000);
+        if (my !== token) return;
+        $("seg" + i).classList.add("keluar");
+        await wait(500);
+        if (my !== token) return;
+        const n = (i + 1) % SEGMEN.length;
+        if (
+          n === 0 &&
+          MUAT_ULANG_MENIT &&
+          Date.now() - mulaiMs > MUAT_ULANG_MENIT * 60000
+        ) {
+          location.reload();
+          return;
+        }
+        jalankan(n);
+      }
+      function loncat(i) {
+        $("tr").classList.remove("run");
+        jalankan((i + SEGMEN.length) % SEGMEN.length);
+      }
+
+      addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") loncat(cur + 1);
+        else if (e.key === "ArrowLeft") loncat(cur - 1);
+        else if (e.key === "Enter" || e.key === "f" || e.key === "F") {
+          if (!document.fullscreenElement)
+            document.documentElement.requestFullscreen &&
+              document.documentElement.requestFullscreen();
+          else document.exitFullscreen && document.exitFullscreen();
+        }
+      });
+
+      bangun();
+      isiSholat();
+      document.title = LOGO.nama;
+      jalankan(
+        Math.max(
+          0,
+          Math.min(SEGMEN.length - 1, (parseInt(Q.get("seg")) || 1) - 1),
+        ),
+      );
+    </script>
+  </body>
+</html>
