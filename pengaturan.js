@@ -40,13 +40,15 @@ window.PENGATURAN = {
      Hapus satu baris bila ingin menyembunyikan section itu. */
   BAGIAN : [
    { file:'0-intro.html', label:'Intro', warna:'#029a65', penuh:true, maks:60 },
+   { file:'8-classmeeting.html',  label:'Classmeeting',  warna:'#fbbf24', maks:240 },
     { file:'1-nasehat.html',       label:'Nasehat & Dalil',  warna:'#34d399', maks:300 },
     { file:'2-kosakata.html',      label:'Kosakata',         warna:'#38bdf8', maks:300 },
-    { file:'3-pengetahuan.html',   label:'Pengetahuan Umum', warna:'#a78bfa', maks:300 },
-    { file:'4-kuis.html',          label:'Kuis',             warna:'#fb923c', maks:300 },
+   //  { file:'3-pengetahuan.html',   label:'Pengetahuan Umum', warna:'#a78bfa', maks:300 },
+   //  { file:'4-kuis.html',          label:'Kuis',             warna:'#fb923c', maks:300 },
     { file:'5-jadwal-sholat.html', label:'Jadwal Sholat',    warna:'#2dd4bf', maks:120 },
    //  { file:'6-video-pengetahuan.html', label:'Video Sains', warna:'#a3e635', maks:600 }
-   { file:'7-jam-pelajaran.html', label:'Jam Pelajaran', warna:'#f472b6', maks:200 },
+   // { file:'7-jam-pelajaran.html', label:'Jam Pelajaran', warna:'#f472b6', maks:200 },
+   { file:'8-classmeeting.html',  label:'Classmeeting',  warna:'#fbbf24', maks:150 },   // ← baris baru
   ],
 
   /* Halaman utama dimuat ulang otomatis setiap sekian menit (di sela pergantian

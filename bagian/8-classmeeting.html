@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Classmeeting</title>
+    <link rel="stylesheet" href="../aset/bagian.css" />
+    <style>
+      .area {
+        --accent: #fbbf24;
+      }
+      .area.out > * {
+        animation: keluar 0.6s cubic-bezier(0.5, 0, 0.8, 0.3) forwards;
+      }
+      .emoji {
+        font-family:
+          "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+      }
+      @keyframes itemIn {
+        from {
+          opacity: 0;
+          transform: translateX(-26px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      /* =====================================================
+         TAMPILAN 1 — PENGUMUMAN (tanggal + cabang lomba)
+         ===================================================== */
+      .pengumuman {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-columns: 520px 1fr 1fr;
+        gap: 28px;
+      }
+      .pengumuman > .kartu {
+        min-height: 0;
+        animation: masuk 0.8s cubic-bezier(0.2, 0.9, 0.25, 1) backwards;
+      }
+      .pengumuman > .kartu:nth-child(2) {
+        animation-delay: 0.12s;
+      }
+      .pengumuman > .kartu:nth-child(3) {
+        animation-delay: 0.24s;
+      }
+
+      /* kartu tanggal */
+      .hero {
+        padding: 30px 34px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .lbl {
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--c, var(--accent));
+      }
+      .tgl {
+        margin-top: 8px;
+        font-size: 150px;
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -4px;
+        white-space: nowrap;
+        background: linear-gradient(180deg, #fde68a, #fbbf24 60%, #f59e0b);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        padding-bottom: 6px;
+      }
+      .bln {
+        font-size: 46px;
+        font-weight: 800;
+        line-height: 1.1;
+      }
+      .hr {
+        margin-top: 6px;
+        font-size: 25px;
+        font-weight: 600;
+        color: var(--mut);
+      }
+      .status {
+        margin-top: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        padding: 13px 30px;
+        border-radius: 40px;
+        background: var(--accent);
+        color: #0b1020;
+        font-size: 26px;
+        font-weight: 800;
+      }
+      .status i {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #0b1020;
+        animation: blink 1.2s ease-in-out infinite;
+      }
+      .ringan .status i {
+        animation: none;
+      }
+      .kont {
+        margin-top: 26px;
+        width: 100%;
+      }
+      .chips {
+        margin-top: 12px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      .chip {
+        padding: 10px 6px 10px 12px;
+        border-radius: 10px;
+        border-left: 6px solid var(--c);
+        background: rgba(255, 255, 255, 0.09);
+        font-size: 22px;
+        font-weight: 700;
+        text-align: left;
+        white-space: nowrap;
+      }
+
+      /* kartu cabang lomba */
+      .lomba {
+        padding: 28px 32px 30px;
+        display: flex;
+        flex-direction: column;
+      }
+      .lomba .hdr {
+        flex: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 18px;
+      }
+      .lomba h2 {
+        font-size: 36px;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+      }
+      .lomba .jml {
+        padding: 6px 18px;
+        border-radius: 20px;
+        background: var(--c);
+        color: #0b1020;
+        font-size: 21px;
+        font-weight: 800;
+      }
+      .daftar {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .it {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 0 20px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1.5px solid rgba(255, 255, 255, 0.1);
+        border-left: 7px solid var(--c);
+        animation: itemIn 0.6s cubic-bezier(0.2, 0.9, 0.25, 1) backwards;
+        animation-delay: calc(var(--i) * 90ms + 0.45s);
+      }
+      .it .ic {
+        flex: none;
+        width: 58px;
+        height: 58px;
+        border-radius: 15px;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.1);
+        font-size: 34px;
+        line-height: 1;
+      }
+      .it .nm {
+        font-size: 37px;
+        font-weight: 700;
+        line-height: 1.1;
+      }
+
+      /* =====================================================
+         TAMPILAN 2 — TIM (satu tim per layar)
+         ===================================================== */
+      .tim {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-columns: 540px 1fr;
+        gap: 28px;
+      }
+      .tim > .kartu {
+        min-height: 0;
+        animation: masuk 0.8s cubic-bezier(0.2, 0.9, 0.25, 1) backwards;
+      }
+      .tim > .kartu:nth-child(2) {
+        animation-delay: 0.12s;
+      }
+      .kiri {
+        padding: 30px 38px 28px;
+        display: flex;
+        flex-direction: column;
+      }
+      .kiri .nomor {
+        margin-top: 2px;
+        font-size: 190px;
+        font-weight: 800;
+        line-height: 0.95;
+        letter-spacing: -6px;
+        color: var(--c);
+      }
+      .kiri .blok {
+        margin-top: 18px;
+      }
+      .kiri .ketua {
+        margin-top: 8px;
+        font-size: 44px;
+        font-weight: 800;
+        line-height: 1.12;
+        letter-spacing: -0.5px;
+      }
+      .kiri .jumlah {
+        margin-top: 18px;
+        font-size: 28px;
+        font-weight: 600;
+        color: #cbd5e1;
+      }
+      .kiri .jumlah b {
+        font-size: 44px;
+        font-weight: 800;
+        color: #fff;
+        margin-right: 6px;
+      }
+      .tabs {
+        margin-top: auto;
+        display: flex;
+        gap: 8px;
+      }
+      .tabs span {
+        flex: 1;
+        height: 46px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--mut);
+        background: rgba(255, 255, 255, 0.09);
+        border-bottom: 5px solid var(--c);
+      }
+      .tabs span.on {
+        background: var(--c);
+        color: #0b1020;
+      }
+
+      .kanan {
+        padding: 28px 34px 30px;
+        display: flex;
+        flex-direction: column;
+      }
+      .kanan .hdr {
+        flex: none;
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        margin-bottom: 16px;
+      }
+      .kanan .hdr .garis {
+        flex: 1;
+        height: 3px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--c), transparent);
+        opacity: 0.6;
+      }
+      .anggota {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(var(--b), minmax(0, 1fr));
+        gap: 10px 24px;
+      }
+      .nama {
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 0 18px 0 14px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1.5px solid rgba(255, 255, 255, 0.1);
+        font-size: var(--fs, 32px);
+        font-weight: 700;
+        line-height: 1.1;
+        white-space: nowrap;
+        animation: itemIn 0.5s cubic-bezier(0.2, 0.9, 0.25, 1) backwards;
+        animation-delay: calc(var(--i) * 50ms + 0.35s);
+      }
+      .nama .n {
+        flex: none;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: var(--c);
+        color: #0b1020;
+        font-size: 21px;
+        font-weight: 800;
+      }
+      .nama .t {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="title" id="title">
+      <div>
+        <div class="kicker" id="kicker"></div>
+        <h1 id="tTitle"></h1>
+        <p id="tSub"></p>
+      </div>
+      <div class="t-ar" id="tAr" lang="ar" dir="rtl"></div>
+    </section>
+    <div class="progress"><i id="bar"></i></div>
+    <main class="area" id="area"></main>
+
+    <script src="../aset/bagian.js"></script>
+    <script>
+      /* =====================================================================
+   CLASSMEETING — MTs Al-Irsyad Tengaran 12 Riau, Semester Ganjil 2026/2027
+
+   Section ini punya DUA tampilan yang berjalan berurutan:
+     1) Pengumuman  : tanggal, cabang olahraga, cabang akademik, 6 kontingen
+     2) Tim         : satu layar per tim (ketua + seluruh anggota)
+
+   Cara update: ubah isi DATA di bawah ini. Jangan menghapus tanda ' , [ ] { }
+   Untuk uji coba status "dimulai X hari lagi", buka file ini dengan
+     ?waktu=2026-11-30T10:00
+   ===================================================================== */
+
+      /* ---------- WAKTU & TANGGAL ---------- */
+      const TAHUN_AJARAN = "2026/2027";
+      const TANGGAL_MULAI = "2026-12-01"; // format TAHUN-BULAN-TANGGAL
+      const TANGGAL_SELESAI = "2026-12-09";
+      const WAKTU_PENGUMUMAN = 20; // detik, tampilan 1
+      const WAKTU_PER_TIM = 35; // detik, tiap tim di tampilan 2
+
+      /* ---------- CABANG LOMBA ---------- */
+      /* [emoji, nama lomba] */
+      const CABANG_OLAHRAGA = [
+        ["⚽", "Liga Minisoccer"],
+        ["🏸", "Badminton"],
+        ["💪", "Tarik Tambang"],
+        ["🧗", "Wall Climbing"],
+        ["🧩", "Rubik"],
+      ];
+      const CABANG_AKADEMIK = [
+        ["🎤", "Pidato Bahasa Arab"],
+        ["🕌", "Adzan"],
+        ["🔤", "Spelling Bee"],
+        ["🧠", "Cerdas Cermat"],
+      ];
+
+      /* ---------- TIM ----------
+         nama   : nama tim (Latin)          arab : nama tim (Arab)
+         perang : keterangan di bawah nama  warna: warna tim
+         ketua  : nama ketua                anggota : daftar anggota (boleh ditambah/dikurangi)
+         Tampilan menyesuaikan jumlah anggota secara otomatis. */
+      const TIM = [
+        {
+          nama: "Badr",
+          arab: "بَدْر",
+          perang: "Perang Badar",
+          warna: "#4ade80",
+          ketua: "Muhammad Albani",
+          anggota: [
+            "Muhammad Rahman",
+            "Rafid Azzam",
+            "Zaki Alfatih Rozian",
+            "Pangeran Akbar",
+            "Alfatih Abdul M.",
+            "Kholid Abdurrozzaq",
+            "M. Daffa Anugerah",
+            "Endra Rahman",
+            "Danish Yusran",
+            "Muhammad Bilal A.",
+            "Abdullah",
+            "Athaya Tsaqib",
+            "Muhamad Azzam A. K.",
+            "Abdullah Azmi",
+          ],
+        },
+        {
+          nama: "Uhud",
+          arab: "أُحُد",
+          perang: "Perang Uhud",
+          warna: "#fb7185",
+          ketua: "Muhammad Fathir Arzan",
+          anggota: [
+            "Muhammad Zaidan",
+            "Abdurrahman",
+            "Yahya",
+            "Abdan Syakuro",
+            "Muhammad Abdul B.",
+            "Najmi Mubarok",
+            "Muhammad Syafiq",
+            "Muhammad Abrar",
+            "Muhammad Gaza",
+            "Khalaf Faeyza",
+            "Muhammad Uwais",
+            "Beztario Maharu",
+            "Muhammad Afzal",
+            "Faqih Zuhdi",
+          ],
+        },
+        {
+          nama: "Khandaq",
+          arab: "الْخَنْدَق",
+          perang: "Perang Khandaq",
+          warna: "#38bdf8",
+          ketua: "Muhammad Farras Mafazi",
+          anggota: [
+            "Ziyad Alfatih",
+            "Shaqiel Alvaro",
+            "Mutashim Wafi",
+            "Kemal Al Bariq",
+            "Ghaisan Azka",
+            "Rafie Ibnu",
+            "Muhammad Athaa",
+            "Raqilla Akhtar",
+            "Azzam Caesar",
+            "Muhammad Bintang",
+            "Muhammad Yusuf",
+            "Faiz Aiman",
+            "Muhammad Fayadhi",
+            "Muhammad Hamzah",
+          ],
+        },
+        {
+          nama: "Hunain",
+          arab: "حُنَيْن",
+          perang: "Perang Hunain",
+          warna: "#fb923c",
+          ketua: "Muhammad Aqil Abhista",
+          anggota: [
+            "Aleri Arkhan",
+            "Hanif Abdurrahman",
+            "Ahmad Faris",
+            "Ahmad Dzaky",
+            "Adzka Farih",
+            "Agha Laudzi",
+            "Alif Al Mustafa",
+            "Mahfudz Nurrazqa",
+            "Uwaisqorni",
+            "Ismail Bin Sapriadi",
+            "Abyan Azka",
+            "Fathurrahman H.",
+            "Muhammad Keivel",
+          ],
+        },
+        {
+          nama: "Yarmuk",
+          arab: "الْيَرْمُوك",
+          perang: "Perang Yarmuk",
+          warna: "#a78bfa",
+          ketua: "Habib Dzakwan Ananto",
+          anggota: [
+            "M. Nazeefirlo",
+            "Ahmad Fadhil",
+            "Reigha Magaly",
+            "Muhammad Izzul",
+            "Fathan Nur",
+            "Afham Lathif",
+            "Safaraz Akma",
+            "Umar Rasyid",
+            "Abdur Rohman",
+            "Muhammad Farghan",
+            "Syarif Ziyadatullah",
+            "Ismail",
+            "Muhammad Sami Ozil",
+          ],
+        },
+        {
+          nama: "Qadisiyyah",
+          arab: "الْقَادِسِيَّة",
+          perang: "Perang Qadisiyyah",
+          warna: "#2dd4bf",
+          ketua: "Abdurrofiq Al Labib",
+          anggota: [
+            "Muhammad Yusuf B.",
+            "Muhammad Athaya",
+            "Ozil Mulyadi",
+            "Muhammad Rakesh",
+            "Bilal Fachri",
+            "Azraqi Ghaisan",
+            "Muhammad Althaf",
+            "Dzaki Habibur",
+            "Rafif Pratama",
+            "Alfatih Zacky",
+            "Khalfi Khalfani",
+            "Zaidan Rasyid",
+          ],
+        },
+      ];
+
+      /* ---------------- kode tampilan (tidak perlu diubah) ---------------- */
+      const { $, esc, pad, wait } = Mading;
+      const WARNA_UTAMA = "#fbbf24";
+      Mading.init({ warna: WARNA_UTAMA, judul: "Classmeeting" });
+
+      const HARI_ID = [
+        "Minggu",
+        "Senin",
+        "Selasa",
+        "Rabu",
+        "Kamis",
+        "Jumat",
+        "Sabtu",
+      ];
+      const BULAN = [
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember",
+      ];
+      const DAY = 86400000;
+      const tglDari = (s) => {
+        const p = s.split("-").map(Number);
+        return new Date(p[0], p[1] - 1, p[2]);
+      };
+
+      /* waktu sekarang (boleh disimulasikan lewat ?waktu=YYYY-MM-DDTHH:MM) */
+      function sekarang() {
+        const q = new URLSearchParams(location.search).get("waktu");
+        if (q) {
+          const d = new Date(q);
+          if (!isNaN(d)) return d;
+        }
+        return new Date();
+      }
+
+      /* ganti warna aksen (juga memberi tahu halaman utama agar header ikut berwarna) */
+      function warnai(w) {
+        document.documentElement.style.setProperty("--accent", w);
+        if (window.parent !== window) {
+          try {
+            parent.postMessage({ mading: true, type: "siap", warna: w }, "*");
+          } catch (e) {}
+        }
+      }
+
+      /* ---------- tampilan 1: pengumuman ---------- */
+      function infoTanggal() {
+        const a = tglDari(TANGGAL_MULAI),
+          b = tglDari(TANGGAL_SELESAI);
+        const n = sekarang(),
+          hariIni = new Date(n.getFullYear(), n.getMonth(), n.getDate());
+        const sisa = Math.round((a - hariIni) / DAY);
+        const total = Math.round((b - a) / DAY) + 1;
+        let status;
+        if (sisa > 1) status = "Dimulai " + sisa + " hari lagi";
+        else if (sisa === 1) status = "Dimulai besok";
+        else if (hariIni <= b) {
+          const k = Math.round((hariIni - a) / DAY) + 1;
+          status =
+            k === 1
+              ? "Dimulai hari ini"
+              : "Berlangsung · Hari ke-" + k + " dari " + total;
+        } else status = "Classmeeting telah selesai";
+        const sama = a.getMonth() === b.getMonth();
+        return {
+          tgl: a.getDate() + " – " + b.getDate(),
+          bln: sama
+            ? BULAN[a.getMonth()] + " " + a.getFullYear()
+            : BULAN[a.getMonth()] +
+              " – " +
+              BULAN[b.getMonth()] +
+              " " +
+              b.getFullYear(),
+          hari: HARI_ID[a.getDay()] + " – " + HARI_ID[b.getDay()],
+          status,
+        };
+      }
+
+      function kartuLomba(judul, daftar, warna) {
+        return `<div class="kartu lomba" style="--c:${warna}">
+          <div class="hdr"><h2>${esc(judul)}</h2><span class="jml">${daftar.length} Lomba</span></div>
+          <div class="daftar">${daftar
+            .map(
+              (d, i) =>
+                `<div class="it" style="--i:${i}"><span class="ic emoji">${d[0]}</span><span class="nm">${esc(d[1])}</span></div>`,
+            )
+            .join("")}</div>
+        </div>`;
+      }
+
+      function bangunPengumuman() {
+        const t = infoTanggal();
+        const chips = TIM.map(
+          (x) =>
+            `<div class="chip" style="--c:${x.warna}">${esc(x.nama)}</div>`,
+        ).join("");
+        return `<div class="pengumuman">
+          <div class="kartu hero">
+            <div class="lbl">Waktu Pelaksanaan</div>
+            <div class="tgl">${esc(t.tgl)}</div>
+            <div class="bln">${esc(t.bln)}</div>
+            <div class="hr">${esc(t.hari)}</div>
+            <div class="status"><i></i>${esc(t.status)}</div>
+            <div class="kont">
+              <div class="lbl" style="font-size:19px">${TIM.length} Kontingen Bertanding</div>
+              <div class="chips">${chips}</div>
+            </div>
+          </div>
+          ${kartuLomba("Cabang Olahraga", CABANG_OLAHRAGA, "#4ade80")}
+          ${kartuLomba("Cabang Akademik", CABANG_AKADEMIK, "#38bdf8")}
+        </div>`;
+      }
+
+      /* ---------- tampilan 2: satu tim ---------- */
+      function bangunTim(k) {
+        const t = TIM[k];
+        const baris = Math.ceil(t.anggota.length / 2);
+        const fs = baris <= 7 ? 33 : baris <= 8 ? 30 : baris <= 9 ? 27 : 24;
+        const tabs = TIM.map(
+          (x, j) =>
+            `<span class="${j === k ? "on" : ""}" style="--c:${x.warna}">${j + 1}</span>`,
+        ).join("");
+        const nama = t.anggota
+          .map(
+            (a, i) =>
+              `<div class="nama" style="--i:${i}"><span class="n">${i + 1}</span><span class="t">${esc(a)}</span></div>`,
+          )
+          .join("");
+        return `<div class="tim" style="--c:${t.warna}">
+          <div class="kartu kiri">
+            <div class="lbl">Tim</div>
+            <div class="nomor">${k + 1}</div>
+            <div class="blok">
+              <div class="lbl" style="color:var(--mut)">Ketua</div>
+              <div class="ketua">${esc(t.ketua)}</div>
+            </div>
+            <div class="jumlah"><b>${t.anggota.length}</b>anggota</div>
+            <div class="tabs">${tabs}</div>
+          </div>
+          <div class="kartu kanan">
+            <div class="hdr"><div class="lbl">Anggota</div><div class="garis"></div></div>
+            <div class="anggota" style="--b:${baris};--fs:${fs}px">${nama}</div>
+          </div>
+        </div>`;
+      }
+
+      Mading.mulai(async () => {
+        const area = $("area");
+        const total = WAKTU_PENGUMUMAN + TIM.length * WAKTU_PER_TIM;
+        Mading.bar(total * 1000);
+
+        async function tampil(judul, html, detik, warna) {
+          warnai(warna);
+          area.classList.remove("out");
+          $("title").classList.remove("out");
+          Mading.judul(judul);
+          area.innerHTML = html;
+          await wait(detik * 1000 - 700);
+          area.classList.add("out");
+          $("title").classList.add("out");
+          await wait(700);
+        }
+
+        /* tampilan 1 */
+        await tampil(
+          {
+            kicker: "Pengumuman · Semester Ganjil " + TAHUN_AJARAN,
+            judul: "Classmeeting",
+            sub: "MTs Al-Irsyad Tengaran 12 Riau · Sportivitas, Persaudaraan, dan Prestasi",
+            arab: "الْمُسَابَقَاتُ",
+          },
+          bangunPengumuman(),
+          WAKTU_PENGUMUMAN,
+          WARNA_UTAMA,
+        );
+
+        /* tampilan 2: satu tim per layar */
+        for (let k = 0; k < TIM.length; k++) {
+          await tampil(
+            {
+              kicker:
+                "Pembagian Tim Classmeeting · " +
+                pad(k + 1) +
+                " / " +
+                pad(TIM.length),
+              judul: "Tim " + TIM[k].nama,
+              sub: TIM[k].perang,
+              arab: TIM[k].arab,
+            },
+            bangunTim(k),
+            WAKTU_PER_TIM,
+            TIM[k].warna,
+          );
+        }
+
+        warnai(WARNA_UTAMA);
+        Mading.selesai();
+      });
+    </script>
+  </body>
+</html>
